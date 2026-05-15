@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Generated data outputs
+data/bronze/*.csv
+data/bronze/*.xlsx
+data/bronze/*.parquet
+data/silver/*.csv
+data/silver/*.parquet
+data/silver_rejected/*.csv
+data/silver_rejected/*.parquet
+data/gold/*.csv
+data/gold/*.parquet
+
+# Local environment files
+.env
+.env.*
+
+# Challenge-provided local datasets
+Datasets/
+
+# OS/editor files
+Thumbs.db
+.DS_Store
