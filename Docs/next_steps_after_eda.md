@@ -32,7 +32,15 @@ Recommended internal features:
 
 ## 3. Add POI and Catchment Features
 
-The biggest missing competitive improvement is external geospatial demand data.
+Internal catchment features have now been implemented using outlet coordinates:
+
+- outlet counts within 1 km, 2 km, and 5 km.
+- same-type nearby outlet counts.
+- same-distributor nearby outlet counts.
+- nearest outlet distance.
+- catchment density score.
+
+The biggest remaining competitive improvement is external geospatial demand data.
 
 Recommended POI categories:
 

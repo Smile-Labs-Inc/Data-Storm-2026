@@ -64,6 +64,7 @@ Feature groups:
 - distributor context: dominant distributor and January seasonality.
 - calendar context: January holiday count.
 - geospatial hygiene proxy: whether valid coordinates exist.
+- geospatial catchment proxy: outlet density, same-type outlet density, same-distributor footprint, nearest outlet distance, and catchment density score.
 
 ## Latent Potential Logic
 
@@ -122,6 +123,7 @@ Signals:
 - structural capacity score.
 - cooler count.
 - SKU breadth.
+- catchment density score.
 - coordinate availability.
 - gap between demand proxy rank and observed performance rank.
 - low volatility or plateau behavior.
@@ -172,9 +174,21 @@ The output is now meaningfully uncapped:
 
 This is more defensible than a pure historical maximum baseline because it estimates latent upside, while still using guardrails to avoid unrealistic jumps.
 
+## Implemented Catchment Enrichment
+
+The model now includes internal geospatial catchment features derived from outlet coordinates:
+
+- nearby outlet counts within 1 km, 2 km, and 5 km.
+- same-type outlet count within 2 km.
+- same-distributor outlet count within 5 km.
+- nearest outlet distance.
+- catchment density score.
+
+These features help distinguish low-selling outlets in dense trade catchments from low-selling outlets in sparse catchments.
+
 ## Known Limitation
 
-The current implementation does not yet include external POI or catchment features. This is the most important next improvement because the challenge explicitly rewards external geospatial demand signals.
+The current implementation does not yet include external POI features. This is the most important next improvement because the challenge explicitly rewards external geospatial demand signals.
 
 Recommended next step:
 

@@ -15,6 +15,7 @@ Key files:
 - `Docs/eda_summary.md` - full raw dataset EDA findings.
 - `Docs/next_steps_after_eda.md` - recommended next work based on EDA findings.
 - `Docs/modeling_methodology.md` - latent potential modeling explanation.
+- `Docs/geospatial_catchment_features.md` - implemented internal catchment feature layer.
 - `Docs/ai_transparency_log.md` - Generative AI usage log.
 - `Results/teamname_predictions.csv` - platform upload file.
 - `Results/teamname_predictions_full_20000.csv` - full business output for all outlets.
