@@ -25,7 +25,7 @@ Create a CSV file named `teamname_predictions.csv` with:
 
 | Column | Description |
 | --- | --- |
-| `Outlet_ID` | Unique outlet identifier. |
+| `row_id` | Outlet identifier required by the submission validator. |
 | `Maximum_Monthly_Liters` | Estimated uncapped purchase potential for January 2026. |
 
 ## Repository Structure
