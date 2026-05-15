@@ -21,7 +21,7 @@ The solution must therefore estimate an uncapped latent ceiling, not simply fore
 
 ## Target Output
 
-Create a CSV file named `teamname_predictions.csv` with:
+Create a CSV file named `smil_labs_predictions.csv` with:
 
 | Column | Description |
 | --- | --- |
@@ -57,7 +57,7 @@ Data-Storm-2026/
     solution_plan.md
     ai_transparency_log.md
   Results/
-    teamname_predictions.csv
+    smil_labs_predictions.csv
 ```
 
 ## Phase 1: Bronze Layer
@@ -322,8 +322,8 @@ Create the following deliverables:
 
 | Deliverable | Location |
 | --- | --- |
-| Platform prediction CSV | `Results/teamname_predictions.csv` |
-| Full all-outlet prediction CSV | `Results/teamname_predictions_full_20000.csv` |
+| Platform prediction CSV | `Results/smil_labs_predictions.csv` |
+| Full all-outlet prediction CSV | `Results/smil_labs_predictions_full_20000.csv` |
 | Reproducible pipeline code | `src/` and `Notebooks/` |
 | Data quality report | `Docs/data_quality_report.md` |
 | AI transparency log | `Docs/ai_transparency_log.md` |

@@ -65,6 +65,7 @@ Feature groups:
 - calendar context: January holiday count.
 - geospatial hygiene proxy: whether valid coordinates exist.
 - geospatial catchment proxy: outlet density, same-type outlet density, same-distributor footprint, nearest outlet distance, and catchment density score.
+- optional external POI proxy: POI totals within 1km and 2km plus `poi_demand_score` from OpenStreetMap enrichment.
 
 ## Latent Potential Logic
 
@@ -124,6 +125,7 @@ Signals:
 - cooler count.
 - SKU breadth.
 - catchment density score.
+- optional POI demand score.
 - coordinate availability.
 - gap between demand proxy rank and observed performance rank.
 - low volatility or plateau behavior.
@@ -186,9 +188,27 @@ The model now includes internal geospatial catchment features derived from outle
 
 These features help distinguish low-selling outlets in dense trade catchments from low-selling outlets in sparse catchments.
 
+## Implemented POI Enrichment
+
+The solution now includes an OpenStreetMap POI enrichment notebook:
+
+```text
+Notebooks/03_poi_enrichment.ipynb
+```
+
+The latest run enriched 902 valid-coordinate outlets from the 914-row platform fallback file and parsed 9,581 POIs from Overpass.
+
+The main model uses three POI summary features when available:
+
+- `poi_total_count_1km`
+- `poi_total_count_2km`
+- `poi_demand_score`
+
+The POI demand score is included in the constraint score so dense external-footfall areas can increase the probability that an outlet is under-realizing latent demand.
+
 ## Known Limitation
 
-The current implementation does not yet include external POI features. This is the most important next improvement because the challenge explicitly rewards external geospatial demand signals.
+The current implementation uses POI features for the current 914-row platform fallback. Once the official template is available, rerun the POI notebook so the exact official `row_id`s receive POI features.
 
 Recommended next step:
 
@@ -201,7 +221,7 @@ Recommended next step:
 
 The written challenge brief says to submit predictions for all outlets, but the platform validator expects 914 rows with a `row_id` column. The notebook therefore writes two files:
 
-- `Results/teamname_predictions_full_20000.csv` for the full all-outlet business deliverable.
-- `Results/teamname_predictions.csv` for the platform upload.
+- `Results/smil_labs_predictions_full_20000.csv` for the full all-outlet business deliverable.
+- `Results/smil_labs_predictions.csv` for the platform upload.
 
 If the official 914-row template is available, place it in `Datasets/` as `sample_submission.csv`, `submission_template.csv`, or `test.csv` and rerun the notebook. The platform upload file will then be filtered to the exact official `row_id`s.

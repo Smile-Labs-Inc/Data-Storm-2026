@@ -13,12 +13,15 @@ __pycache__/
 # Generated data outputs
 data/bronze/*.csv
 data/bronze/*.xlsx
+data/bronze/*.json
 data/bronze/*.parquet
 data/silver/*.csv
+data/silver/*.json
 data/silver/*.parquet
 data/silver_rejected/*.csv
 data/silver_rejected/*.parquet
 data/gold/*.csv
+data/gold/*.json
 data/gold/*.parquet
 
 # Local environment files

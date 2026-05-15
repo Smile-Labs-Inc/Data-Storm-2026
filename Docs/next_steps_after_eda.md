@@ -40,7 +40,9 @@ Internal catchment features have now been implemented using outlet coordinates:
 - nearest outlet distance.
 - catchment density score.
 
-The biggest remaining competitive improvement is external geospatial demand data.
+External POI enrichment has now been scaffolded in `Notebooks/03_poi_enrichment.ipynb` using OpenStreetMap Overpass API.
+
+The biggest remaining competitive improvement is to run the POI notebook with the official 914-row template and use the generated POI features in the final prediction notebook.
 
 Recommended POI categories:
 
@@ -84,8 +86,8 @@ The written brief asks for 20,000 rows, but the platform validator expects 914 r
 
 Current workaround:
 
-- `Results/teamname_predictions.csv` contains 914 rows for platform upload.
-- `Results/teamname_predictions_full_20000.csv` preserves the full outlet deliverable.
+- `Results/smil_labs_predictions.csv` contains 914 rows for platform upload.
+- `Results/smil_labs_predictions_full_20000.csv` preserves the full outlet deliverable.
 
 Best next action:
 

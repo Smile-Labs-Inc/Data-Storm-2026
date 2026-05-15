@@ -14,6 +14,7 @@ This document records how Generative AI was used as an engineering accelerator d
 | Modeling logic | Suggested a lower-bound plus peer-frontier approach for latent demand uncapping. | Evaluated prediction distributions and revised the method after the first result was too conservative. |
 | Guardrail tuning | Helped identify excessive uplift outliers and add size-based caps. | Re-ran predictions and checked uplift ratios, row counts, and missing values. |
 | Git workflow | Helped diagnose a GitHub push rejection caused by a file over 100 MB. | Removed challenge datasets from Git history, kept them local, and added `Datasets/` to `.gitignore`. |
+| POI enrichment | Helped scaffold an OpenStreetMap Overpass workflow and integrate POI demand features into the model. | Ran the notebook, handled an Overpass query rejection by splitting requests by category, and validated POI feature counts before regenerating predictions. |
 
 ## Validation Principles
 
