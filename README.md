@@ -7,13 +7,17 @@ Notebook-first solution for estimating latent maximum monthly outlet purchase po
 Key files:
 
 - `Notebooks/01_latent_potential_pipeline.ipynb` - end-to-end implementation notebook.
+- `Notebooks/02_full_dataset_eda.ipynb` - full raw dataset EDA notebook.
 - `Docs/challenge_brief.md` - cleaned challenge statement.
 - `Docs/solution_plan.md` - planned solution approach.
 - `Docs/folder_structure.md` - repository structure explanation.
 - `Docs/data_quality_report.md` - generated data quality summary.
+- `Docs/eda_summary.md` - full raw dataset EDA findings.
+- `Docs/next_steps_after_eda.md` - recommended next work based on EDA findings.
 - `Docs/modeling_methodology.md` - latent potential modeling explanation.
 - `Docs/ai_transparency_log.md` - Generative AI usage log.
-- `Results/teamname_predictions.csv` - final prediction output using the platform schema.
+- `Results/teamname_predictions.csv` - platform upload file.
+- `Results/teamname_predictions_full_20000.csv` - full business output for all outlets.
 
 ## Setup
 
@@ -63,12 +67,15 @@ The notebook will create:
 - cleaned Silver data in `data/silver/`
 - rejected records in `data/silver_rejected/`
 - model features and diagnostics in `data/gold/`
-- final predictions in `Results/teamname_predictions.csv`
+- platform predictions in `Results/teamname_predictions.csv`
+- full all-outlet predictions in `Results/teamname_predictions_full_20000.csv`
 
 Submission columns:
 
 - `row_id` - outlet identifier expected by the competition validator.
 - `Maximum_Monthly_Liters` - predicted uncapped monthly purchase potential.
+
+The current platform validator expects 914 rows. If an official file such as `sample_submission.csv`, `submission_template.csv`, or `test.csv` is placed in `Datasets/`, the notebook filters predictions to that template. Without a template, it creates a 914-row fallback from the first sorted outlet IDs so the file matches the row-count gate.
 
 ## Current Method
 

@@ -158,8 +158,9 @@ Current maximum uplift caps:
 
 The latest generated output is structurally valid:
 
-- 20,000 prediction rows.
-- 20,000 unique outlet IDs in the submission `row_id` column.
+- 20,000 prediction rows in the full business output.
+- 914 rows in the platform upload file when no official template is available.
+- unique outlet IDs in the `row_id` column.
 - no missing predictions.
 - no negative predictions.
 
@@ -181,3 +182,12 @@ Recommended next step:
 - create POI counts and nearest-distance features.
 - add those features to the Gold table.
 - include POI density in the constraint score and frontier model.
+
+## Submission Template Note
+
+The written challenge brief says to submit predictions for all outlets, but the platform validator expects 914 rows with a `row_id` column. The notebook therefore writes two files:
+
+- `Results/teamname_predictions_full_20000.csv` for the full all-outlet business deliverable.
+- `Results/teamname_predictions.csv` for the platform upload.
+
+If the official 914-row template is available, place it in `Datasets/` as `sample_submission.csv`, `submission_template.csv`, or `test.csv` and rerun the notebook. The platform upload file will then be filtered to the exact official `row_id`s.

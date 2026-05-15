@@ -322,7 +322,8 @@ Create the following deliverables:
 
 | Deliverable | Location |
 | --- | --- |
-| Final prediction CSV | `Results/teamname_predictions.csv` |
+| Platform prediction CSV | `Results/teamname_predictions.csv` |
+| Full all-outlet prediction CSV | `Results/teamname_predictions_full_20000.csv` |
 | Reproducible pipeline code | `src/` and `Notebooks/` |
 | Data quality report | `Docs/data_quality_report.md` |
 | AI transparency log | `Docs/ai_transparency_log.md` |
