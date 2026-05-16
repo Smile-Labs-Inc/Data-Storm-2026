@@ -1,4 +1,4 @@
-# Smil Labs — Data Storm v7.0 Preliminary Round
+# Smile Labs — Data Storm v7.0 Preliminary Round
 ## Latent Maximum Monthly Outlet Potential Estimation — January 2026
 
 **Team:** Smil Labs | **Challenge:** Data Storm v7.0, Powered by OCTAVE – John Keells Group | **Date:** May 2026

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -C \"c:\\\\Users\\\\SAMPR\\\\OneDrive\\\\Desktop\\\\GitHub Projects\\\\Data-Storm-2026\" log --oneline --all)"
+      "Bash(git -C \"c:\\\\Users\\\\SAMPR\\\\OneDrive\\\\Desktop\\\\GitHub Projects\\\\Data-Storm-2026\" log --oneline --all)",
+      "Bash(git push *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
