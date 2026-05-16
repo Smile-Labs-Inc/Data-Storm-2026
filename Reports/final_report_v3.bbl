@@ -1,0 +1,238 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{manski2003partial}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=a21546c10c5d0743137405eba6110674}{%
+           family={Manski},
+           familyi={M\bibinitperiod},
+           given={C.\bibnamedelimi F.},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{a21546c10c5d0743137405eba6110674}
+      \strng{fullhash}{a21546c10c5d0743137405eba6110674}
+      \strng{fullhashraw}{a21546c10c5d0743137405eba6110674}
+      \strng{bibnamehash}{a21546c10c5d0743137405eba6110674}
+      \strng{authorbibnamehash}{a21546c10c5d0743137405eba6110674}
+      \strng{authornamehash}{a21546c10c5d0743137405eba6110674}
+      \strng{authorfullhash}{a21546c10c5d0743137405eba6110674}
+      \strng{authorfullhashraw}{a21546c10c5d0743137405eba6110674}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Partial Identification of Probability Distributions}
+      \field{year}{2003}
+    \endentry
+    \entry{aigner1977sfa}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=f39522ca64060cec1a885b6367ab4baf}{%
+           family={Aigner},
+           familyi={A\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=5169dec7bdefb6cb51e4d8a751a5aa59}{%
+           family={Lovell},
+           familyi={L\bibinitperiod},
+           given={C.\bibnamedelimi A.\bibnamedelimi K.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=8762ae2bfae9ecb649b12572fe9f60f8}{%
+           family={Schmidt},
+           familyi={S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{a72cab1473c7c4eda577551002926d81}
+      \strng{fullhash}{a72cab1473c7c4eda577551002926d81}
+      \strng{fullhashraw}{a72cab1473c7c4eda577551002926d81}
+      \strng{bibnamehash}{a72cab1473c7c4eda577551002926d81}
+      \strng{authorbibnamehash}{a72cab1473c7c4eda577551002926d81}
+      \strng{authornamehash}{a72cab1473c7c4eda577551002926d81}
+      \strng{authorfullhash}{a72cab1473c7c4eda577551002926d81}
+      \strng{authorfullhashraw}{a72cab1473c7c4eda577551002926d81}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{number}{1}
+      \field{title}{Formulation and Estimation of Stochastic Frontier Production Function Models}
+      \field{volume}{6}
+      \field{year}{1977}
+      \field{pages}{21\bibrangedash 37}
+      \range{pages}{17}
+    \endentry
+    \entry{jondrow1982je}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=5b9f2c8035ab893b32892ac94f3ea82f}{%
+           family={Jondrow},
+           familyi={J\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5169dec7bdefb6cb51e4d8a751a5aa59}{%
+           family={Lovell},
+           familyi={L\bibinitperiod},
+           given={C.\bibnamedelimi A.\bibnamedelimi K.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=588079e0ce55eb36222e265e021b6c66}{%
+           family={Materov},
+           familyi={M\bibinitperiod},
+           given={I.\bibnamedelimi S.},
+           giveni={I\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=8762ae2bfae9ecb649b12572fe9f60f8}{%
+           family={Schmidt},
+           familyi={S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{2a3f63a908ddcfeeced15856a1faa616}
+      \strng{fullhash}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \strng{fullhashraw}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \strng{bibnamehash}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \strng{authorbibnamehash}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \strng{authornamehash}{2a3f63a908ddcfeeced15856a1faa616}
+      \strng{authorfullhash}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \strng{authorfullhashraw}{fa83a8bf9e6de63e35a9a32cf222cc57}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{number}{2--3}
+      \field{title}{On the Estimation of Technical Inefficiency in the Stochastic Frontier Production Function Model}
+      \field{volume}{19}
+      \field{year}{1982}
+      \field{pages}{233\bibrangedash 238}
+      \range{pages}{6}
+    \endentry
+    \entry{chernozhukov2002hong}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=497b6554670ef9f4dfd8d456efd3b41d}{%
+           family={Chernozhukov},
+           familyi={C\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=228655acbcd752cef20595040b97d07b}{%
+           family={Hong},
+           familyi={H\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{fullhash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{fullhashraw}{03db0934bb03b85fa3902ac18725b689}
+      \strng{bibnamehash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{authorbibnamehash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{authornamehash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{authorfullhash}{03db0934bb03b85fa3902ac18725b689}
+      \strng{authorfullhashraw}{03db0934bb03b85fa3902ac18725b689}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{459}
+      \field{title}{Three-Step Censored Quantile Regression and Extramarital Affairs}
+      \field{volume}{97}
+      \field{year}{2002}
+      \field{pages}{872\bibrangedash 882}
+      \range{pages}{11}
+    \endentry
+    \entry{romano2019cqr}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=6d3afaf85d26d179598e2e4188ebfc19}{%
+           family={Romano},
+           familyi={R\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=b4e26a39f58897b1eb50395dd41fe4b0}{%
+           family={Patterson},
+           familyi={P\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=6e778dd01d025ffccf9bdde00a1e33cb}{%
+           family={Candès},
+           familyi={C\bibinitperiod},
+           given={E.\bibnamedelimi J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{fullhash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{fullhashraw}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{bibnamehash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{authorbibnamehash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{authornamehash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{authorfullhash}{4441f4d45502b0fbb7752ce37c260c28}
+      \strng{authorfullhashraw}{4441f4d45502b0fbb7752ce37c260c28}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems (NeurIPS)}
+      \field{title}{Conformalized Quantile Regression}
+      \field{volume}{32}
+      \field{year}{2019}
+    \endentry
+    \entry{chernozhukov2010crossing}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=497b6554670ef9f4dfd8d456efd3b41d}{%
+           family={Chernozhukov},
+           familyi={C\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=1f4da973cd1fc9419589904f51546c3e}{%
+           family={Fernández-Val},
+           familyi={F\bibinithyphendelim V\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=376c5011415543aac366811998bb4286}{%
+           family={Galichon},
+           familyi={G\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{fullhash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{fullhashraw}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{bibnamehash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{authorbibnamehash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{authornamehash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{authorfullhash}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \strng{authorfullhashraw}{353792a9d39efd8ce8c0b12dd24b2a78}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{3}
+      \field{title}{Quantile and Probability Curves Without Crossing}
+      \field{volume}{78}
+      \field{year}{2010}
+      \field{pages}{1093\bibrangedash 1125}
+      \range{pages}{33}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
