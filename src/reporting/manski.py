@@ -51,14 +51,15 @@ def compute_manski_bands(
         "observed_max_monthly_liters"
     ].transform(lambda s: s.quantile(0.99))
 
+    # FIX R3 N3 (council round 3): the original merge collided with the
+    # `cap_uplift` column already present in `predict.py` output. Rename the
+    # merged column explicitly so we actually pick up the Manski-specific cap.
     if cap_table is not None:
-        df = df.merge(
-            cap_table[["Outlet_Type", "Outlet_Size", "cap_uplift"]],
-            on=["Outlet_Type", "Outlet_Size"],
-            how="left",
-            suffixes=("", "_cap"),
+        manski_cap_df = cap_table[["Outlet_Type", "Outlet_Size", "cap_uplift"]].rename(
+            columns={"cap_uplift": "manski_cap_uplift"}
         )
-        cap = df["cap_uplift"].fillna(max_uplift)
+        df = df.merge(manski_cap_df, on=["Outlet_Type", "Outlet_Size"], how="left")
+        cap = df["manski_cap_uplift"].fillna(max_uplift)
     else:
         cap = pd.Series(max_uplift, index=df.index)
 
@@ -67,6 +68,12 @@ def compute_manski_bands(
     df["manski_upper"] = np.maximum(upper_a, upper_b)
 
     df["point"] = df["Maximum_Monthly_Liters"]
-    df["point"] = np.clip(df["point"], df["manski_lower"], df["manski_upper"])
+    # FIX R3 N4 (council round 3): do NOT clip the point inside the Manski
+    # interval. The point estimate is the submission CSV value; if it lies
+    # outside the Manski band, that's a signal for the report, not a number
+    # to silently overwrite. Emit a flag instead.
+    df["point_outside_band"] = (
+        (df["point"] < df["manski_lower"]) | (df["point"] > df["manski_upper"])
+    ).astype(int)
 
-    return df[["Outlet_ID", "manski_lower", "point", "manski_upper"]]
+    return df[["Outlet_ID", "manski_lower", "point", "manski_upper", "point_outside_band"]]

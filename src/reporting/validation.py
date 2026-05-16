@@ -41,8 +41,11 @@ def run_validation_suite(
     cap_table: pd.DataFrame | None = None,
     bucket_keys: pd.DataFrame | None = None,
     expected_rows: int = 20_000,
-    median_uplift_min: float = 1.05,
-    median_uplift_max: float = 2.5,
+    # FIX R3 (council round 3): tighten the range so V4 actually catches if
+    # the M1 quadruple-throttle fix didn't land. Old range [1.05, 2.5] was so
+    # wide it passed even when median uplift was 1.18x (the broken value).
+    median_uplift_min: float = 1.25,
+    median_uplift_max: float = 2.2,
     cap_binding_max_pct: float = 25.0,
     out_dir: Path | str | None = None,
 ) -> ValidationResult:
