@@ -1,0 +1,10 @@
+```mermaid
+flowchart LR
+    OutletAttrs["Outlet attributes\n(size, type, cooler)"] --> TrueDemand["True consumer demand\n(latent)"]
+    POI["POI catchment\n(schools, transport, etc.)"] --> TrueDemand
+    LK["Sri Lanka calendar\n(Avurudu, Poya, etc.)"] --> TrueDemand
+    Constraints["Operational constraints\n(credit, stockouts,\ndelivery, cooler space)"] --> Observed
+    TrueDemand --> Observed["Observed volume\n= min(true, constraints)"]
+    Observed -.->|right-censored| Latent["Estimand:\nE[true demand | X]"]
+    style Latent stroke-dasharray: 5
+```

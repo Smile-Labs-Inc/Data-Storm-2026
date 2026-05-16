@@ -1,28 +1,52 @@
 # Data-Storm-2026
 
-Notebook-first solution for estimating latent maximum monthly outlet purchase potential for January 2026.
+End-to-end pipeline for estimating latent maximum monthly outlet purchase potential for January 2026.
 
-## Project Layout
+**Note (v2):** the canonical pipeline is now the v2 stack (`Notebooks/20_v2_*`, `21_v2_*`, `22_v2_*`) which incorporates all 3 rounds of AI council fixes. The v1 notebooks (`01_`, `03_`, `04_`, `10_`, `11_`) are retained for reference but produce the broken submission (`row_id` column + 914 rows + miscalibrated constraint score). The v1 CSVs have been moved to `Results/_legacy/`.
 
-Key files:
+## Project Layout (v2 canonical)
 
-- `Notebooks/01_latent_potential_pipeline.ipynb` - end-to-end implementation notebook.
-- `Notebooks/02_full_dataset_eda.ipynb` - full raw dataset EDA notebook.
-- `Notebooks/03_poi_enrichment.ipynb` - OpenStreetMap POI enrichment notebook.
-- `Notebooks/04_model_validation.ipynb` - model validation and top-outlet diagnostics.
-- `Docs/challenge_brief.md` - cleaned challenge statement.
-- `Docs/solution_plan.md` - planned solution approach.
-- `Docs/folder_structure.md` - repository structure explanation.
-- `Docs/data_quality_report.md` - generated data quality summary.
-- `Docs/eda_summary.md` - full raw dataset EDA findings.
-- `Docs/next_steps_after_eda.md` - recommended next work based on EDA findings.
-- `Docs/modeling_methodology.md` - latent potential modeling explanation.
-- `Docs/geospatial_catchment_features.md` - implemented internal catchment feature layer.
-- `Docs/poi_enrichment.md` - external POI enrichment workflow.
-- `Docs/model_validation_summary.md` - final validation summary.
-- `Docs/ai_transparency_log.md` - Generative AI usage log.
-- `Results/smil_labs_predictions.csv` - platform upload file.
-- `Results/smil_labs_predictions_full_20000.csv` - full business output for all outlets.
+```
+Notebooks/
+  20_v2_data_pipeline.ipynb              Bronze -> Silver -> Gold
+  21_v2_modeling.ipynb                   frontier + SFA + censored QR + CQR + Manski
+  22_v2_validation_and_submission.ipynb  6-item validation + submission CSV (Outlet_ID + 20,000 rows)
+  01_latent_potential_pipeline.ipynb     v1 (kept for reference, do not use)
+  02_full_dataset_eda.ipynb              full-dataset EDA
+  03_poi_enrichment.ipynb                v1 POI work (kept; v2 uses poi_pipeline/ instead)
+  04_model_validation.ipynb              v1 validation
+  10_poi_enrichment_full.ipynb           v1 POI full
+  11_constraint_score_improvements.ipynb v1 constraint experiments
+src/
+  quality/         reusable DQ check functions
+  cleaning/        Silver normalisation
+  features/        Gold feature engineering
+  modeling/        lower_bound, constraint_score, frontier, sfa, conformal, censored_qr, caps, predict
+  reporting/       manski, dag, sensitivity, validation
+poi_pipeline/      Geofabrik PBF + pyrosm POI fetcher (separate folder)
+Reviews/           council R1 + R2 + R3 audits
+Reports/           5-page PDF source + builder
+research/          10-channel research swarm + brief
+Docs/              team docs (challenge brief, EDA summary, methodology, etc.)
+Results/           current v2 submission goes here; v1 CSVs in Results/_legacy/
+data/              Bronze/Silver/Gold/silver_rejected (gitignored runtime artifacts)
+```
+
+## Key files
+
+- `Notebooks/20_v2_data_pipeline.ipynb` — v2 Bronze/Silver/Gold pipeline.
+- `Notebooks/21_v2_modeling.ipynb` — v2 modeling stack.
+- `Notebooks/22_v2_validation_and_submission.ipynb` — v2 validation + submission CSV writer.
+- `Docs/challenge_brief.md` — cleaned challenge statement.
+- `Docs/solution_plan.md` — planned solution approach.
+- `Docs/modeling_methodology.md` — methodology explanation.
+- `Docs/poi_enrichment.md` — external POI enrichment workflow.
+- `Docs/ai_transparency_log.md` (+ `_v2.md`) — Generative AI usage log.
+- `Reviews/council_review.md` + `council_round2/council_review_v2.md` + `council_round3/council_review_v3.md` — 3-round AI council audit trail.
+- `Reports/final_report.md` — 5-page PDF source.
+- `SUBMISSION_CHECKLIST.md` — preflight checklist for submission day.
+- `Results/smil_labs_predictions_v2.csv` — current submission file (written by notebook 22).
+- `Results/_legacy/` — v1 CSVs kept for audit only, NOT for upload.
 
 ## Setup
 
@@ -33,11 +57,13 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-Install dependencies:
+Install dependencies. Use **`requirements_v2.txt`** for the v2 pipeline (the original `requirements.txt` is missing xgboost>=2.0, mapie, statsmodels, pyrosm, geopandas, h3, etc.):
 
 ```powershell
-pip install -r requirements.txt
+pip install -r requirements_v2.txt
 ```
+
+(If you only intend to run the v1 notebooks, `pip install -r requirements.txt` is enough.)
 
 ## Data
 
@@ -58,45 +84,64 @@ Required files:
 - `holiday_list.csv`
 - `1. dataset_description.xlsx`
 
-## Run Pipeline
+## Run Pipeline (v2 canonical)
 
-Optional POI enrichment:
+```powershell
+# Optional: external POI enrichment (~25 min)
+cd poi_pipeline
+python 01_download_pbf.py
+python 02_extract_pois.py
+python 03_build_features.py
+python 04_quality_audit.py
+cd ..
 
-```text
-Notebooks/03_poi_enrichment.ipynb
+# v2 pipeline: run notebooks 20 -> 21 -> 22 in order
+jupyter notebook Notebooks/20_v2_data_pipeline.ipynb
+jupyter notebook Notebooks/21_v2_modeling.ipynb
+jupyter notebook Notebooks/22_v2_validation_and_submission.ipynb
 ```
 
-Then open and run all cells in:
+The v2 notebooks create:
 
-```text
-Notebooks/01_latent_potential_pipeline.ipynb
-```
+- raw Bronze copies + sha-256 audit in `data/bronze/`
+- cleaned Silver parquets in `data/silver/`
+- 480 coord + 9,606 transaction rejected records in `data/silver_rejected/`
+- outlet x feature matrix in `data/gold/outlet_features.parquet`
+- quantile + SFA predictions in `data/gold/`
+- final submission CSV in `Results/smil_labs_predictions_v2.csv`
+- conformal interval bands in `Results/conformal_intervals_v2.csv`
+- Manski bounds in `Results/manski_bands_v2.csv`
+- 6-item validation report in `Results/validation_report.md`
 
-The notebook will create:
+**Submission columns** (per official Data Storm 7.0 PDF):
 
-- raw Bronze copies in `data/bronze/`
-- cleaned Silver data in `data/silver/`
-- rejected records in `data/silver_rejected/`
-- model features and diagnostics in `data/gold/`
-- platform predictions in `Results/smil_labs_predictions.csv`
-- full all-outlet predictions in `Results/smil_labs_predictions_full_20000.csv`
+- `Outlet_ID` — outlet identifier (NOT `row_id` — the v1 column name is wrong)
+- `Maximum_Monthly_Liters` — predicted uncapped monthly purchase potential
 
-Submission columns:
+The submission file has **20,000 rows** (one per outlet in scope). The "platform validator expects 914 rows" claim from the v1 pipeline is unverified by the official PDF; the v2 file follows the brief's wording. If the portal actually requires 914 rows on submission day, filter `smil_labs_predictions_v2.csv` to the official row_id list at upload time.
 
-- `row_id` - outlet identifier expected by the competition validator.
-- `Maximum_Monthly_Liters` - predicted uncapped monthly purchase potential.
+## Current Method (v2)
 
-The current platform validator expects 914 rows. If an official file such as `sample_submission.csv`, `submission_template.csv`, or `test.csv` is placed in `Datasets/`, the notebook filters predictions to that template. Without a template, it creates a 914-row fallback from the first sorted outlet IDs so the file matches the row-count gate.
+Observed sales are right-censored: `y = min(true_demand, constraint)`. The estimand `E[true_demand_i | X_i]` is **not point-identified** from observational data alone (Manski 2003); we therefore report `[manski_lower, point, manski_upper]` per outlet.
 
-## Current Method
+**Method stack** (the council-recommended minimal-but-impressive set):
 
-The model treats observed sales as censored demand. It uses historical outlet performance as a lower bound and blends toward a peer frontier when constraint signals suggest that the outlet is under-realizing demand.
+1. **Robust lower bound** — 3rd-highest month or own p95 (defends against single-month spikes).
+2. **Frontier ensemble** — XGBoost 2.0 multi-quantile (`reg:quantileerror`, monotone constraints, isotonic post-sort) blended 60/40 with Aigner-Lovell-Schmidt 1977 SFA fit by direct MLE.
+3. **Chernozhukov-Hong (2002) 3-step** censoring correction — q90 refit on the uncensored sub-population.
+4. **Constraint score** in [0,1] — PCA + frontier-residual z-score + plateau gate (no DQ flag, no rank-sum).
+5. **Bootstrap-derived size×type uplift caps** — replaces hardcoded multipliers with peer top-decile evidence.
+6. **Conformalised QR** (Romano et al. NeurIPS 2019) — calibrated [q05, q95] interval on a disjoint outlet-level holdout.
+7. **Manski worst-case bounds** for honest non-identification disclosure.
 
-The final prediction is guardrailed by:
+See `Docs/modeling_methodology.md` for the v1 narrative and `Reports/final_report.md` for the v2 5-page report.
 
-- historical observed maximums.
-- comparable outlet peer frontiers.
-- outlet-size uplift caps.
-- non-negative output constraints.
+## AI Council Audit Trail
 
-See `Docs/modeling_methodology.md` for details.
+The v2 stack was built and audited across 3 rounds of 4 parallel premium-model critics (Statistician, Skeptic, Methodology Architect, Safety + DE):
+
+- `Reviews/council_review.md` — Round 1 master (v1 grade D+).
+- `Reviews/council_round2/council_review_v2.md` — Round 2 after src/ refactor (grade B/B+).
+- `Reviews/council_round3/council_review_v3.md` — Round 3 after v2 notebook build (grade B today, A- achievable after the 5 R3 fixes in the v2 notebooks).
+
+Every code fix cites the council finding it addresses (`FIX R3 Nx`, `FIX M1`, etc.).

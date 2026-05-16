@@ -17,7 +17,6 @@ data/bronze/*.json
 data/bronze/*.parquet
 data/silver/*.csv
 data/silver/*.json
-data/silver/*.parquet
 data/silver_rejected/*.csv
 data/silver_rejected/*.parquet
 data/gold/*.csv
