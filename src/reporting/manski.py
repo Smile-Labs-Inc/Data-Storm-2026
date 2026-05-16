@@ -63,7 +63,14 @@ def compute_manski_bands(
     else:
         cap = pd.Series(max_uplift, index=df.index)
 
-    upper_a = peer_p99.fillna(df["observed_max_monthly_liters"])
+    # FIX R5: for outlets that are themselves the peer-group ceiling (observed_max > peer_p99),
+    # upper_a must be at least observed_max to prevent a mathematically inverted band
+    # (manski_upper < manski_lower).  The outlet has demonstrably achieved observed_max,
+    # so the theoretical upper bound is at least that value.
+    upper_a = np.maximum(
+        peer_p99.fillna(0.0),
+        df["observed_max_monthly_liters"].fillna(0.0),
+    )
     upper_b = df["lower_bound"] * np.minimum(cap, max_uplift)
     df["manski_upper"] = np.maximum(upper_a, upper_b)
 

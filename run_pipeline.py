@@ -16,7 +16,7 @@ What it does (in order):
        - Final latent_potential
        - Manski bands
   5. Reporting: DAG, sensitivity sweep, 6-item validation
-  6. Submission: writes Results/teamname_predictions.csv with Outlet_ID + Maximum_Monthly_Liters
+  6. Submission: writes Results/smil_labs_predictions.csv with Outlet_ID + Maximum_Monthly_Liters
 """
 
 from __future__ import annotations
@@ -28,6 +28,7 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent
@@ -87,7 +88,7 @@ POI_FEATURES_PARQUET = ROOT / "poi_pipeline" / "output" / "poi_features.parquet"
 
 USE_CENSORING_CORRECTION = True
 USE_SFA = True
-TEAM_NAME = "teamname"
+TEAM_NAME = "smil_labs"
 # ================================================================
 
 
@@ -121,12 +122,12 @@ def bronze_ingest() -> dict[str, Path]:
             raise FileNotFoundError(f"raw file missing: {src}")
         dst = BRONZE_DIR / name
         shutil.copy2(src, dst)
-        sha = hashlib.sha256(dst.read_bytes()).hexdigest()[:12]
-        audit.append({"file": name, "size_bytes": dst.stat().st_size, "sha256_12": sha})
+        sha = hashlib.sha256(dst.read_bytes()).hexdigest()
+        audit.append({"file": name, "size_bytes": dst.stat().st_size, "sha256": sha})
         out[name.replace(".csv", "")] = dst
         print(f"  {name}  size={dst.stat().st_size:,}  sha={sha}")
 
-    pd.DataFrame(audit).to_csv(BRONZE_DIR / "_ingestion_audit.csv", index=False)
+    pd.DataFrame(audit).to_csv(BRONZE_DIR / "ingestion_audit.csv", index=False)
     return out
 
 
@@ -360,7 +361,11 @@ def model_and_predict(gold: pd.DataFrame, silver: dict[str, pd.DataFrame]) -> pd
 def write_submission(preds: pd.DataFrame) -> Path:
     print("\n== Submission ==")
     sub = preds[["Outlet_ID", "Maximum_Monthly_Liters"]].copy()
-    sub["Maximum_Monthly_Liters"] = sub["Maximum_Monthly_Liters"].round(3)
+    # FIX R4+R5 (council round 4/5): floor-preserving ceil rounding.
+    # Plain .round(3) uses banker's rounding and pushes the 55%+ of outlets
+    # sitting exactly at observed_max (float64) below their true observed_max,
+    # producing V3b FAIL. np.ceil guarantees the 3-decimal value >= underlying float.
+    sub["Maximum_Monthly_Liters"] = np.ceil(sub["Maximum_Monthly_Liters"] * 1000) / 1000
     sub_path = RESULTS_DIR / f"{TEAM_NAME}_predictions.csv"
     sub.to_csv(sub_path, index=False)
     full_path = RESULTS_DIR / f"{TEAM_NAME}_predictions_full_20000.csv"

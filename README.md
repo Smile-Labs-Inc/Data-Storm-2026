@@ -138,10 +138,12 @@ See `Docs/modeling_methodology.md` for the v1 narrative and `Reports/final_repor
 
 ## AI Council Audit Trail
 
-The v2 stack was built and audited across 3 rounds of 4 parallel premium-model critics (Statistician, Skeptic, Methodology Architect, Safety + DE):
+The v2 stack was built and audited across 5 rounds of parallel premium-model critics:
 
 - `Reviews/council_review.md` — Round 1 master (v1 grade D+).
 - `Reviews/council_round2/council_review_v2.md` — Round 2 after src/ refactor (grade B/B+).
-- `Reviews/council_round3/council_review_v3.md` — Round 3 after v2 notebook build (grade B today, A- achievable after the 5 R3 fixes in the v2 notebooks).
+- `Reviews/council_round3/council_review_v3.md` — Round 3 after v2 notebook build (grade B today).
+- `Reviews/council_round4/council_review_v4.md` — Round 4: ROOT CAUSE of V3b+V4 (rounding bug + uplift floor). Post-fix: 6/6 PASS.
+- `Reviews/council_round5/council_review_v5.md` — Round 5: `run_pipeline.py` bugs (rounding, team name, SHA-12), report placeholders, stale doc audit. Grade ~77 → 83.
 
-Every code fix cites the council finding it addresses (`FIX R3 Nx`, `FIX M1`, etc.).
+Every code fix cites the council finding it addresses (`FIX R4`, `FIX R5 N5.x`, `FIX M1`, etc.).
