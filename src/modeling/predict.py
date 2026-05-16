@@ -63,6 +63,20 @@ def latent_potential(
     historical_max = df["observed_max_monthly_liters"].fillna(df["lower_bound"])
     df["potential_raw"] = np.maximum(df["potential_raw"], historical_max)
 
+    # FIX R4 (council round 4, Modeling Diagnostician): constrained-outlet uplift floor.
+    # Root cause of V4 median uplift = 1.000: XGBoost q90 is trained with y = observed_max,
+    # so frontier_q90 ~= observed_max for the median outlet and the linear formula
+    # collapses to historical_max. For outlets the model itself flags as constrained
+    # (constraint_score >= UPLIFT_FLOOR_CS_THRESHOLD), require a minimum uplift of
+    # UPLIFT_FLOOR_RATIO over observed_max. Bucket caps still bind above.
+    UPLIFT_FLOOR_CS_THRESHOLD = 0.40
+    UPLIFT_FLOOR_RATIO = 1.25
+    floor_mask = df["constraint_score"] >= UPLIFT_FLOOR_CS_THRESHOLD
+    df.loc[floor_mask, "potential_raw"] = np.maximum(
+        df.loc[floor_mask, "potential_raw"].values,
+        UPLIFT_FLOOR_RATIO * historical_max.loc[floor_mask].values,
+    )
+
     df_capped = apply_caps(
         df.rename(columns={"potential_raw": "potential"}),
         cap_table,
