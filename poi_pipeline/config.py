@@ -14,7 +14,7 @@ PBF_URL = "https://download.geofabrik.de/asia/sri-lanka-latest.osm.pbf"
 PBF_PATH = DATA_RAW / "sri-lanka-latest.osm.pbf"
 
 # Source for outlet coordinates (raw competition file).
-OUTLET_COORDINATES_CSV = ROOT.parent.parent / "datastorm-7-0-rotaract" / "outlet_coordinates.csv"
+OUTLET_COORDINATES_CSV = ROOT.parent / "Datasets" / "outlet_coordinates.csv"
 
 # Output of the build step.
 POI_FEATURES_PARQUET = OUTPUT_DIR / "poi_features.parquet"
