@@ -1,35 +1,35 @@
-# Smil Labs — Data Storm 7.0 (Storming Round)
+# smile Labs — Data Storm 7.0 (Storming Round)
 
 Latent **maximum monthly outlet purchase potential** for 20,000 Sri Lankan retail outlets, January 2026 horizon.
 
-Submitted by **Smil Labs**. Challenge: Data Storm 7.0, Powered by OCTAVE — John Keells Group, Rotaract Moratuwa.
+Submitted by **smile Labs**. Challenge: Data Storm 7.0, Powered by OCTAVE — John Keells Group, Rotaract Moratuwa.
 
 ---
 
 ## Headline
 
-| Metric | Value |
-|---|---|
-| Outlets predicted | 20,000 |
-| External POIs scraped (Geofabrik PBF) | 42,386 across 9 categories |
-| Median uplift vs. historical max | **1.250x** |
-| Mean uplift vs. historical max | **1.233x** |
-| Submission preflight (6-item suite) | **6 / 6 PASS** |
-| Method stack | SFA + multi-quantile XGBoost + CH-3 + CQR + Manski |
-| AI council rounds run | **7** (4-5 parallel premium critics per round) |
+| Metric                                | Value                                              |
+| ------------------------------------- | -------------------------------------------------- |
+| Outlets predicted                     | 20,000                                             |
+| External POIs scraped (Geofabrik PBF) | 42,386 across 9 categories                         |
+| Median uplift vs. historical max      | **1.250x**                                         |
+| Mean uplift vs. historical max        | **1.233x**                                         |
+| Submission preflight (6-item suite)   | **6 / 6 PASS**                                     |
+| Method stack                          | SFA + multi-quantile XGBoost + CH-3 + CQR + Manski |
+| AI council rounds run                 | **7** (4-5 parallel premium critics per round)     |
 
 **Primary deliverables:**
 
-| What | Path |
-|---|---|
-| Platform submission CSV | `Results/smil_labs_predictions.csv` |
-| 5-page PDF report | `Reports/final_report_v3.pdf` |
-| Validation report (auto) | `Results/validation_report.md` |
-| Extended diagnostics (R6) | `Results/validation_extended_v6.md` |
-| Manski bounds | `Results/manski_bands_v2.csv` |
-| Conformal intervals | `Results/conformal_intervals_v2.csv` |
-| Run summary (JSON) | `Results/run_summary.json` |
-| Ingestion audit (SHA-256) | `Results/ingestion_audit.csv` |
+| What                      | Path                                 |
+| ------------------------- | ------------------------------------ |
+| Platform submission CSV   | `Results/smile_labs_predictions.csv` |
+| 5-page PDF report         | `Reports/final_report_v3.pdf`        |
+| Validation report (auto)  | `Results/validation_report.md`       |
+| Extended diagnostics (R6) | `Results/validation_extended_v6.md`  |
+| Manski bounds             | `Results/manski_bands_v2.csv`        |
+| Conformal intervals       | `Results/conformal_intervals_v2.csv` |
+| Run summary (JSON)        | `Results/run_summary.json`           |
+| Ingestion audit (SHA-256) | `Results/ingestion_audit.csv`        |
 
 ---
 
@@ -141,7 +141,7 @@ What it writes:
 - `data/silver_rejected/` — 10,179 quarantined rows with `dataset_name` + `failed_check` + `failure_reason`
 - `data/gold/outlet_features.parquet` — model-ready 23-feature outlet table (+ POI if present)
 - `data/gold/sfa_meta.json` — SFA convergence + `sigma_v`/`sigma_u`/`lambda`/median TE
-- `Results/smil_labs_predictions.csv` — **the platform submission** (`Outlet_ID`, `Maximum_Monthly_Liters`, 20,000 rows)
+- `Results/smile_labs_predictions.csv` — **the platform submission** (`Outlet_ID`, `Maximum_Monthly_Liters`, 20,000 rows)
 - `Results/validation_report.md` — 6-item preflight result
 - `Results/validation_extended_v6.md` — V4b/V6/V7 extended diagnostics (non-blocking)
 - `Results/manski_bands_v2.csv` — per-outlet `[manski_lower, point, manski_upper]`
@@ -164,13 +164,13 @@ Copies raw CSVs from `Datasets/` into `data/bronze/` **as-is**, then writes `Res
 
 Six **reusable, parameterised** DQ functions, applied identically across all five raw datasets:
 
-| Function | Catches |
-|---|---|
-| `duplicate_check(df, key_columns)` | duplicate composite keys |
-| `null_check(df, columns)` | NaN / empty mandatory fields |
-| `range_check(df, column, min, max)` | numeric out-of-range |
-| `domain_check(df, column, allowed_values)` | misspellings, unknown enums |
-| `referential_integrity_check(df, column, reference_set)` | foreign keys not in master |
+| Function                                                      | Catches                       |
+| ------------------------------------------------------------- | ----------------------------- |
+| `duplicate_check(df, key_columns)`                            | duplicate composite keys      |
+| `null_check(df, columns)`                                     | NaN / empty mandatory fields  |
+| `range_check(df, column, min, max)`                           | numeric out-of-range          |
+| `domain_check(df, column, allowed_values)`                    | misspellings, unknown enums   |
+| `referential_integrity_check(df, column, reference_set)`      | foreign keys not in master    |
 | `geospatial_bounds_check(df, lat, lon, lat_range, lon_range)` | coordinates outside Sri Lanka |
 
 Quarantined rows land in `data/silver_rejected/` with `dataset_name`, `failed_check`, `failure_reason`. Total: 10,179 records (1,581 `Outlet_Type`/`Outlet_Size` normalisations + 240 coordinate ejections + 9,606 non-positive transactions + 93 duplicate holidays).
@@ -199,6 +199,7 @@ The estimand `E[true_demand | X]` is **not point-identified** from observational
    ```
 
    The third term (constrained-uplift floor) is `# FIX R4` — outlets the model flags as supply-limited get at least 1.25x lift over their proven historical max.
+
 8. **`conformal.py:conformalised_qr`** — Romano-Patterson-Candes (NeurIPS 2019) on an outlet-level 80/20 holdout (`# FIX R4` — was random rows before); calibrated `[q05, q95]` with empirical coverage ≥ 90%.
 9. **`reporting/manski.py:compute_manski_bands`** — worst-case bounds for the non-identified estimand.
 
@@ -206,14 +207,14 @@ The estimand `E[true_demand | X]` is **not point-identified** from observational
 
 - **`validation.py:run_validation_suite`** — the 6-item release gate. Blocks submission if any check fails:
 
-  | # | Check | Threshold | Live |
-  |---:|---|---|---|
-  | V1 | Schema `[Outlet_ID, Maximum_Monthly_Liters]` + 20,000 rows | exact | PASS |
-  | V2 | No NaN / negatives / duplicate IDs | 100% | PASS |
-  | V3a | Every `Outlet_ID` exists in `outlet_master` | 100% | PASS |
-  | V3b | Predicted >= historical_max for >= 99% of outlets | >= 99% | PASS (0.00% below) |
-  | V4 | Median uplift in `[1.25, 2.2]` | yes | PASS (1.250) |
-  | V5 | Cap-binding rate < 25% (bucket-specific cap) | < 25% | PASS (0.00%) |
+  |   # | Check                                                      | Threshold | Live               |
+  | --: | ---------------------------------------------------------- | --------- | ------------------ |
+  |  V1 | Schema `[Outlet_ID, Maximum_Monthly_Liters]` + 20,000 rows | exact     | PASS               |
+  |  V2 | No NaN / negatives / duplicate IDs                         | 100%      | PASS               |
+  | V3a | Every `Outlet_ID` exists in `outlet_master`                | 100%      | PASS               |
+  | V3b | Predicted >= historical_max for >= 99% of outlets          | >= 99%    | PASS (0.00% below) |
+  |  V4 | Median uplift in `[1.25, 2.2]`                             | yes       | PASS (1.250)       |
+  |  V5 | Cap-binding rate < 25% (bucket-specific cap)               | < 25%     | PASS (0.00%)       |
 
 - **`validation_v6.py:run_extended_diagnostics`** — non-blocking extended checks added in R6: V4b (mean uplift >= 1.15), V6 (`pct_at_floor < 95%`), V7 (`constraint_score std >= 0.05`). Catches model degradation that V1-V5 cannot.
 
@@ -237,15 +238,15 @@ Detailed methodology lives in:
 
 The v2 stack was built and audited across **seven rounds of 4-5 parallel premium-model critics** (Statistician, Skeptic, Methodology Architect, Safety+DE, Gap Analyzer, EDA Specialist, Modeling Diagnostician, Business/Viva, Visual, Judge, Risk). Every code fix carries a `# FIX R<N>` comment pointing to the finding it addresses.
 
-| Round | Headline finding | Fix |
-|---|---|---|
-| **R1** (`Reviews/council_review.md`) | Rank-sum constraint score with DQ flag at 10%; quadruple-throttle pinning median to 1.20x | Rebuilt score from 3 orthogonal signals; dropped two throttles |
-| **R2** (`Reviews/council_round2/`) | SFA target leakage (`observed_*` in `sfa_X`); Manski floor violated; CQR not wired | All 4 N-blockers fixed in `sfa.py`, `manski.py`, `run_pipeline.py` |
-| **R3** (`Reviews/council_round3/`) | `manski.py` column collision; point clipped inside band; V5 used hardcoded cap | Renamed merge column; removed clipping; V5 uses `cap_table` |
-| **R4** (`Reviews/council_round4/`) | V3b + V4 FAIL — model effectively predicted `observed_max` itself | Ceiling-rounding in submission; constrained-uplift floor (`s>=0.40 -> 1.25x`); 10 EDA figures rendered |
-| **R5** (`Reviews/council_round5/`) | `run_pipeline.py` still had `.round(3)`; `TEAM_NAME="teamname"`; SHA-12 (not 256) | `np.ceil` rounding; `TEAM_NAME="smil_labs"`; full SHA-256; `ingestion_audit.csv` |
-| **R6** (`Reviews/council_round6/`) | Ghost `Docs/smil_labs_final_report.md` claiming 1.18x + "Tobit Type-I" (no `tobit.py`); 13 stale CSVs in `data/gold/`; 4 duplicate `Results/` CSVs; EDA charts not in report | (Pending in R6 — actioned in R7) |
-| **R7** (`Reviews/council_round7/`) | Page-5 density too high; POI weak-signal not honestly disclosed; LaTeX formula didn't match `predict.py` | LaTeX rewrite + R6 cleanup executed: ghost archived, duplicates moved, gold cleaned, cooler-saturation figure added to page 2, `sfa_converged` persisted, extended diagnostics wired |
+| Round                                | Headline finding                                                                                                                                                              | Fix                                                                                                                                                                                  |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **R1** (`Reviews/council_review.md`) | Rank-sum constraint score with DQ flag at 10%; quadruple-throttle pinning median to 1.20x                                                                                     | Rebuilt score from 3 orthogonal signals; dropped two throttles                                                                                                                       |
+| **R2** (`Reviews/council_round2/`)   | SFA target leakage (`observed_*` in `sfa_X`); Manski floor violated; CQR not wired                                                                                            | All 4 N-blockers fixed in `sfa.py`, `manski.py`, `run_pipeline.py`                                                                                                                   |
+| **R3** (`Reviews/council_round3/`)   | `manski.py` column collision; point clipped inside band; V5 used hardcoded cap                                                                                                | Renamed merge column; removed clipping; V5 uses `cap_table`                                                                                                                          |
+| **R4** (`Reviews/council_round4/`)   | V3b + V4 FAIL — model effectively predicted `observed_max` itself                                                                                                             | Ceiling-rounding in submission; constrained-uplift floor (`s>=0.40 -> 1.25x`); 10 EDA figures rendered                                                                               |
+| **R5** (`Reviews/council_round5/`)   | `run_pipeline.py` still had `.round(3)`; `TEAM_NAME="teamname"`; SHA-12 (not 256)                                                                                             | `np.ceil` rounding; `TEAM_NAME="smile_labs"`; full SHA-256; `ingestion_audit.csv`                                                                                                    |
+| **R6** (`Reviews/council_round6/`)   | Ghost `Docs/smile_labs_final_report.md` claiming 1.18x + "Tobit Type-I" (no `tobit.py`); 13 stale CSVs in `data/gold/`; 4 duplicate `Results/` CSVs; EDA charts not in report | (Pending in R6 — actioned in R7)                                                                                                                                                     |
+| **R7** (`Reviews/council_round7/`)   | Page-5 density too high; POI weak-signal not honestly disclosed; LaTeX formula didn't match `predict.py`                                                                      | LaTeX rewrite + R6 cleanup executed: ghost archived, duplicates moved, gold cleaned, cooler-saturation figure added to page 2, `sfa_converged` persisted, extended diagnostics wired |
 
 Full per-round transparency log: `Docs/ai_transparency_log.md`. Council prompts (for replay) at `prompts/`.
 
@@ -278,10 +279,10 @@ cd poi_pipeline && python 01_download_pbf.py && python 02_extract_pois.py && pyt
 python run_pipeline.py
 ```
 
-After the run, the submission file is `Results/smil_labs_predictions.csv` (20,000 rows, columns `[Outlet_ID, Maximum_Monthly_Liters]`). The 5-page judging PDF is `Reports/final_report_v3.pdf`.
+After the run, the submission file is `Results/smile_labs_predictions.csv` (20,000 rows, columns `[Outlet_ID, Maximum_Monthly_Liters]`). The 5-page judging PDF is `Reports/final_report_v3.pdf`.
 
 ---
 
 ## Team
 
-**Smil Labs** | Data Storm 7.0, Powered by OCTAVE — John Keells Group | Rotaract Moratuwa
+**smile Labs** | Data Storm 7.0, Powered by OCTAVE — John Keells Group | Rotaract Moratuwa

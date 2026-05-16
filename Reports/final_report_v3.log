@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.16)  17 MAY 2026 00:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.16)  17 MAY 2026 00:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1491,7 +1491,7 @@ File: figures/eda_cooler_saturation.png Graphic file (type png)
 Package pdftex.def Info: figures/eda_cooler_saturation.png  used on input line 
 242.
 (pdftex.def)             Requested size: 266.31999pt x 88.77136pt.
-[2 <./figures/eda_cooler_saturation.png>]
+[2] [3 <./figures/eda_cooler_saturation.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 252.
@@ -1505,63 +1505,79 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 252.
 
 
+Overfull \hbox (44.35765pt too wide) in paragraph at lines 254--266
+\T1/ppl/m/n/10 (-20) with \T1/pcr/m/n/10 pyrosm \T1/ppl/m/n/10 (-20) [[][]8[][]
+, [][]9[][]], and run nearest-neighbour searches with \T1/pcr/m/n/10 sklearn.ne
+ighbors.BallTree(metric="haversine") \T1/ppl/m/n/10 (-20) [[][]10[][]].
+ []
+
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 264.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 267.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 1.66702pt
-(hyperref)                removed on input line 264.
+(hyperref)                removed on input line 267.
 
-<figures/eda_poi_outlet_type.png, id=113, 794.97pt x 361.35pt>
+<figures/eda_poi_outlet_type.png, id=122, 794.97pt x 361.35pt>
 File: figures/eda_poi_outlet_type.png Graphic file (type png)
 <use figures/eda_poi_outlet_type.png>
 Package pdftex.def Info: figures/eda_poi_outlet_type.png  used on input line 30
-4.
+7.
 (pdftex.def)             Requested size: 440.44899pt x 200.20976pt.
-[3 <./figures/eda_poi_outlet_type.png>]
-<figures/eda_frontier_gap.png, id=125, 867.24pt x 289.08pt>
+[4 <./figures/eda_poi_outlet_type.png>]
+<figures/eda_frontier_gap.png, id=139, 867.24pt x 289.08pt>
 File: figures/eda_frontier_gap.png Graphic file (type png)
 <use figures/eda_frontier_gap.png>
-Package pdftex.def Info: figures/eda_frontier_gap.png  used on input line 362.
+Package pdftex.def Info: figures/eda_frontier_gap.png  used on input line 365.
 (pdftex.def)             Requested size: 317.53026pt x 105.84193pt.
- [4 <./figures/eda_frontier_gap.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 431--431
+
+Underfull \hbox (badness 3907) in paragraph at lines 375--387
+[]$[][] \OT1/cmr/m/n/9 = []([][]\OML/cmm/m/it/9 ; [][]\OT1/cmr/m/n/9 )$\T1/ppl/
+m/n/9 (+20) . \T1/ppl/b/n/9 (+20) Fron-tier \T1/ppl/m/n/9 (+20) = 60/40 blend o
+f (a) \T1/ppl/b/n/9 (+20) XG-Boost 2.0 \T1/ppl/m/n/9 (+20) [[][]11[][]] with
+ []
+
+[5 <./figures/eda_frontier_gap.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 440--440
 []|\T1/pcr/m/n/9 [Outlet_ID, Maximum_Monthly_Liters]\T1/ppl/m/n/9 (+20) , 20,00
 0
  []
 
-<figures/eda_manski_band.png, id=149, 867.24pt x 289.08pt>
+<figures/eda_manski_band.png, id=171, 867.24pt x 289.08pt>
 File: figures/eda_manski_band.png Graphic file (type png)
 <use figures/eda_manski_band.png>
-Package pdftex.def Info: figures/eda_manski_band.png  used on input line 439.
+Package pdftex.def Info: figures/eda_manski_band.png  used on input line 448.
 (pdftex.def)             Requested size: 307.2929pt x 102.43224pt.
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 448.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 457.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 1.66702pt
-(hyperref)                removed on input line 448.
+(hyperref)                removed on input line 457.smile
 
 
-Underfull \hbox (badness 3386) in paragraph at lines 464--464
+Underfull \hbox (badness 3386) in paragraph at lines 473--473
 []|\T1/ppl/m/n/8 (+20) every claim traced to an ar-ti-fact in \T1/pcr/m/n/8 Res
 ults/ \T1/ppl/m/n/8 (+20) or
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 4
-72.
-(C:\Users\asus\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ppl.fd
-File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-)
-Overfull \hbox (46.639pt too wide) in paragraph at lines 474--475
-[]\T1/ppl/b/n/8 (-20) Full busi-ness out-put: \T1/pcr/m/n/8 Results/smil_labs_p
-redictions_full_20000.csv 
+[6 <./figures/eda_manski_band.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 502--502
+[]\T1/ppl/m/n/7 (+20) Geofabrik GmbH. \T1/ppl/m/it/7 (+20) Ge-o-fab-rik Open-St
+reetMap Data Ex-tracts -- Sri
  []
 
-[5 <./figures/eda_manski_band.png>] (final_report_v3.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 502--502
+\T1/ppl/m/it/7 (+20) Lanka\T1/ppl/m/n/7 (+20) . Ac-cessed Jan-uary 2026 via Sri
+ Lanka coun-try ex-tract
+ []
+
+[7] (final_report_v3.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1573,13 +1589,13 @@ Package logreq Info: Writing requests to 'final_report_v3.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 48092 strings out of 467871
- 1095271 string characters out of 5418860
- 2067015 words of memory out of 5000000
- 76012 multiletter control sequences out of 15000+600000
- 673991 words of font info for 260 fonts, out of 8000000 for 9000
+ 48166 strings out of 467871
+ 1096906 string characters out of 5418860
+ 2070610 words of memory out of 5000000
+ 76021 multiletter control sequences out of 15000+600000
+ 681434 words of font info for 301 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,12n,108p,1210b,1513s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,12n,108p,1210b,1555s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/asus/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
 mbx10.pfb><C:/Users/asus/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmex10.pfb><C:/Users/asus/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -1605,9 +1621,9 @@ Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb><C:/Users/asus/AppData
 a/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/asus/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/asus/Ap
 pData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on final_report_v3.pdf (5 pages, 544044 bytes).
+Output written on final_report_v3.pdf (7 pages, 565136 bytes).
 PDF statistics:
- 264 PDF objects out of 1000 (max. 8388607)
- 40 named destinations out of 1000 (max. 500000)
- 74409 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 330 PDF objects out of 1000 (max. 8388607)
+ 52 named destinations out of 1000 (max. 500000)
+ 79529 words of extra memory for PDF output out of 89155 (max. 10000000)
 

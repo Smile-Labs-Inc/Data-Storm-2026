@@ -9,6 +9,7 @@ Observed historical volume is treated as a censored measurement:
 ```text
 Observed Volume = min(True Consumer Demand, Operational Constraint Ceiling)
 ```
+
 Therefore, the final output should not simply forecast historical sales. It should estimate an uncapped ceiling that is at least as high as demonstrated historical capability and higher where there is evidence that the outlet may have been constrained.
 
 ## Current Notebook
@@ -151,12 +152,12 @@ Then guardrails are applied:
 Current maximum uplift caps:
 
 | Outlet Size | Maximum Uplift Ratio |
-| --- | ---: |
-| Unknown | 2.0x |
-| Small | 3.0x |
-| Medium | 3.5x |
-| Large | 4.0x |
-| Extra Large | 4.5x |
+| ----------- | -------------------: |
+| Unknown     |                 2.0x |
+| Small       |                 3.0x |
+| Medium      |                 3.5x |
+| Large       |                 4.0x |
+| Extra Large |                 4.5x |
 
 ## Current Result Assessment
 
@@ -221,7 +222,7 @@ Recommended next step:
 
 The written challenge brief says to submit predictions for all outlets, but the platform validator expects 914 rows with a `row_id` column. The notebook therefore writes two files:
 
-- `Results/smil_labs_predictions_full_20000.csv` for the full all-outlet business deliverable.
-- `Results/smil_labs_predictions.csv` for the platform upload.
+- `Results/smile_labs_predictions_full_20000.csv` for the full all-outlet business deliverable.
+- `Results/smile_labs_predictions.csv` for the platform upload.
 
 If the official 914-row template is available, place it in `Datasets/` as `sample_submission.csv`, `submission_template.csv`, or `test.csv` and rerun the notebook. The platform upload file will then be filtered to the exact official `row_id`s.

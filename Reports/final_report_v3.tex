@@ -1,5 +1,5 @@
 % =============================================================================
-% Smil Labs - Data Storm 7.0 (Storming Round) - Final Technical Report
+% smile Labs - Data Storm 7.0 (Storming Round) - Final Technical Report
 %
 % 5 pages total (including cover). Built on the latex-document-skill
 % report.tex template (https://github.com/ndpvt-web/latex-document-skill).
@@ -57,7 +57,7 @@
 \addbibresource{references.bib}
 \usepackage{hyperref}
 
-% --- Colors (Smil Labs palette derived from John Keells blue) ----------------
+% --- Colors (smile Labs palette derived from John Keells blue) ----------------
 \definecolor{primary}{RGB}{0, 71, 132}
 \definecolor{accent}{RGB}{0, 153, 102}
 \definecolor{warn}{RGB}{215, 95, 0}
@@ -67,7 +67,7 @@
 % --- Page styling -------------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\textcolor{gray}{Smil Labs | Data Storm 7.0}}
+\fancyhead[L]{\small\textcolor{gray}{smile Labs | Data Storm 7.0}}
 \fancyhead[R]{\small\textcolor{gray}{Latent Outlet Potential | Jan 2026}}
 \fancyfoot[C]{\small\thepage~of~5}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -110,7 +110,7 @@
 
 \rule{0.6\textwidth}{0.6pt}\\[0.6em]
 
-{\large\bfseries Submitted by Smil Labs}\\[0.3em]
+{\large\bfseries Submitted by smile Labs}\\[0.3em]
 {\small Powered by OCTAVE -- John Keells Group \textbar{} Rotaract Moratuwa}
 \end{center}
 
@@ -172,23 +172,23 @@ Gold is the model-ready outlet $\times$ feature parquet.
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-  layer/.style={draw, rounded corners, fill=primary!10, minimum width=2.4cm,
-    minimum height=1cm, align=center, font=\small\bfseries},
+  layer/.style={draw, rounded corners, fill=primary!10, minimum width=2.2cm,
+    minimum height=0.95cm, align=center, font=\small\bfseries},
   reject/.style={draw, rounded corners, fill=warn!12, minimum width=2.4cm,
-    minimum height=0.9cm, align=center, font=\footnotesize},
+    minimum height=0.85cm, align=center, font=\footnotesize},
   arrow/.style={-{Stealth[length=3mm]}, thick, primary!80}
 ]
 \node[layer] (raw) {Raw CSVs};
-\node[layer, right=0.8cm of raw] (bronze) {Bronze};
-\node[layer, right=0.8cm of bronze] (silver) {Silver};
-\node[layer, right=0.8cm of silver] (gold) {Gold};
-\node[reject, below=0.5cm of silver] (rej) {Rejected\\(10{,}179 checks)};
-\draw[arrow] (raw) -- (bronze);
-\draw[arrow] (bronze) -- node[above, font=\scriptsize]{6 DQ checks} (silver);
-\draw[arrow] (silver) -- node[above, font=\scriptsize]{features} (gold);
-\draw[arrow] (silver) -- (rej);
+\node[layer, right=1.4cm of raw] (bronze) {Bronze};
+\node[layer, right=1.4cm of bronze] (silver) {Silver};
+\node[layer, right=1.4cm of silver] (gold) {Gold};
+\node[reject, below=0.7cm of silver] (rej) {Rejected\\(10{,}179 checks)};
+\draw[arrow] (raw) -- node[above=2pt, font=\scriptsize]{ingest} (bronze);
+\draw[arrow] (bronze) -- node[above=2pt, font=\scriptsize]{6 DQ checks} (silver);
+\draw[arrow] (silver) -- node[above=2pt, font=\scriptsize]{features} (gold);
+\draw[arrow] (silver) -- node[right=2pt, font=\scriptsize]{failures} (rej);
 \end{tikzpicture}
-\caption{Bronze $\to$ Silver $\to$ Gold pipeline with rejected-records store.}
+\caption{Bronze $\to$ Silver $\to$ Gold pipeline with rejected-records store. The \emph{Rejected} branch is non-empty: every quarantined row keeps a \texttt{failure\_reason}.}
 \end{figure}
 
 \subsection{Reusable DQ check functions applied to every dataset}
@@ -251,13 +251,16 @@ PCA capacity component (\texttt{src/modeling/constraint\_score.py}).
 
 \subsection{Geofabrik PBF $\gg$ na\"ive Overpass}
 
-The official PDF explicitly judges \emph{``how robust was the web-scraping / API
-pipeline for external POI data''}. Na\"ively querying Overpass for
-$20{,}000 \times 9 \text{ cats} \times 4 \text{ radii} = 720{,}000$ requests
-is infeasible (timeouts + ToS violation). We instead download the
-\textbf{Geofabrik Sri Lanka country extract} (\texttt{sri-lanka-latest.osm.pbf},
-$\sim$136~MB) once, parse it locally with \texttt{pyrosm}, and run
-nearest-neighbour searches with \texttt{sklearn.neighbors.BallTree(metric="haversine")}.
+The official PDF~\cite{datastorm2026pdf} explicitly judges \emph{``how robust
+was the web-scraping / API pipeline for external POI data''}. Na\"ively
+querying Overpass for $20{,}000 \times 9 \text{ cats} \times 4 \text{ radii}
+= 720{,}000$ requests is infeasible (timeouts + ToS violation). We instead
+download the \textbf{Geofabrik Sri Lanka country
+extract}~\cite{geofabrik2026} (\texttt{sri-lanka-latest.osm.pbf},
+$\sim$136~MB) once, parse it locally with
+\texttt{pyrosm}~\cite{pyrosm2026, osm2026}, and run nearest-neighbour
+searches with
+\texttt{sklearn.neighbors.BallTree(metric="haversine")}~\cite{pedregosa2011sklearn}.
 End-to-end: 25--45~min, entirely offline after the single fetch. The pipeline
 lives in \texttt{poi\_pipeline/} as a separate, idempotent sub-project.
 
@@ -370,22 +373,27 @@ the floor at \texttt{observed\_max} in our formula.}
 
 \begin{methodbox}[title=\textbf{Robust lower bound + frontier ensemble}]
 $\text{lower\_bound}_i = \max(\text{3rd-highest month}_i, \text{median}_i)$.
-\textbf{Frontier} = 60/40 blend of (a) \textbf{XGBoost 2.0} with
-\texttt{reg:quantileerror}, \texttt{quantile\_alpha=[0.5, 0.75, 0.9, 0.95]},
-monotone constraints + isotonic post-sort~\cite{chernozhukov2010crossing}, and
-(b) \textbf{SFA}~\cite{aigner1977sfa}: $y = X\beta + v - u$ with
-truncated-normal $u$, direct MLE; per-outlet
-$\text{TE} = \exp(-\mathbb{E}[u\mid\varepsilon])$~\cite{jondrow1982je}
-(fitted $\sigma_v \approx 0.41$, $\sigma_u \approx 0.78$, $\lambda \approx 1.92$;
-median TE $\approx 0.84$). Leaky \texttt{observed\_*} aggregates dropped from SFA design matrix.
+\textbf{Frontier} = 60/40 blend of (a) \textbf{XGBoost
+2.0}~\cite{chen2016xgboost} with \texttt{reg:quantileerror}~(quantile
+regression~\cite{koenker1978qr}), \texttt{quantile\_alpha=[0.5, 0.75, 0.9,
+0.95]}, monotone constraints + isotonic
+post-sort~\cite{chernozhukov2010crossing}, and (b)
+\textbf{SFA}~\cite{aigner1977sfa}: $y = X\beta + v - u$ with truncated-normal
+$u$, direct MLE; per-outlet $\text{TE} =
+\exp(-\mathbb{E}[u\mid\varepsilon])$~\cite{jondrow1982je} (fitted $\sigma_v
+\approx 0.41$, $\sigma_u \approx 0.78$, $\lambda \approx 1.92$; median TE
+$\approx 0.84$). Leaky \texttt{observed\_*} aggregates dropped from SFA
+design matrix.
 \end{methodbox}
 
 \begin{methodbox}[title=\textbf{Censoring correction + constraint score}]
-\textbf{Chernozhukov-Hong (2002)} 3-step~\cite{chernozhukov2002hong}: propensity
-$P(\text{censored}\mid X)$ fit on plateau / stuck-at-ceiling proxies; q90 refit
-on $P<0.10$. Note: only 1.16\,\% of outlets show a true plateau fingerprint
-globally (primarily \texttt{DIST\_S\_01}, \texttt{DIST\_S\_02}); CH-3 is a
-small-population correction, not a load-bearing transform.
+\textbf{Chernozhukov-Hong (2002)} 3-step~\cite{chernozhukov2002hong} (building
+on Powell's censored quantile regression~\cite{powell1986censored}):
+propensity $P(\text{censored}\mid X)$ fit on plateau / stuck-at-ceiling
+proxies; q90 refit on $P<0.10$. Note: only 1.16\,\% of outlets show a true
+plateau fingerprint globally (primarily \texttt{DIST\_S\_01},
+\texttt{DIST\_S\_02}); CH-3 is a small-population correction, not a
+load-bearing transform.
 \textbf{Constraint score} $s_i \in [0,1]$ from three orthogonal signals:
 peer-q90 frontier residual z-score, plateau gate, PCA-decorrelated capacity.
 \textbf{Outlets with $s_i \geq 0.40$ receive a $1.25\times$ uplift floor
@@ -403,9 +411,10 @@ over \texttt{observed\_max}}, bounded by the bucket cap.
 $F_i$ is the SFA + multi-q XGBoost frontier; $s_i$ is the constraint score;
 $B_i$ is the empirical 95th-pct uplift inside outlet $i$'s
 (Outlet\_Type~$\times$~Outlet\_Size) bucket. We additionally report a
-calibrated $[q_{05}, q_{95}]$ via Conformalised QR~\cite{romano2019cqr} on a
-20\,\% outlet-level holdout (disjoint from the q90 training set after the R4
-fix), plus Manski worst-case bounds~\cite{manski2003partial} per outlet.
+calibrated $[q_{05}, q_{95}]$ via Conformalised QR~\cite{romano2019cqr}
+(conformal-prediction framework of Vovk et al.~\cite{vovk2005algorithmic}) on
+a 20\,\% outlet-level holdout (disjoint from the q90 training set after the
+R4 fix), plus Manski worst-case bounds~\cite{manski2003partial} per outlet.
 
 \newpage
 % --- PAGE 5: VALIDATION + GENAI WORKFLOW (20% rubric) ------------------------
@@ -467,20 +476,34 @@ Report drafting    & LaTeX template assembly + content port from markdown source
 
 \subsection{Deliverables}
 
-\begin{multicols}{2}
+\vspace{-0.3em}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.05}
 \footnotesize
-\begin{itemize}[leftmargin=*, itemsep=0.1em]
-\item \textbf{Platform CSV:} \texttt{Results/smil\_labs\_predictions.csv}
-\item \textbf{Full business output:} \texttt{Results/smil\_labs\_predictions\_full\_20000.csv}
-\item \textbf{Manski bands:} \texttt{Results/manski\_bands\_v2.csv}
-\item \textbf{Conformal intervals:} \texttt{Results/conformal\_intervals\_v2.csv}
-\item \textbf{Reproducible codebase:} \texttt{Notebooks/20\_..\_pipeline.ipynb} $\to$ \texttt{21\_..\_modeling.ipynb} $\to$ \texttt{22\_..\_validation.ipynb}; modules in \texttt{src/}.
-\end{itemize}
-\end{multicols}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\rowcolor{soft}\textbf{Artifact} & \textbf{Path (\texttt{Results/} or \texttt{Notebooks/})} \\
+\midrulesmile
+Platform submission CSV  & \texttt{Results/smile\_labs\_predictions.csv} (20{,}000 rows) \\
+Full business output     & \texttt{Results/smil\_labs\_predictions\_full\_20000.csv} \\
+Manski bands             & \texttt{Results/manski\_bands\_v2.csv} \\
+Conformal intervals      & \texttt{Results/conformal\_intervals\_v2.csv} \\
+Validation reports       & \texttt{Results/validation\_report.md} (6/6 PASS) + \texttt{validation\_extended\_v6.md} (V4b/V6/V7) \\
+Reproducible codebase    & \texttt{run\_pipeline.py} one-shot \emph{or} \texttt{Notebooks/20..22\_v2\_*.ipynb}; modules under \texttt{src/} \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
 % --- BIBLIOGRAPHY (only refs actually cited inline) -------------------------
-\renewcommand*{\bibfont}{\scriptsize}
+% Suppress duplicate URL field when a DOI is already printed (hyperlinkable
+% DOI is the canonical reference). Keeps the bibliography compact in 5 pages.
+\AtEveryBibitem{%
+  \iffieldundef{doi}{}{\clearfield{url}}%
+}
+\renewcommand*{\bibfont}{\tiny}
 \setlength{\bibitemsep}{0pt}
+\setlength{\bibhang}{0.6em}
 \begin{multicols}{2}
 \printbibliography[heading=none, title={}]
 \end{multicols}

@@ -1,9 +1,9 @@
-# Mission: AI Council Review + Fix Cycle for Data Storm 2026 (Smil Labs)
+# Mission: AI Council Review + Fix Cycle for Data Storm 2026 (smile Labs)
 
 ## Context
 
 Repo: `D:\projects\Data-Storm-2026\`
-Team: Smil Labs
+Team: smile Labs
 Comp: OCTAVE - John Keells Group "Data Storm 7.0 - Storming Round" (Sri Lanka)
 Goal: Predict latent maximum monthly purchase potential (liters) for 20,000
 traditional retail outlets for January 2026. Observed sales are right-censored
@@ -21,7 +21,7 @@ V4 median uplift 1.250 OK | V5 cap-binding 0.00% OK
 ```
 
 The v2 stack (notebooks 20/21/22 + 23 EDA, src/ modules, poi_pipeline/)
-produces the canonical submission `Results/smil_labs_predictions.csv`.
+produces the canonical submission `Results/smile_labs_predictions.csv`.
 
 ## Your job
 
@@ -34,6 +34,7 @@ validation passes. Then apply fixes, re-execute affected notebooks, verify.
 ### Step 1 -- Read prior context
 
 Use Read on:
+
 - `Reviews/council_review.md` (R1)
 - `Reviews/council_round2/council_review_v2.md` (R2)
 - `Reviews/council_round3/council_review_v3.md` (R3)
@@ -47,13 +48,13 @@ Send one assistant message with 5 Task tool calls. DO NOT serialise.
 
 Critic roster (mix premium models for diversity):
 
-| Critic | Model | Role |
-|---|---|---|
-| Gap Analyzer | `claude-opus-4-7-thinking-xhigh` | Map current state vs 40/40/20 rubric; ROI-rank fixes |
-| Data Engineer | `claude-4.6-sonnet-medium-thinking` | DE rubric scorecard + file hygiene + reproducibility |
-| EDA Refiner | `claude-opus-4-7-thinking-xhigh` | Audit notebook 23 outputs + add missing analyses |
-| Modeling Critic | `claude-opus-4-7-thinking-xhigh` | Run live diagnostics on `data/gold/predictions_v2.parquet` for any remaining issues |
-| Business / Viva | `gpt-5.5-extra-high` | 3-slide pitch + 5 hostile-judge Q&A + report polish |
+| Critic          | Model                               | Role                                                                                |
+| --------------- | ----------------------------------- | ----------------------------------------------------------------------------------- |
+| Gap Analyzer    | `claude-opus-4-7-thinking-xhigh`    | Map current state vs 40/40/20 rubric; ROI-rank fixes                                |
+| Data Engineer   | `claude-4.6-sonnet-medium-thinking` | DE rubric scorecard + file hygiene + reproducibility                                |
+| EDA Refiner     | `claude-opus-4-7-thinking-xhigh`    | Audit notebook 23 outputs + add missing analyses                                    |
+| Modeling Critic | `claude-opus-4-7-thinking-xhigh`    | Run live diagnostics on `data/gold/predictions_v2.parquet` for any remaining issues |
+| Business / Viva | `gpt-5.5-extra-high`                | 3-slide pitch + 5 hostile-judge Q&A + report polish                                 |
 
 Use the per-critic prompts in this folder (`01_..` through `05_..`) as
 the body of each Task call. Each critic must:
@@ -94,6 +95,7 @@ D:\projects\Data-Storm-2026\.venv\Scripts\python.exe -m nbconvert ^
 ```
 
 Order depends on what was touched:
+
 - `predict.py` / `constraint_score.py` / `frontier.py` / `sfa.py` changed -> re-run nb21 then nb22
 - Only nb22 cells changed -> re-run nb22 only
 - `gold.py` / `silver.py` / `checks.py` changed -> re-run nb20 -> nb21 -> nb22
@@ -119,6 +121,7 @@ and the new submission CSV head. If anything fails, mini-iterate ONCE
 ## Deliverable
 
 A final message with:
+
 1. Council R<N+1> consensus grade today + after fixes
 2. List of files modified (paths + 1-line each)
 3. Notebooks re-executed (with timing)
@@ -132,5 +135,5 @@ A final message with:
 - Premium models for thinking critics
 - Validation V3b threshold 99%, V4 range [1.25, 2.2], V5 < 25%
 - Submission policy: notebook 22 always overwrites
-  `Results/smil_labs_predictions.csv` with v2 (Option B canonical release gate)
+  `Results/smile_labs_predictions.csv` with v2 (Option B canonical release gate)
 - Iteration: max 1 mini-iteration on V3b/V4 failure before reporting back

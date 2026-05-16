@@ -13,7 +13,7 @@ hackathon time.
   - `D:/projects/Data-Storm-2026/Reviews/council_round4/council_review_v4.md` (R4)
 - Current v2 deliverables:
   - `D:/projects/Data-Storm-2026/Results/validation_report.md`
-  - `D:/projects/Data-Storm-2026/Results/smil_labs_predictions.csv` (head only)
+  - `D:/projects/Data-Storm-2026/Results/smile_labs_predictions.csv` (head only)
   - `D:/projects/Data-Storm-2026/Docs/model_validation_summary.md`
   - `D:/projects/Data-Storm-2026/Reports/figures/sensitivity_summary.md`
   - `D:/projects/Data-Storm-2026/Reports/final_report.md` (v2 source)
@@ -27,25 +27,21 @@ rubric (criteria below). Use Shell + python (`D:/projects/Data-Storm-2026/.venv/
 to verify any number you cite (no vibes).
 
 | Rubric criterion | Weight | Current expected score (/10) | Why | Cheapest single fix to lift it |
-|---|---|---|---|---|
+| ---------------- | ------ | ---------------------------- | --- | ------------------------------ |
 
 The rubric criteria from the official PDF:
 
 **Data Engineering & Forensics (40%):**
+
 1. Bronze->Silver->Gold pipeline with rejected records store
 2. Reusable + parameterizable DQ checks applied consistently
 3. Identified and neutralized legacy system artifacts
 4. Robust web-scraping / API pipeline for external POI
 5. Engineered features that isolate true market signals
 
-**Methodology & Base Math (40%):**
-6. Conceptualisation of "latent potential"
-7. Math/stat handling of missing target + censored data
+**Methodology & Base Math (40%):** 6. Conceptualisation of "latent potential" 7. Math/stat handling of missing target + censored data
 
-**GenAI Workflow (20%):**
-8. Clear documentation of how/where/why LLMs were used
-9. AI used intelligently as an accelerator
-10. Critical evaluation of AI-generated outputs
+**GenAI Workflow (20%):** 8. Clear documentation of how/where/why LLMs were used 9. AI used intelligently as an accelerator 10. Critical evaluation of AI-generated outputs
 
 Then answer:
 
@@ -62,6 +58,7 @@ Then answer:
 Write to: `D:/projects/Data-Storm-2026/Reviews/council_round<N+1>/01_gap_analyzer_v<N+1>.md`
 
 Structure:
+
 - `# TL;DR` (3 bullets)
 - `# Point-Deduction Map` (10-row table)
 - `# Top 3 ROI Fixes` (ranked)

@@ -7,8 +7,8 @@
 # Last-Minute Disaster Check (10 items, severity-tagged)
 
 1. **BLOCKER -- Uploading the wrong CSV or stale v1 artifact.**  
-   **Manifestation:** Platform gets an old `smil_labs_predictions.csv`, stale v1 PDF, or docs with row_id / 1.18x claims.  
-   **5-min fix:** Keep only `Reports/final_report_v3.pdf` and `Results/smil_labs_predictions.csv` in the upload staging folder. Re-open both immediately before upload.
+   **Manifestation:** Platform gets an old `smile_labs_predictions.csv`, stale v1 PDF, or docs with row_id / 1.18x claims.  
+   **5-min fix:** Keep only `Reports/final_report_v3.pdf` and `Results/smile_labs_predictions.csv` in the upload staging folder. Re-open both immediately before upload.
 
 2. **BLOCKER -- Page 5 text is visibly clipped.**  
    **Manifestation:** In `final_report_v3_p-5.png`, the notebook path in the final bullet runs past the right edge. Log says `Overfull \hbox (98.6524pt too wide) in paragraph at lines 432--434`.  
@@ -60,7 +60,7 @@
 
 # Number Consistency Check
 
-- **20,000 outlets:** Consistent. Page 1 says 20,000. Page 5 says 20,000 rows. Python check on `Results/smil_labs_predictions.csv` gives **20,000 data rows**, 20,001 total CSV rows including header.
+- **20,000 outlets:** Consistent. Page 1 says 20,000. Page 5 says 20,000 rows. Python check on `Results/smile_labs_predictions.csv` gives **20,000 data rows**, 20,001 total CSV rows including header.
 
 - **Median uplift 1.250:** Consistent but dangerous. Page 1 says **1.250x**. Page 5 says **median = 1.250**. `validation_report.json` says `median_uplift=1.250`.
 
@@ -125,7 +125,7 @@ This is the live grenade. It explains exactly why the median lands on **1.250**,
 2. Decide whether page 1 needs a visible `1 of 5` footer. If yes, remove `\thispagestyle{empty}` and rebuild.
 3. Re-run the PDF build and scan `final_report_v3.log` for `Overfull`, `undefined`, `Citation`, and `Reference`.
 4. Open the final PDF, not just the TeX, and search visually for `??`, clipped text, and weird citation coloring.
-5. Re-check `Results/smil_labs_predictions.csv`: exactly 20,000 rows, exact header `Outlet_ID,Maximum_Monthly_Liters`, no blank final row.
+5. Re-check `Results/smile_labs_predictions.csv`: exactly 20,000 rows, exact header `Outlet_ID,Maximum_Monthly_Liters`, no blank final row.
 6. Confirm the platform wants only two columns. Do not upload the full business CSV by mistake.
 7. Keep a one-line answer ready for the 1.25x floor: "transparent conservative policy floor, not a learned median."
 8. Have SFA diagnostics ready in notes: `sigma_u`, `sigma_v`, `lambda`, convergence flag, log-likelihood.

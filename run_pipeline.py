@@ -96,8 +96,8 @@ USE_CENSORING_CORRECTION = True
 USE_SFA = True
 # FIX R5 (council round 5, Gap Analyzer N5.2): was "teamname" -> produced
 # wrong submission filename (teamname_predictions.csv instead of
-# smil_labs_predictions.csv).
-TEAM_NAME = "smil_labs"
+# smile_labs_predictions.csv).
+TEAM_NAME = "smile_labs"
 # ================================================================
 
 

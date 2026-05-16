@@ -9,12 +9,12 @@
 
 # Expected Score Today (post-R4, pre-R5 fixes)
 
-| Rubric block | Weight | Score /10 | Weighted pts | Notes |
-|---|---:|---:|---:|---|
-| DE & Forensics (#1–5) | 40 | 7.8 | **31.2** | Silver layer clean; gold wired; POI in model. Lost pts: SHA-12 claim vs PDF, stale report doc, research CSVs in Results/ |
-| Methodology & Math (#6–7) | 40 | 7.5 | **30.0** | SFA+multi-q+CH-3+Manski stack documented and running. Lost pts: report placeholders unfilled, POI oversold, V4 margin = 0 |
-| GenAI Workflow (#8–10) | 20 | 7.8 | **15.6** | Three council rounds logged; adversarial loop real. Lost pts: R3+R4 not in transparency log, README cites only R1-R3 |
-| **Total today** | | | **~77 / 100** | |
+| Rubric block              | Weight | Score /10 |  Weighted pts | Notes                                                                                                                     |
+| ------------------------- | -----: | --------: | ------------: | ------------------------------------------------------------------------------------------------------------------------- |
+| DE & Forensics (#1–5)     |     40 |       7.8 |      **31.2** | Silver layer clean; gold wired; POI in model. Lost pts: SHA-12 claim vs PDF, stale report doc, research CSVs in Results/  |
+| Methodology & Math (#6–7) |     40 |       7.5 |      **30.0** | SFA+multi-q+CH-3+Manski stack documented and running. Lost pts: report placeholders unfilled, POI oversold, V4 margin = 0 |
+| GenAI Workflow (#8–10)    |     20 |       7.8 |      **15.6** | Three council rounds logged; adversarial loop real. Lost pts: R3+R4 not in transparency log, README cites only R1-R3      |
+| **Total today**           |        |           | **~77 / 100** |                                                                                                                           |
 
 ---
 
@@ -31,6 +31,7 @@ sub["Maximum_Monthly_Liters"] = sub["Maximum_Monthly_Liters"].round(3)
 Running `python run_pipeline.py` (the canonical entry point documented in the README) still generates V3b FAIL (27.92% below historical max). The notebook fix and the orchestrator fix are inconsistent — and the README says to use `run_pipeline.py` as the canonical runner.
 
 **Fix:** Replace line 363 with:
+
 ```python
 sub["Maximum_Monthly_Liters"] = np.ceil(sub["Maximum_Monthly_Liters"] * 1000) / 1000
 ```
@@ -41,9 +42,9 @@ sub["Maximum_Monthly_Liters"] = np.ceil(sub["Maximum_Monthly_Liters"] * 1000) / 
 TEAM_NAME = "teamname"
 ```
 
-`write_submission()` at line 364 produces `Results/teamname_predictions.csv`. The brief requires a file named for the team. Running the pipeline fresh gives the wrong file. The submission checklist says `Results/smil_labs_predictions.csv` but a pipeline-reproduced run would overwrite or produce a different file.
+`write_submission()` at line 364 produces `Results/teamname_predictions.csv`. The brief requires a file named for the team. Running the pipeline fresh gives the wrong file. The submission checklist says `Results/smile_labs_predictions.csv` but a pipeline-reproduced run would overwrite or produce a different file.
 
-**Fix:** Change `TEAM_NAME = "teamname"` to `TEAM_NAME = "smil_labs"`.
+**Fix:** Change `TEAM_NAME = "teamname"` to `TEAM_NAME = "smile_labs"`.
 
 ## N5.3 [HIGH] `run_pipeline.py:124-125` — SHA-12 contradicts PDF's SHA-256 claim
 
@@ -68,14 +69,14 @@ The validation report and `run_summary.json` exist on disk with real numbers. Ju
 
 **Fix:** Replace with actual values: median uplift = 1.250, mean uplift = 1.233, 6/6 PASS.
 
-## N5.5 [HIGH] `Docs/smil_labs_final_report.md` — Stale v1 numbers visible to judges
+## N5.5 [HIGH] `Docs/smile_labs_final_report.md` — Stale v1 numbers visible to judges
 
 Line 13: `| Median uplift vs historical max | 1.18x |`
 Line 6: `"...Tobit Type-I MLE..."` — this method does NOT exist in `src/modeling/`. The codebase has SFA + multi-q XGBoost + CH-3 + CQR. "Tobit Type-I MLE" is a ghost method that no judge can reproduce from the code.
 
 If judges see two reports (one at `Docs/`, one at `Reports/`) claiming different numbers (1.18x vs 1.25x) and different methods, the credibility damage is severe.
 
-**Fix:** Archive `Docs/smil_labs_final_report.md` to `Docs/_archive/`. It should not be in the top-level Docs directory alongside the canonical report.
+**Fix:** Archive `Docs/smile_labs_final_report.md` to `Docs/_archive/`. It should not be in the top-level Docs directory alongside the canonical report.
 
 ## N5.6 [MEDIUM] `Docs/ai_transparency_log_v2.md` — R3 and R4 rounds not logged
 
@@ -98,8 +99,8 @@ Round 4 and Round 5 are not mentioned. If the GenAI rubric judges skim the READM
 ## N5.8 [MEDIUM] Two unexplained "research" CSVs in `Results/`
 
 ```
-Results/smil_labs_predictions_research.csv        17 KB  (today, 20:07)
-Results/smil_labs_predictions_research_full.csv   2.6 MB (today, 20:07)
+Results/smile_labs_predictions_research.csv        17 KB  (today, 20:07)
+Results/smile_labs_predictions_research_full.csv   2.6 MB (today, 20:07)
 ```
 
 These were written today. The small file (~570 rows) is NOT the canonical 20,000-row submission. The large file (2.6 MB >> 361 KB for 20k rows) likely contains multi-scenario predictions from a research notebook. Having ambiguous prediction files in the submission directory is the exact "5 prediction files" failure mode R4 flagged and was supposed to be resolved.
@@ -116,15 +117,15 @@ These were written today. The small file (~570 rows) is NOT the canonical 20,000
 
 # ROI-Ranked Fix Priority
 
-| Rank | Fix | Score lift | Time | ROI |
-|---:|---|---:|---:|---:|
-| 1 | N5.1: `run_pipeline.py` rounding fix | +0 pts (already in nb22, but prevents regression) | 1 min | ∞ (risk elimination) |
-| 2 | N5.2: `TEAM_NAME = "smil_labs"` | +0 pts but prevents wrong filename | 1 min | ∞ (risk elimination) |
-| 3 | N5.3: SHA-256 full hash + correct filename | +1 pt (DE provenance) | 5 min | 12 pts/hr |
-| 4 | N5.4: Fill final_report.md placeholders | +2-3 pts (presentation) | 10 min | 15 pts/hr |
-| 5 | N5.5: Archive smil_labs_final_report.md | +1 pt (no conflicting docs) | 2 min | 30 pts/hr |
-| 6 | N5.6+N5.7: Transparency log v3 + README | +2 pts (GenAI rubric) | 20 min | 6 pts/hr |
-| 7 | N5.8: Move research CSVs | +0 pts but prevents footgun | 2 min | ∞ (risk elimination) |
+| Rank | Fix                                        |                                        Score lift |   Time |                  ROI |
+| ---: | ------------------------------------------ | ------------------------------------------------: | -----: | -------------------: |
+|    1 | N5.1: `run_pipeline.py` rounding fix       | +0 pts (already in nb22, but prevents regression) |  1 min | ∞ (risk elimination) |
+|    2 | N5.2: `TEAM_NAME = "smile_labs"`           |                +0 pts but prevents wrong filename |  1 min | ∞ (risk elimination) |
+|    3 | N5.3: SHA-256 full hash + correct filename |                             +1 pt (DE provenance) |  5 min |            12 pts/hr |
+|    4 | N5.4: Fill final_report.md placeholders    |                           +2-3 pts (presentation) | 10 min |            15 pts/hr |
+|    5 | N5.5: Archive smile_labs_final_report.md   |                       +1 pt (no conflicting docs) |  2 min |            30 pts/hr |
+|    6 | N5.6+N5.7: Transparency log v3 + README    |                             +2 pts (GenAI rubric) | 20 min |             6 pts/hr |
+|    7 | N5.8: Move research CSVs                   |                       +0 pts but prevents footgun |  2 min | ∞ (risk elimination) |
 
 **Total: ~+6-7 raw points, ~1 hour of work → 77 → ~83.**
 
@@ -133,20 +134,23 @@ These were written today. The small file (~570 rows) is NOT the canonical 20,000
 # Ship-or-Fix Matrix
 
 ### If < 30 minutes to submission
+
 Fix N5.1 + N5.2 only. Do NOT touch the model or re-run.
 
 ### If 1–2 hours to submission
+
 Fix N5.1-N5.5. Re-run notebook 22 to confirm validation still 6/6 after run_pipeline.py fix. Rebuild PDF from filled-in final_report.md.
 
 ### If 3+ hours to submission
+
 All of the above + N5.6 (transparency log v3) + N5.7 (README) + N5.8 (move research CSVs). Do NOT open new method tracks.
 
 ---
 
 # Expected Score After R5 Fixes
 
-| Scenario | DE /40 | Method /40 | GenAI /20 | Total |
-|---|---:|---:|---:|---:|
-| Now (post-R4) | 31.2 | 30.0 | 15.6 | **~77** |
-| After N5.1-N5.5 (1 hour) | **33.0** | **32.0** | 15.6 | **~81** |
-| After all R5 fixes (3 hours) | **33.5** | **32.0** | **17.0** | **~83** |
+| Scenario                     |   DE /40 | Method /40 | GenAI /20 |   Total |
+| ---------------------------- | -------: | ---------: | --------: | ------: |
+| Now (post-R4)                |     31.2 |       30.0 |      15.6 | **~77** |
+| After N5.1-N5.5 (1 hour)     | **33.0** |   **32.0** |      15.6 | **~81** |
+| After all R5 fixes (3 hours) | **33.5** |   **32.0** |  **17.0** | **~83** |

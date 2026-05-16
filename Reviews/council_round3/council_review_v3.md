@@ -2,27 +2,27 @@
 
 **4 parallel premium critics audited the 3 v2 notebooks** (20_v2_data_pipeline, 21_v2_modeling, 22_v2_validation_and_submission).
 
-| Critic | R1 | R2 | R3 |
-|---|---|---|---|
-| Statistician | C− | B/B+ | **B+** (A− after fixes) |
-| Skeptic | D+ | B−/B/B+ | **B−/B** today (B+ after 45-min packaging) |
-| Methodology Architect | B− | B+ | **B+** (coherent if v2 displaces v1) |
-| Safety + DE | D+ | B/B+ | **B−** (not fresh-clone reproducible) |
-| **Consensus** | **D+** | **B/B+** | **B today, A− achievable** |
+| Critic                | R1     | R2       | R3                                         |
+| --------------------- | ------ | -------- | ------------------------------------------ |
+| Statistician          | C−     | B/B+     | **B+** (A− after fixes)                    |
+| Skeptic               | D+     | B−/B/B+  | **B−/B** today (B+ after 45-min packaging) |
+| Methodology Architect | B−     | B+       | **B+** (coherent if v2 displaces v1)       |
+| Safety + DE           | D+     | B/B+     | **B−** (not fresh-clone reproducible)      |
+| **Consensus**         | **D+** | **B/B+** | **B today, A− achievable**                 |
 
-**One-line verdict:** *The v2 notebooks exist and the methodology lands in code — but 5 new bugs surfaced that the prior rounds didn't catch, the v1 notebooks/CSVs/PDF still sit in the repo waiting to mislead a judge, and the v2 stack has never been run end-to-end. ~45 minutes of fixes + 1 successful end-to-end run gets you to A−.*
+**One-line verdict:** _The v2 notebooks exist and the methodology lands in code — but 5 new bugs surfaced that the prior rounds didn't catch, the v1 notebooks/CSVs/PDF still sit in the repo waiting to mislead a judge, and the v2 stack has never been run end-to-end. ~45 minutes of fixes + 1 successful end-to-end run gets you to A−._
 
 ---
 
 ## What the v2 notebooks did right (verified)
 
-| Issue | Status | Evidence |
-|---|---|---|
-| M1 quadruple throttling | FIXED | `src/modeling/predict.py:56-64` -- single linear interpolation |
-| M2 constraint_score has DQ flag | FIXED | `src/modeling/constraint_score.py:92-132` -- PCA + frontier-residual + plateau, no DQ flag |
-| M3 lower_bound dominated by hist_max | FIXED | `src/modeling/lower_bound.py:32-58` -- 3rd-highest month or own p95 |
-| R2 N1 manski_lower < observed_max | FIXED | `src/reporting/manski.py:45-48` -- `max(lower_bound, observed_max)` |
-| R2 N2 predict floors at lower_bound | FIXED | `predict.py:65-72` -- floors at `observed_max` |
+| Issue                                | Status | Evidence                                                                                   |
+| ------------------------------------ | ------ | ------------------------------------------------------------------------------------------ |
+| M1 quadruple throttling              | FIXED  | `src/modeling/predict.py:56-64` -- single linear interpolation                             |
+| M2 constraint_score has DQ flag      | FIXED  | `src/modeling/constraint_score.py:92-132` -- PCA + frontier-residual + plateau, no DQ flag |
+| M3 lower_bound dominated by hist_max | FIXED  | `src/modeling/lower_bound.py:32-58` -- 3rd-highest month or own p95                        |
+| R2 N1 manski_lower < observed_max    | FIXED  | `src/reporting/manski.py:45-48` -- `max(lower_bound, observed_max)`                        |
+| R2 N2 predict floors at lower_bound  | FIXED  | `predict.py:65-72` -- floors at `observed_max`                                             |
 
 ---
 
@@ -86,15 +86,15 @@ The asserts (`is_unique`, `not isna`, `>= 0`) run on `sub` BEFORE the merge agai
 
 ## STILL-OUTSTANDING items from prior rounds
 
-| Issue | Status | Fix needed |
-|---|---|---|
-| `Results/smil_labs_predictions.csv` STILL has `row_id` + 914 rows (R1 B1+B2) | NOT TOUCHED | overwrite OR move to `Results/_legacy/` after v2 runs |
-| `README.md` lines 9-11/39/86-89 still document v1 | NOT TOUCHED | update to point to notebooks 20/21/22 + `requirements_v2.txt` |
-| `Docs/final_report.pdf` still documents v1 numbers | NOT TOUCHED | rebuild after v2 runs |
-| `data/silver_rejected/` empty (only `.gitkeep`) | NOT YET RUN | will populate when notebook 20 runs |
-| `poi_pipeline/output/` empty | NOT YET RUN | needs 4 POI scripts to be run, or v2 runs without POI |
-| `requirements.txt` (the official one) missing xgboost>=2.0, mapie, etc. | NOT TOUCHED | merge `requirements_v2.txt` in or replace |
-| `ALT_RAW_DIR` in notebook 20 points to my local autokaggle path | TEAM-SPECIFIC BUG | replace with a clean error message |
+| Issue                                                                         | Status            | Fix needed                                                    |
+| ----------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------- |
+| `Results/smile_labs_predictions.csv` STILL has `row_id` + 914 rows (R1 B1+B2) | NOT TOUCHED       | overwrite OR move to `Results/_legacy/` after v2 runs         |
+| `README.md` lines 9-11/39/86-89 still document v1                             | NOT TOUCHED       | update to point to notebooks 20/21/22 + `requirements_v2.txt` |
+| `Docs/final_report.pdf` still documents v1 numbers                            | NOT TOUCHED       | rebuild after v2 runs                                         |
+| `data/silver_rejected/` empty (only `.gitkeep`)                               | NOT YET RUN       | will populate when notebook 20 runs                           |
+| `poi_pipeline/output/` empty                                                  | NOT YET RUN       | needs 4 POI scripts to be run, or v2 runs without POI         |
+| `requirements.txt` (the official one) missing xgboost>=2.0, mapie, etc.       | NOT TOUCHED       | merge `requirements_v2.txt` in or replace                     |
+| `ALT_RAW_DIR` in notebook 20 points to my local autokaggle path               | TEAM-SPECIFIC BUG | replace with a clean error message                            |
 
 ---
 
@@ -127,7 +127,7 @@ In priority order:
 5. **ALT_RAW_DIR fix** — replace my path with `raise FileNotFoundError("Place raw CSVs in Datasets/")` (2 min)
 6. **README update** — replace v1 references with v2 (5 min)
 7. **V4 tighten** — change range to `[1.25, 2.2]` (1 min)
-8. **Move v1 CSVs to Results/_legacy/** so they can't be uploaded by mistake (2 min)
+8. **Move v1 CSVs to Results/\_legacy/** so they can't be uploaded by mistake (2 min)
 9. **Run notebook 20 -> 21 -> 22 end-to-end** to populate artifacts on disk (10 min compute, depending on POI)
 
 ---
@@ -138,11 +138,11 @@ After all fixes:
 
 - [ ] notebook 20 runs cleanly -> `data/silver_rejected/*.csv` non-empty, `data/gold/outlet_features.parquet` exists
 - [ ] notebook 21 runs cleanly -> `data/gold/predictions_v2.parquet` exists, SFA prints converged
-- [ ] notebook 22 runs cleanly -> 6 validations PASS, `Results/smil_labs_predictions_v2.csv` is `Outlet_ID, Maximum_Monthly_Liters` with 20,000 rows
+- [ ] notebook 22 runs cleanly -> 6 validations PASS, `Results/smile_labs_predictions_v2.csv` is `Outlet_ID, Maximum_Monthly_Liters` with 20,000 rows
 - [ ] CQR coverage reported is realistic (not optimistic)
 - [ ] `Docs/final_report.pdf` rebuilt with v2 numbers
 - [ ] `README.md` points to v2 notebooks + `requirements_v2.txt`
-- [ ] `Results/smil_labs_predictions.csv` either replaced with v2 or moved to `_legacy/`
+- [ ] `Results/smile_labs_predictions.csv` either replaced with v2 or moved to `_legacy/`
 
 ---
 
@@ -150,7 +150,7 @@ After all fixes:
 
 **SHIP if:** all 8 critical-path fixes done + clean end-to-end run + PDF rebuilt + v1 CSV moved.
 
-**SHELF (use v1 instead) if:** time runs out before fixes complete. v1 stays at D+ to C grade, but it's *runnable* and ships *something*. Don't ship a half-broken v2.
+**SHELF (use v1 instead) if:** time runs out before fixes complete. v1 stays at D+ to C grade, but it's _runnable_ and ships _something_. Don't ship a half-broken v2.
 
 ---
 

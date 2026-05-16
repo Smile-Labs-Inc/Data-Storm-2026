@@ -44,6 +44,15 @@
       \field{labeltitlesource}{title}
       \field{title}{Partial Identification of Probability Distributions}
       \field{year}{2003}
+      \verb{doi}
+      \verb 10.1007/b97478
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/b97478
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/b97478
+      \endverb
     \endentry
     \entry{aigner1977sfa}{article}{}{}
       \name{author}{3}{}{%
@@ -82,6 +91,15 @@
       \field{year}{1977}
       \field{pages}{21\bibrangedash 37}
       \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/0304-4076(77)90052-5
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/0304-4076(77)90052-5
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/0304-4076(77)90052-5
+      \endverb
     \endentry
     \entry{jondrow1982je}{article}{}{}
       \name{author}{4}{}{%
@@ -125,6 +143,15 @@
       \field{year}{1982}
       \field{pages}{233\bibrangedash 238}
       \range{pages}{6}
+      \verb{doi}
+      \verb 10.1016/0304-4076(82)90004-5
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/0304-4076(82)90004-5
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/0304-4076(82)90004-5
+      \endverb
     \endentry
     \entry{chernozhukov2002hong}{article}{}{}
       \name{author}{2}{}{%
@@ -158,6 +185,15 @@
       \field{year}{2002}
       \field{pages}{872\bibrangedash 882}
       \range{pages}{11}
+      \verb{doi}
+      \verb 10.1198/016214502388618663
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1198/016214502388618663
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1198/016214502388618663
+      \endverb
     \endentry
     \entry{romano2019cqr}{inproceedings}{}{}
       \name{author}{3}{}{%
@@ -193,6 +229,264 @@
       \field{title}{Conformalized Quantile Regression}
       \field{volume}{32}
       \field{year}{2019}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper/2019/hash/5103c3584b063c431bd1268e9b5e76fb-Abstract.html
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper/2019/hash/5103c3584b063c431bd1268e9b5e76fb-Abstract.html
+      \endverb
+    \endentry
+    \entry{datastorm2026pdf}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=2810594f50aafa34d09b72753a8958e9}{%
+           family={{OCTAVE -- John Keells Group}},
+           familyi={O\bibinitperiod}}}%
+        {{hash=38b939aa600fa48375c48f25a1f49301}{%
+           family={{Rotaract Moratuwa}},
+           familyi={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{fullhash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{fullhashraw}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{bibnamehash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{authorbibnamehash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{authornamehash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{authorfullhash}{ec1d06737a59f17dcb52171be2e03680}
+      \strng{authorfullhashraw}{ec1d06737a59f17dcb52171be2e03680}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Official challenge brief; defines the \texttt{Outlet\_ID} schema and POI mandate.}
+      \field{title}{{Data Storm 7.0} -- Storming Round Problem Statement}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://octave.kjellsgroup.com/data-storm
+      \endverb
+      \verb{url}
+      \verb https://octave.kjellsgroup.com/data-storm
+      \endverb
+    \endentry
+    \entry{geofabrik2026}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=bc0381c207d66d4915437b3811424d07}{%
+           family={{Geofabrik GmbH}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{bc0381c207d66d4915437b3811424d07}
+      \strng{fullhash}{bc0381c207d66d4915437b3811424d07}
+      \strng{fullhashraw}{bc0381c207d66d4915437b3811424d07}
+      \strng{bibnamehash}{bc0381c207d66d4915437b3811424d07}
+      \strng{authorbibnamehash}{bc0381c207d66d4915437b3811424d07}
+      \strng{authornamehash}{bc0381c207d66d4915437b3811424d07}
+      \strng{authorfullhash}{bc0381c207d66d4915437b3811424d07}
+      \strng{authorfullhashraw}{bc0381c207d66d4915437b3811424d07}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed January 2026 via Sri Lanka country extract (\texttt{sri-lanka-latest.osm.pbf}, ~136 MB).}
+      \field{title}{{Geofabrik} OpenStreetMap Data Extracts -- Sri Lanka}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://download.geofabrik.de/asia/sri-lanka.html
+      \endverb
+      \verb{url}
+      \verb https://download.geofabrik.de/asia/sri-lanka.html
+      \endverb
+    \endentry
+    \entry{pyrosm2026}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=f42a8bb331863b561bb8430fae76262c}{%
+           family={Tenkanen},
+           familyi={T\bibinitperiod},
+           given={Henrikki},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{fullhash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{fullhashraw}{f42a8bb331863b561bb8430fae76262c}
+      \strng{bibnamehash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{authorbibnamehash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{authornamehash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{authorfullhash}{f42a8bb331863b561bb8430fae76262c}
+      \strng{authorfullhashraw}{f42a8bb331863b561bb8430fae76262c}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Used for offline parsing of the Geofabrik Sri Lanka PBF.}
+      \field{title}{{pyrosm}: Read OpenStreetMap PBF data with {P}ython}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://pyrosm.readthedocs.io/
+      \endverb
+      \verb{url}
+      \verb https://pyrosm.readthedocs.io/
+      \endverb
+    \endentry
+    \entry{osm2026}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=602f2591276bacf4409eba4a627cff11}{%
+           family={{OpenStreetMap contributors}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{602f2591276bacf4409eba4a627cff11}
+      \strng{fullhash}{602f2591276bacf4409eba4a627cff11}
+      \strng{fullhashraw}{602f2591276bacf4409eba4a627cff11}
+      \strng{bibnamehash}{602f2591276bacf4409eba4a627cff11}
+      \strng{authorbibnamehash}{602f2591276bacf4409eba4a627cff11}
+      \strng{authornamehash}{602f2591276bacf4409eba4a627cff11}
+      \strng{authorfullhash}{602f2591276bacf4409eba4a627cff11}
+      \strng{authorfullhashraw}{602f2591276bacf4409eba4a627cff11}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Licensed under the Open Database License (ODbL). Tag conventions from the OSM Wiki.}
+      \field{title}{{OpenStreetMap} Project}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://www.openstreetmap.org/copyright
+      \endverb
+      \verb{url}
+      \verb https://www.openstreetmap.org/copyright
+      \endverb
+    \endentry
+    \entry{pedregosa2011sklearn}{misc}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{4}{}{%
+        {{hash=6e96fec0d63277626bb324bd28cdecb7}{%
+           family={Pedregosa},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+        {{hash=b99c2df2144dc5ee09317a7833dea42d}{%
+           family={Varoquaux},
+           familyi={V\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=955f19cea89ae97bb7936078898e6255}{%
+           family={Gramfort},
+           familyi={G\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2787869c9954c1d4e9891098995feb75}{%
+           family={Michel},
+           familyi={M\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{3a097aa3ebf2b8c2acf988341dde9710}
+      \strng{fullhash}{78c6a4c0199d1956c88b7409d6da2154}
+      \strng{fullhashraw}{78c6a4c0199d1956c88b7409d6da2154}
+      \strng{bibnamehash}{78c6a4c0199d1956c88b7409d6da2154}
+      \strng{authorbibnamehash}{78c6a4c0199d1956c88b7409d6da2154}
+      \strng{authornamehash}{3a097aa3ebf2b8c2acf988341dde9710}
+      \strng{authorfullhash}{78c6a4c0199d1956c88b7409d6da2154}
+      \strng{authorfullhashraw}{78c6a4c0199d1956c88b7409d6da2154}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Machine Learning Research}
+      \field{title}{Scikit-learn: Machine Learning in {P}ython}
+      \field{volume}{12}
+      \field{year}{2011}
+      \field{pages}{2825\bibrangedash 2830}
+      \range{pages}{6}
+      \verb{urlraw}
+      \verb https://jmlr.org/papers/v12/pedregosa11a.html
+      \endverb
+      \verb{url}
+      \verb https://jmlr.org/papers/v12/pedregosa11a.html
+      \endverb
+    \endentry
+    \entry{chen2016xgboost}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=48461ccdf50ba5a54e29a354aa734c0b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Tianqi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{fullhash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{fullhashraw}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{bibnamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorbibnamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authornamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorfullhash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorfullhashraw}{f79ceb030bcf791e5521f87ac6ada03b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '16)}
+      \field{title}{{XGBoost}: A Scalable Tree Boosting System}
+      \field{year}{2016}
+      \field{pages}{785\bibrangedash 794}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2939672.2939785
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2939672.2939785
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2939672.2939785
+      \endverb
+    \endentry
+    \entry{koenker1978qr}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=3d3b90a88ddf65111f1cc8c464ec40a3}{%
+           family={Koenker},
+           familyi={K\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e4c2b2b1d0120b5c55d92b6c55ab2457}{%
+           family={Bassett},
+           familyi={B\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{fullhash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{fullhashraw}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{bibnamehash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{authorbibnamehash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{authornamehash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{authorfullhash}{921e2c24ec03fdf3449f87a5db31404f}
+      \strng{authorfullhashraw}{921e2c24ec03fdf3449f87a5db31404f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{1}
+      \field{title}{Regression Quantiles}
+      \field{volume}{46}
+      \field{year}{1978}
+      \field{pages}{33\bibrangedash 50}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.2307/1913643
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.2307/1913643
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.2307/1913643
+      \endverb
     \endentry
     \entry{chernozhukov2010crossing}{article}{}{}
       \name{author}{3}{}{%
@@ -220,8 +514,8 @@
       \strng{authornamehash}{353792a9d39efd8ce8c0b12dd24b2a78}
       \strng{authorfullhash}{353792a9d39efd8ce8c0b12dd24b2a78}
       \strng{authorfullhashraw}{353792a9d39efd8ce8c0b12dd24b2a78}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Econometrica}
@@ -231,6 +525,97 @@
       \field{year}{2010}
       \field{pages}{1093\bibrangedash 1125}
       \range{pages}{33}
+      \verb{doi}
+      \verb 10.3982/ECTA7880
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3982/ECTA7880
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3982/ECTA7880
+      \endverb
+    \endentry
+    \entry{powell1986censored}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=2b360732967453b7f79846946fb02c07}{%
+           family={Powell},
+           familyi={P\bibinitperiod},
+           given={J.\bibnamedelimi L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{2b360732967453b7f79846946fb02c07}
+      \strng{fullhash}{2b360732967453b7f79846946fb02c07}
+      \strng{fullhashraw}{2b360732967453b7f79846946fb02c07}
+      \strng{bibnamehash}{2b360732967453b7f79846946fb02c07}
+      \strng{authorbibnamehash}{2b360732967453b7f79846946fb02c07}
+      \strng{authornamehash}{2b360732967453b7f79846946fb02c07}
+      \strng{authorfullhash}{2b360732967453b7f79846946fb02c07}
+      \strng{authorfullhashraw}{2b360732967453b7f79846946fb02c07}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{number}{1}
+      \field{title}{Censored Regression Quantiles}
+      \field{volume}{32}
+      \field{year}{1986}
+      \field{pages}{143\bibrangedash 155}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/0304-4076(86)90016-3
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/0304-4076(86)90016-3
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/0304-4076(86)90016-3
+      \endverb
+    \endentry
+    \entry{vovk2005algorithmic}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=760c92a699afd02bdbca6ee71f0c26f5}{%
+           family={Vovk},
+           familyi={V\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=34f13d6f0f214ef15aaa649ef97f4319}{%
+           family={Gammerman},
+           familyi={G\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c8976e43014789301f01ed10b09dd9d5}{%
+           family={Shafer},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{fullhash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{fullhashraw}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{bibnamehash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{authorbibnamehash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{authornamehash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{authorfullhash}{38a3e2f0fedb19f4e03c9009312e0246}
+      \strng{authorfullhashraw}{38a3e2f0fedb19f4e03c9009312e0246}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Algorithmic Learning in a Random World}
+      \field{year}{2005}
+      \verb{doi}
+      \verb 10.1007/b106715
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/b106715
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/b106715
+      \endverb
     \endentry
   \enddatalist
 \endrefsection

@@ -1,20 +1,21 @@
-# Smile Labs — Data Storm v7.0 Preliminary Round
+# smilee Labs — Data Storm v7.0 Preliminary Round
+
 ## Latent Maximum Monthly Outlet Potential Estimation — January 2026
 
-**Team:** Smil Labs | **Challenge:** Data Storm v7.0, Powered by OCTAVE – John Keells Group | **Date:** May 2026
+**Team:** smile Labs | **Challenge:** Data Storm v7.0, Powered by OCTAVE – John Keells Group | **Date:** May 2026
 
 **One-line method:** Observed sales `y_i = min(true_demand_i, constraint_i)` is right-censored demand. We estimate `E[true_demand_i | X_i]` using a four-component ensemble — Stochastic Frontier Analysis, Chernozhukov-Hong censored quantile regression, multi-quantile XGBoost with monotone constraints, and Tobit Type-I MLE — combined with a calibrated four-signal constraint score and bootstrap-derived peer-bucket uplift caps, reported alongside Manski worst-case bounds.
 
-| Metric | Value |
-|---|---|
-| Outlets predicted | 20,000 |
-| Total transactions processed | 2,376,389 |
-| Total records quarantined | 10,179 |
-| Median uplift vs historical max | 1.18x |
-| Mean uplift vs historical max | 1.36x |
-| Max uplift (guardrailed) | 2.97x |
-| Validation checks passed | 6 / 6 |
-| Methods stack | SFA + CH-CQR + XGBoost multi-quantile + Tobit I + Manski bounds |
+| Metric                          | Value                                                           |
+| ------------------------------- | --------------------------------------------------------------- |
+| Outlets predicted               | 20,000                                                          |
+| Total transactions processed    | 2,376,389                                                       |
+| Total records quarantined       | 10,179                                                          |
+| Median uplift vs historical max | 1.18x                                                           |
+| Mean uplift vs historical max   | 1.36x                                                           |
+| Max uplift (guardrailed)        | 2.97x                                                           |
+| Validation checks passed        | 6 / 6                                                           |
+| Methods stack                   | SFA + CH-CQR + XGBoost multi-quantile + Tobit I + Manski bounds |
 
 ---
 
@@ -31,28 +32,28 @@ Datasets/  →  data/bronze/  →  data/silver/ + data/silver_rejected/  →  da
 
 ### 1.2 Reusable Data Quality Check Functions
 
-| Function | Parameters | What it catches |
-|---|---|---|
-| `duplicate_check(df, key_columns)` | composite key list | duplicate outlet IDs, duplicate distributor-year-month keys |
-| `null_check(df, columns)` | mandatory field list | null / empty-string mandatory fields |
-| `referential_integrity_check(df, col, reference_set)` | foreign key + master set | outlet IDs in transactions not present in outlet master |
-| `range_check(df, col, min, max)` | numeric bounds | volume, bill value, latitude, longitude, cooler count |
-| `domain_check(df, col, allowed_values)` | enum set | misspelled outlet types, invalid distributor IDs, bad seasonality labels |
-| `geospatial_bounds_check(df, lat, lon, lat_range, lon_range)` | SL bbox | coordinates outside Sri Lanka (lat 5.5–10°N, lon 79–82.5°E) |
+| Function                                                      | Parameters               | What it catches                                                          |
+| ------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------ |
+| `duplicate_check(df, key_columns)`                            | composite key list       | duplicate outlet IDs, duplicate distributor-year-month keys              |
+| `null_check(df, columns)`                                     | mandatory field list     | null / empty-string mandatory fields                                     |
+| `referential_integrity_check(df, col, reference_set)`         | foreign key + master set | outlet IDs in transactions not present in outlet master                  |
+| `range_check(df, col, min, max)`                              | numeric bounds           | volume, bill value, latitude, longitude, cooler count                    |
+| `domain_check(df, col, allowed_values)`                       | enum set                 | misspelled outlet types, invalid distributor IDs, bad seasonality labels |
+| `geospatial_bounds_check(df, lat, lon, lat_range, lon_range)` | SL bbox                  | coordinates outside Sri Lanka (lat 5.5–10°N, lon 79–82.5°E)              |
 
 ### 1.3 Legacy SFA / ERP System Artifacts Neutralised
 
 The datasets are raw exports from legacy Sales Force Automation and distributor ERP systems. Data forensics identified the following categories of system artifacts:
 
-| Artifact | Records affected | Silver action |
-|---|---:|---|
-| `Outlet_Type` typos: `Grocry` → `Grocery`, `Bakry` → `Bakery` | 785 | Normalised in Silver; originals preserved in Bronze |
-| `Outlet_Size` lowercase `small`, `medium`, `large` | 600 | Normalised to title case in Silver |
-| `Outlet_Size` missing / blank | 196 | Mapped to sentinel `Unknown`; flagged in DQ report |
-| Outlet coordinates outside Sri Lanka bounding box | 240 | Quarantined to `outlet_coordinates_rejected.csv` with `geospatial_bounds_check` failure |
-| Transactions with non-positive `Volume_Liters` (zero or negative ghost entries) | 4,853 | Quarantined to `transactions_history_rejected.csv` |
-| Transactions with non-positive `Total_Bill_Value` | 4,753 | Quarantined (overlap with above; unique rows = 4,853 + 4,753 − overlap) |
-| Holiday duplicate rows (same date + name + type) | 93 | Deduplicated; originals to `holiday_list_rejected.csv` |
+| Artifact                                                                        | Records affected | Silver action                                                                           |
+| ------------------------------------------------------------------------------- | ---------------: | --------------------------------------------------------------------------------------- |
+| `Outlet_Type` typos: `Grocry` → `Grocery`, `Bakry` → `Bakery`                   |              785 | Normalised in Silver; originals preserved in Bronze                                     |
+| `Outlet_Size` lowercase `small`, `medium`, `large`                              |              600 | Normalised to title case in Silver                                                      |
+| `Outlet_Size` missing / blank                                                   |              196 | Mapped to sentinel `Unknown`; flagged in DQ report                                      |
+| Outlet coordinates outside Sri Lanka bounding box                               |              240 | Quarantined to `outlet_coordinates_rejected.csv` with `geospatial_bounds_check` failure |
+| Transactions with non-positive `Volume_Liters` (zero or negative ghost entries) |            4,853 | Quarantined to `transactions_history_rejected.csv`                                      |
+| Transactions with non-positive `Total_Bill_Value`                               |            4,753 | Quarantined (overlap with above; unique rows = 4,853 + 4,753 − overlap)                 |
+| Holiday duplicate rows (same date + name + type)                                |               93 | Deduplicated; originals to `holiday_list_rejected.csv`                                  |
 
 **Total quarantined: 480 coordinate rows + 9,606 transaction rows + 93 holiday rows = 10,179 records.** Every quarantined row carries `dataset_name`, `failed_check`, and `failure_reason` — none are silently dropped.
 
@@ -72,17 +73,17 @@ Querying the Overpass API for 20,000 outlets × 9 categories × 4 radii would re
 
 Nine categories were selected based on their documented correlation with beverage impulse-purchase footfall in South Asian traditional-trade markets:
 
-| Category | OSM Tags | Demand logic |
-|---|---|---|
-| Schools & universities | `amenity ∈ {school, university, college, kindergarten}` | After-school and commuter impulse traffic |
-| Transport hubs | `highway=bus_stop`, `railway ∈ {station, halt}`, `public_transport=*` | High-frequency footfall, heat-driven hydration |
-| Healthcare | `amenity ∈ {hospital, clinic, doctors, pharmacy}`, `healthcare=*` | Visitor and worker traffic |
-| Food service | `amenity ∈ {restaurant, cafe, fast_food, food_court}` | Beverage consumption zone; co-location amplifies demand |
-| Supermarkets & markets | `shop ∈ {supermarket, convenience, grocery}`, `amenity=marketplace` | Retail density signal; same-type = cannibalization (negative weight) |
-| Religious places | `amenity=place_of_worship` | Poya day and festival gathering footfall |
-| Hotels & tourism | `tourism ∈ {hotel, guest_house, hostel, motel, attraction}` | Visitor-driven January peak (Southern coast high season) |
-| Offices & government | `office=*`, `amenity ∈ {townhall, post_office}` | Daytime working population; lunchtime demand |
-| Banks & ATMs | `amenity ∈ {bank, atm}` | Cash-flow accessibility proxy for outlet purchasing power |
+| Category               | OSM Tags                                                              | Demand logic                                                         |
+| ---------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Schools & universities | `amenity ∈ {school, university, college, kindergarten}`               | After-school and commuter impulse traffic                            |
+| Transport hubs         | `highway=bus_stop`, `railway ∈ {station, halt}`, `public_transport=*` | High-frequency footfall, heat-driven hydration                       |
+| Healthcare             | `amenity ∈ {hospital, clinic, doctors, pharmacy}`, `healthcare=*`     | Visitor and worker traffic                                           |
+| Food service           | `amenity ∈ {restaurant, cafe, fast_food, food_court}`                 | Beverage consumption zone; co-location amplifies demand              |
+| Supermarkets & markets | `shop ∈ {supermarket, convenience, grocery}`, `amenity=marketplace`   | Retail density signal; same-type = cannibalization (negative weight) |
+| Religious places       | `amenity=place_of_worship`                                            | Poya day and festival gathering footfall                             |
+| Hotels & tourism       | `tourism ∈ {hotel, guest_house, hostel, motel, attraction}`           | Visitor-driven January peak (Southern coast high season)             |
+| Offices & government   | `office=*`, `amenity ∈ {townhall, post_office}`                       | Daytime working population; lunchtime demand                         |
+| Banks & ATMs           | `amenity ∈ {bank, atm}`                                               | Cash-flow accessibility proxy for outlet purchasing power            |
 
 ### 2.3 Mapping POIs to Internal Outlets
 
@@ -141,12 +142,12 @@ Hand-rolled in ~30 lines of `scipy.optimize` using the right-censored log-likeli
 
 The old rank-sum constraint score double-counted correlated capacity signals, threw away magnitude information, and included a data-quality flag as if it were a demand signal. It is replaced with four orthogonal, independently motivated signals:
 
-| Signal | Formula | What it measures |
-|---|---|---|
-| `s_frontier` | `clip((q90_CH − obs_max) / q90_CH, 0, 1)` | Volume gap from uncensored peer frontier, in demand units |
-| `s_sfa` | `1 − TE_i` from Component 1 | Statistical separation of constraint inefficiency from noise |
-| `s_plateau` | `0.5·1{var_ratio<0.3} + 0.5·min(months_since_max/6, 1)` | Behavioural saturation / repeated ceiling |
-| `s_anomaly` | Directional Isolation Forest score, below-centroid only | Multivariate under-performance given capacity |
+| Signal       | Formula                                                 | What it measures                                             |
+| ------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
+| `s_frontier` | `clip((q90_CH − obs_max) / q90_CH, 0, 1)`               | Volume gap from uncensored peer frontier, in demand units    |
+| `s_sfa`      | `1 − TE_i` from Component 1                             | Statistical separation of constraint inefficiency from noise |
+| `s_plateau`  | `0.5·1{var_ratio<0.3} + 0.5·min(months_since_max/6, 1)` | Behavioural saturation / repeated ceiling                    |
+| `s_anomaly`  | Directional Isolation Forest score, below-centroid only | Multivariate under-performance given capacity                |
 
 These four signals are combined via `LogisticRegressionCV` trained on a proxy label (`δ=1 AND structural_capacity_rank > 0.6`) to produce a calibrated composite score in [0,1].
 
@@ -163,13 +164,13 @@ prediction_i   =  clip(raw_potential, lower_bound_i, bootstrap_cap_i · lower_bo
 
 **Uplift cap table** (business safety maxima, applied only when empirical bootstrap cap is unavailable):
 
-| Outlet Size | Cap | Evidence basis |
-|---|---|---|
-| Unknown | 2.0x | Missing size → conservative |
-| Small | 3.0x | 67.9% have zero coolers; high constraint likelihood |
-| Medium | 3.5x | Plausible for under-ranged dense-area outlets |
-| Large | 4.0x | Requires peer bucket support |
-| Extra Large | 4.0x | Lowered from 4.5x — no bootstrap evidence for 4.5x |
+| Outlet Size | Cap  | Evidence basis                                      |
+| ----------- | ---- | --------------------------------------------------- |
+| Unknown     | 2.0x | Missing size → conservative                         |
+| Small       | 3.0x | 67.9% have zero coolers; high constraint likelihood |
+| Medium      | 3.5x | Plausible for under-ranged dense-area outlets       |
+| Large       | 4.0x | Requires peer bucket support                        |
+| Extra Large | 4.0x | Lowered from 4.5x — no bootstrap evidence for 4.5x  |
 
 ### 3.6 Manski Worst-Case Bounds (Honest Interval)
 
@@ -182,14 +183,14 @@ The point estimate sits inside `[D_lo, D_hi]` for **98.7% of outlets**. Any outl
 
 ### 3.7 Output Validation (6-item Auto-Checklist)
 
-| Check | Threshold | Result |
-|---|---|---|
-| V1: schema = `Outlet_ID, Maximum_Monthly_Liters`, 20,000 rows | Exact | PASS |
-| V2: no NaN, no negatives, unique IDs | 100% | PASS |
-| V3a: every `Outlet_ID` exists in `outlet_master` | 100% | PASS |
-| V3b: `predicted ≥ historical_max` for ≥99% of outlets | ≥ 99% | PASS |
-| V4: median uplift in [1.05, 2.5] | Yes | PASS — 1.18x |
-| V5: cap-binding rate < 25% (bucket-specific cap) | < 25% | PASS |
+| Check                                                         | Threshold | Result       |
+| ------------------------------------------------------------- | --------- | ------------ |
+| V1: schema = `Outlet_ID, Maximum_Monthly_Liters`, 20,000 rows | Exact     | PASS         |
+| V2: no NaN, no negatives, unique IDs                          | 100%      | PASS         |
+| V3a: every `Outlet_ID` exists in `outlet_master`              | 100%      | PASS         |
+| V3b: `predicted ≥ historical_max` for ≥99% of outlets         | ≥ 99%     | PASS         |
+| V4: median uplift in [1.05, 2.5]                              | Yes       | PASS — 1.18x |
+| V5: cap-binding rate < 25% (bucket-specific cap)              | < 25%     | PASS         |
 
 ---
 
@@ -197,18 +198,18 @@ The point estimate sits inside `[D_lo, D_hi]` for **98.7% of outlets**. Any outl
 
 ### 4.1 How, Where, and Why LLMs Were Used
 
-| Phase | AI tool / role | What was generated | Human validation performed |
-|---|---|---|---|
-| Problem framing | Claude Sonnet 4.6 | Converted the PDF brief into structured `Docs/challenge_brief.md`; identified right-censored framing vs the brief's incorrect "left-censored" label | Corrected the censoring direction; verified against Tobit / SFA literature |
-| Research swarm | 10 parallel research agents across channels 01–10 | Literature survey on SFA, CH-CQR, Manski bounds, POI engineering, Sri Lanka FMCG market, defensible caps, DEA, causal inference | Each agent's claims cross-checked against cited URLs; conflicting recommendations resolved manually |
-| DQ framework | Claude Sonnet 4.6 | Drafted six reusable check functions in `src/quality/checks.py` | Run against all five datasets; verified rejected-row counts match manual inspection |
-| POI pipeline | Claude Sonnet 4.6 + cursor | Scaffolded `poi_pipeline/` with Geofabrik download, pyrosm parsing, BallTree spatial joins, Gaussian decay scoring | Ran end-to-end; verified POI counts against spot-check Overpass queries for Colombo; audited `poi_coverage_report.md` |
-| Constraint score | Claude Sonnet 4.6 | Identified double-counting flaw in rank-sum; proposed 4-signal orthogonal design | Re-derived each signal from first principles; tested correlation between signals (confirmed low) |
-| SFA derivation | Claude Sonnet 4.6 | Recalled JLMS 1982 closed-form for `E[u | ε]`; drafted `src/modeling/sfa.py` MLE objective | Cross-checked `σ_v`, `σ_u`, `λ = σ_u/σ_v` output against Greene's textbook; unit-tested on synthetic data |
-| CH-CQR upgrade | Claude Sonnet 4.6 | Translated CH 2002 three-step recipe into `src/modeling/censored_qr.py` | Verified q90 prediction shifts upward on censored-heavy subsets vs naive q90; confirmed crossing rate = 0% after isotonic sort |
-| Bootstrap caps | Claude Sonnet 4.6 | Proposed bootstrap p95(p90/median) methodology replacing hard-coded multipliers | Ran 500 bootstrap draws per bucket; compared to industry FMCG uplift benchmarks (cooler +30%, assortment +7–11%) |
-| Report drafting | Claude Sonnet 4.6 | First draft of all four report sections | Every claim mapped to an artifact in the repo; numbers pulled directly from `Results/validation_report.md` |
-| Git workflow | Claude Sonnet 4.6 | Diagnosed GitHub push rejection (100 MB file); resolved 4-file merge conflict (notebooks) | Manually reviewed conflict resolution; confirmed no work lost |
+| Phase            | AI tool / role                                    | What was generated                                                                                                                                  | Human validation performed                                                                                                     |
+| ---------------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Problem framing  | Claude Sonnet 4.6                                 | Converted the PDF brief into structured `Docs/challenge_brief.md`; identified right-censored framing vs the brief's incorrect "left-censored" label | Corrected the censoring direction; verified against Tobit / SFA literature                                                     |
+| Research swarm   | 10 parallel research agents across channels 01–10 | Literature survey on SFA, CH-CQR, Manski bounds, POI engineering, Sri Lanka FMCG market, defensible caps, DEA, causal inference                     | Each agent's claims cross-checked against cited URLs; conflicting recommendations resolved manually                            |
+| DQ framework     | Claude Sonnet 4.6                                 | Drafted six reusable check functions in `src/quality/checks.py`                                                                                     | Run against all five datasets; verified rejected-row counts match manual inspection                                            |
+| POI pipeline     | Claude Sonnet 4.6 + cursor                        | Scaffolded `poi_pipeline/` with Geofabrik download, pyrosm parsing, BallTree spatial joins, Gaussian decay scoring                                  | Ran end-to-end; verified POI counts against spot-check Overpass queries for Colombo; audited `poi_coverage_report.md`          |
+| Constraint score | Claude Sonnet 4.6                                 | Identified double-counting flaw in rank-sum; proposed 4-signal orthogonal design                                                                    | Re-derived each signal from first principles; tested correlation between signals (confirmed low)                               |
+| SFA derivation   | Claude Sonnet 4.6                                 | Recalled JLMS 1982 closed-form for `E[u                                                                                                             | ε]`; drafted `src/modeling/sfa.py` MLE objective                                                                               | Cross-checked `σ_v`, `σ_u`, `λ = σ_u/σ_v` output against Greene's textbook; unit-tested on synthetic data |
+| CH-CQR upgrade   | Claude Sonnet 4.6                                 | Translated CH 2002 three-step recipe into `src/modeling/censored_qr.py`                                                                             | Verified q90 prediction shifts upward on censored-heavy subsets vs naive q90; confirmed crossing rate = 0% after isotonic sort |
+| Bootstrap caps   | Claude Sonnet 4.6                                 | Proposed bootstrap p95(p90/median) methodology replacing hard-coded multipliers                                                                     | Ran 500 bootstrap draws per bucket; compared to industry FMCG uplift benchmarks (cooler +30%, assortment +7–11%)               |
+| Report drafting  | Claude Sonnet 4.6                                 | First draft of all four report sections                                                                                                             | Every claim mapped to an artifact in the repo; numbers pulled directly from `Results/validation_report.md`                     |
+| Git workflow     | Claude Sonnet 4.6                                 | Diagnosed GitHub push rejection (100 MB file); resolved 4-file merge conflict (notebooks)                                                           | Manually reviewed conflict resolution; confirmed no work lost                                                                  |
 
 ### 4.2 Evidence of Critical Evaluation — Not Blind Trust
 
@@ -234,10 +235,10 @@ AI was used to compress research time (10 parallel literature agents in place of
 
 ## Key References
 
-- Aigner, Lovell, Schmidt (1977). *Stochastic frontier production function models.* J. Econometrics.
-- Jondrow, Lovell, Materov, Schmidt (1982). *Technical inefficiency in the stochastic frontier model.* J. Econometrics.
-- Chernozhukov, Hong (2002). *Three-step censored quantile regression.* JASA.
-- Chernozhukov, Fernandez-Val, Galichon (2010). *Quantile curves without crossing.* Econometrica.
-- Manski (2003). *Partial Identification of Probability Distributions.* Springer.
-- Romano, Patterson, Candès (2019). *Conformalized Quantile Regression.* NeurIPS.
-- Battese, Coelli (1995). *Technical inefficiency effects in a stochastic frontier model.* Empirical Economics.
+- Aigner, Lovell, Schmidt (1977). _Stochastic frontier production function models._ J. Econometrics.
+- Jondrow, Lovell, Materov, Schmidt (1982). _Technical inefficiency in the stochastic frontier model._ J. Econometrics.
+- Chernozhukov, Hong (2002). _Three-step censored quantile regression._ JASA.
+- Chernozhukov, Fernandez-Val, Galichon (2010). _Quantile curves without crossing._ Econometrica.
+- Manski (2003). _Partial Identification of Probability Distributions._ Springer.
+- Romano, Patterson, Candès (2019). _Conformalized Quantile Regression._ NeurIPS.
+- Battese, Coelli (1995). _Technical inefficiency effects in a stochastic frontier model._ Empirical Economics.

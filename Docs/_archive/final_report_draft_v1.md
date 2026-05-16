@@ -1,12 +1,12 @@
-# Smil Labs - Data Storm 2026 Final Technical Report
+# smile Labs - Data Storm 2026 Final Technical Report
 
 ## Cover
 
-**Team:** Smil Labs  
+**Team:** smile Labs  
 **Challenge:** Latent Maximum Monthly Outlet Potential Estimation  
 **Target Month:** January 2026  
-**Final Platform Output:** `Results/smil_labs_predictions.csv`  
-**Full Business Output:** `Results/smil_labs_predictions_full_20000.csv`
+**Final Platform Output:** `Results/smile_labs_predictions.csv`  
+**Full Business Output:** `Results/smile_labs_predictions_full_20000.csv`
 
 ## 1. Problem Framing
 
@@ -22,11 +22,11 @@ This means historical sales are a demonstrated lower bound, while latent potenti
 
 The solution follows a local Bronze, Silver, and Gold architecture.
 
-| Layer | Implementation |
-| --- | --- |
-| Bronze | Raw source files are copied as-is into `data/bronze/` with ingestion audit metadata. |
-| Silver | Reusable data quality checks clean and validate datasets. Failed rows are quarantined. |
-| Gold | Clean data is joined into outlet-level modeling features, predictions, and diagnostics. |
+| Layer  | Implementation                                                                          |
+| ------ | --------------------------------------------------------------------------------------- |
+| Bronze | Raw source files are copied as-is into `data/bronze/` with ingestion audit metadata.    |
+| Silver | Reusable data quality checks clean and validate datasets. Failed rows are quarantined.  |
+| Gold   | Clean data is joined into outlet-level modeling features, predictions, and diagnostics. |
 
 Reusable checks include duplicate checks, mandatory null checks, referential integrity checks, numeric range checks, and categorical domain checks.
 
@@ -93,18 +93,18 @@ Guardrails ensure predictions are non-negative, never below demonstrated capabil
 
 Validation results:
 
-| Metric | Value |
-| --- | ---: |
-| Platform output rows | 914 |
-| Full output rows | 20,000 |
-| Missing prediction values | 0 |
-| Mean potential | 445.34 L |
-| Median potential | 259.77 L |
-| Mean uplift vs observed max | 1.36x |
-| Median uplift vs observed max | 1.18x |
-| Maximum uplift vs observed max | 2.97x |
+| Metric                         |    Value |
+| ------------------------------ | -------: |
+| Platform output rows           |      914 |
+| Full output rows               |   20,000 |
+| Missing prediction values      |        0 |
+| Mean potential                 | 445.34 L |
+| Median potential               | 259.77 L |
+| Mean uplift vs observed max    |    1.36x |
+| Median uplift vs observed max  |    1.18x |
+| Maximum uplift vs observed max |    2.97x |
 
-The final platform file is `Results/smil_labs_predictions.csv` with columns `row_id` and `Maximum_Monthly_Liters`. A full 20,000-row business output is preserved as `Results/smil_labs_predictions_full_20000.csv`.
+The final platform file is `Results/smile_labs_predictions.csv` with columns `row_id` and `Maximum_Monthly_Liters`. A full 20,000-row business output is preserved as `Results/smile_labs_predictions_full_20000.csv`.
 
 Generative AI was used as an engineering accelerator for documentation structure, data quality boilerplate, modeling alternatives, Overpass workflow design, debugging, validation summaries, and report drafting. All AI-assisted code and assumptions were validated through notebook execution, row-count checks, schema checks, rejected-record summaries, uplift diagnostics, and manual review artifacts.
 

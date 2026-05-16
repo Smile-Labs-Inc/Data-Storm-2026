@@ -6,16 +6,16 @@ subagent tool. Each is self-contained.
 
 ## File index
 
-| File | Purpose | When to use |
-|---|---|---|
-| `00_council_cycle_master.md` | Full 5-critic council cycle (read priors -> launch 5 in parallel -> synthesize -> apply fixes -> re-execute notebooks -> verify) | Every full audit + fix iteration |
-| `01_critic_gap_analyzer.md` | Maps current state vs 40/40/20 rubric; ROI-ranks fixes | Inside cycle, or solo for "where am I losing points?" |
-| `02_critic_data_engineer.md` | DE rubric scorecard + file hygiene + reproducibility | Inside cycle, or solo after big refactor |
-| `03_critic_eda_specialist.md` | Writes + executes EDA notebook cells with real plots | Inside cycle, or once when EDA is thin |
-| `04_critic_modeling_diagnostician.md` | Live diagnostics on predictions; surgical fix proposal | Inside cycle, or solo when validation fails |
-| `05_critic_business_viva.md` | 3-slide pitch + hostile-judge Q&A + report polish | Inside cycle, or solo before viva day |
-| `06_iteration_fast.md` | Emergency single-fix prompt | When you know what's broken but want LLM to patch it |
-| `07_research_swarm_10_channels.md` | Parallel 10-channel research swarm (Round 0 pattern) | New competition / new methodology landscape scan |
+| File                                  | Purpose                                                                                                                          | When to use                                           |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `00_council_cycle_master.md`          | Full 5-critic council cycle (read priors -> launch 5 in parallel -> synthesize -> apply fixes -> re-execute notebooks -> verify) | Every full audit + fix iteration                      |
+| `01_critic_gap_analyzer.md`           | Maps current state vs 40/40/20 rubric; ROI-ranks fixes                                                                           | Inside cycle, or solo for "where am I losing points?" |
+| `02_critic_data_engineer.md`          | DE rubric scorecard + file hygiene + reproducibility                                                                             | Inside cycle, or solo after big refactor              |
+| `03_critic_eda_specialist.md`         | Writes + executes EDA notebook cells with real plots                                                                             | Inside cycle, or once when EDA is thin                |
+| `04_critic_modeling_diagnostician.md` | Live diagnostics on predictions; surgical fix proposal                                                                           | Inside cycle, or solo when validation fails           |
+| `05_critic_business_viva.md`          | 3-slide pitch + hostile-judge Q&A + report polish                                                                                | Inside cycle, or solo before viva day                 |
+| `06_iteration_fast.md`                | Emergency single-fix prompt                                                                                                      | When you know what's broken but want LLM to patch it  |
+| `07_research_swarm_10_channels.md`    | Parallel 10-channel research swarm (Round 0 pattern)                                                                             | New competition / new methodology landscape scan      |
 
 ## How the cycle works (1-page mental model)
 
@@ -49,7 +49,7 @@ Read Results/validation_report.md
 - Mid-tier for DE / Business
 - Validation thresholds: V3b 99%, V4 [1.25, 2.2], V5 < 25%
 - Submission policy: notebook 22 always overwrites
-  `Results/smil_labs_predictions.csv` with v2 (canonical release gate)
+  `Results/smile_labs_predictions.csv` with v2 (canonical release gate)
 - Banned: any git command (commit / push / amend); team owns commit timing
 - Banned: editing v1 notebooks (01, 03, 04, 10, 11) or v1 archived docs
 
@@ -88,5 +88,5 @@ sections. To reuse for another comp, search-and-replace:
 - `D:/projects/Data-Storm-2026` -> your repo path
 - `40 / 40 / 20` -> your rubric weights
 - `V3b 99% / V4 [1.25, 2.2]` -> your validation thresholds
-- `Smil Labs` / `Data Storm 7.0` -> your team / comp names
+- `smile Labs` / `Data Storm 7.0` -> your team / comp names
 - Notebook numbers (`20_v2_*`, `21_v2_*`, etc.) -> your notebook scheme

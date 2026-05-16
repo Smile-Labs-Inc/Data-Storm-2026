@@ -1,5 +1,6 @@
 # Visual Designer — Council Round 7 Review
-**Report:** `final_report_v3.pdf` · Data Storm 7.0 · Smil Labs
+
+**Report:** `final_report_v3.pdf` · Data Storm 7.0 · smile Labs
 **Reviewer role:** Visual Designer
 **Date:** 2026-05-16
 
@@ -7,7 +8,7 @@
 
 # TL;DR
 
-- The Palatino + Smil Labs blue/green/orange palette is internally consistent and semantically sound, but **margins cut to 1.5 cm push body-text line length to ~110 characters/line** — well beyond the comfortable 65–85 cpl reading band.
+- The Palatino + smile Labs blue/green/orange palette is internally consistent and semantically sound, but **margins cut to 1.5 cm push body-text line length to ~110 characters/line** — well beyond the comfortable 65–85 cpl reading band.
 - Pages 1 and 5 fail the 30-second scan: the cover is logo-free and upper-half empty; page 5 hides the sensitivity robustness result in dense prose instead of a chart.
 - Three quick fixes (DAG font, sensitivity heatmap, cover header band) would lift perceived professionalism by roughly two full letter grades.
 
@@ -15,13 +16,13 @@
 
 # Per-Page Visual Scorecard
 
-| Page | Title | Score /10 | One-line evidence |
-|------|-------|-----------|-------------------|
-| 1 | Cover | **6 / 10** | No logo, no brand bar; ~40 % of the page is bare white above the method box; `\Huge` blue title is the only anchor |
-| 2 | Data Forensics | **7.5 / 10** | B-S-G TikZ diagram breaks up the tables well; two `\scriptsize` edge labels ("6 DQ checks", "features") are on the edge of legibility at 150 DPI |
-| 3 | POI Acquisition | **6.5 / 10** | Well-structured but entirely figure-free; 80.9 % coverage stat buried in a table row rather than visualised; OSM-tags column in `\texttt{}` at 10 pt is cramped |
-| 4 | Methodology | **7 / 10** | Four method boxes provide rhythm; DAG `\scriptsize` node font + `\tiny` "right-censored" arrow label are borderline unreadable at print size; all four boxes share identical primary-blue colour — no visual hierarchy within the stack |
-| 5 | Validation + GenAI | **5 / 10** | Green `accent!25` OK cells are the clearest hit; sensitivity sweep is prose-only; bibliography is raw `\scriptsize` text with no visual separator, crammed under the deliverables list |
+| Page | Title              | Score /10    | One-line evidence                                                                                                                                                                                                                       |
+| ---- | ------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Cover              | **6 / 10**   | No logo, no brand bar; ~40 % of the page is bare white above the method box; `\Huge` blue title is the only anchor                                                                                                                      |
+| 2    | Data Forensics     | **7.5 / 10** | B-S-G TikZ diagram breaks up the tables well; two `\scriptsize` edge labels ("6 DQ checks", "features") are on the edge of legibility at 150 DPI                                                                                        |
+| 3    | POI Acquisition    | **6.5 / 10** | Well-structured but entirely figure-free; 80.9 % coverage stat buried in a table row rather than visualised; OSM-tags column in `\texttt{}` at 10 pt is cramped                                                                         |
+| 4    | Methodology        | **7 / 10**   | Four method boxes provide rhythm; DAG `\scriptsize` node font + `\tiny` "right-censored" arrow label are borderline unreadable at print size; all four boxes share identical primary-blue colour — no visual hierarchy within the stack |
+| 5    | Validation + GenAI | **5 / 10**   | Green `accent!25` OK cells are the clearest hit; sensitivity sweep is prose-only; bibliography is raw `\scriptsize` text with no visual separator, crammed under the deliverables list                                                  |
 
 ---
 
@@ -31,11 +32,13 @@
 Palatino is a legitimate choice for a technical-academic document: high x-height, elegant serifs, and good math companion via `amsmath`. It reads as "scholarly" rather than "corporate", which is a minor mismatch for a John Keells business audience who expect something closer to Calibri/Gill Sans territory. Not a blocker, but worth noting.
 
 **Heading hierarchy:**
+
 - `\section`: `\large\bfseries` in `primary` (RGB 0,71,132) — clear
 - `\subsection`: `\normalsize\bfseries` in `primary!85` — **only one optical step below section**. At 10 pt body, `\normalsize` bold vs `\large` bold is a very tight gap. A reader skimming quickly may not distinguish section from subsection headings.
 - Callout box titles (e.g. "One-line method", "Robust lower bound") are rendered in the same `\normalsize\bfseries` as subsection headers, further collapsing the hierarchy.
 
 **Spacing:**
+
 - `\parskip=0.3em`, `\parindent=0pt` — fine for dense technical content.
 - `\titlespacing*` gives sections 0.6 em before and 0.3 em after — correct but minimal. A small increase to 0.8/0.4 em would give headers more breathing room without eating page space.
 
@@ -44,13 +47,13 @@ Margin is `1.5 cm` left/right on A4 (210 mm). Usable text width = 210 − 30 = *
 
 **Colour palette assessment:**
 
-| Colour | RGB | Use | Verdict |
-|--------|-----|-----|---------|
-| `primary` | 0, 71, 132 | Headings, methodbox, DAG fill | Strong, authoritative — good |
-| `accent` | 0, 153, 102 | findingbox, OK cell highlights | Contrasts well with blue, legible on white |
-| `warn` | 215, 95, 0 | caveatbox, Rejected TikZ node | Orange on white passes WCAG AA (≥4.5:1); semantically correct |
-| `soft` | 240, 244, 248 | Table header rows | Subtle — nearly invisible on low-contrast screens/printouts |
-| `rule` | 180, 192, 205 | (defined but unused in any visible element) | Dead colour — remove |
+| Colour    | RGB           | Use                                         | Verdict                                                       |
+| --------- | ------------- | ------------------------------------------- | ------------------------------------------------------------- |
+| `primary` | 0, 71, 132    | Headings, methodbox, DAG fill               | Strong, authoritative — good                                  |
+| `accent`  | 0, 153, 102   | findingbox, OK cell highlights              | Contrasts well with blue, legible on white                    |
+| `warn`    | 215, 95, 0    | caveatbox, Rejected TikZ node               | Orange on white passes WCAG AA (≥4.5:1); semantically correct |
+| `soft`    | 240, 244, 248 | Table header rows                           | Subtle — nearly invisible on low-contrast screens/printouts   |
+| `rule`    | 180, 192, 205 | (defined but unused in any visible element) | Dead colour — remove                                          |
 
 The palette is coherent. The one jar: all four method boxes on page 4 use identical `primary!8 / primary` colouring. When four boxes stack vertically with the same colour, they merge visually into a blue wall instead of signalling four distinct components.
 
@@ -58,12 +61,12 @@ The palette is coherent. The one jar: all four method boxes on page 4 use identi
 
 # Information Density
 
-| Page | Assessment |
-|------|------------|
-| P1 Cover | **Too sparse** — upper 40 % is empty, the table is 7 rows, the two callout boxes are appropriately sized. Room to add a logo or coloured header band without crowding. |
-| P2 Forensics | **Balanced** — diagram + 2 tables fill the page without feeling cramped. |
-| P3 POI | **Slightly dense** — the 9-row OSM category table plus the 63-column feature description prose plus the caveat box nearly fills the page. A horizontal bar chart replacing the feature-design prose paragraph would relieve density while adding signal. |
-| P4 Methodology | **Dense by necessity** — four stacked tcolorboxes with equation display math. Acceptable for a methodology page, but the identical colouring (noted above) makes it feel monotone. |
+| Page                  | Assessment                                                                                                                                                                                                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P1 Cover              | **Too sparse** — upper 40 % is empty, the table is 7 rows, the two callout boxes are appropriately sized. Room to add a logo or coloured header band without crowding.                                                                                                                                                                  |
+| P2 Forensics          | **Balanced** — diagram + 2 tables fill the page without feeling cramped.                                                                                                                                                                                                                                                                |
+| P3 POI                | **Slightly dense** — the 9-row OSM category table plus the 63-column feature description prose plus the caveat box nearly fills the page. A horizontal bar chart replacing the feature-design prose paragraph would relieve density while adding signal.                                                                                |
+| P4 Methodology        | **Dense by necessity** — four stacked tcolorboxes with equation display math. Acceptable for a methodology page, but the identical colouring (noted above) makes it feel monotone.                                                                                                                                                      |
 | P5 Validation + GenAI | **Overpacked** — three tables + deliverables list + unseparated bibliography in ~30 lines of scriptsize text at the bottom. The bibliography has no visual separator (no `\vspace`, no rule, no heading) from the deliverables bullet list. At screen zoom it looks like the deliverables ran out of bullets and turned into citations. |
 
 **Page 5 bibliography specifically:** Six references rendered at `\scriptsize` (≈8 pt) with `\bibitemsep=0pt` — zero leading between entries. Reference [5] (Romano et al.) and [6] (Chernozhukov et al.) at this size and density are difficult to parse. A thin rule and `\footnotesize` (9 pt) with 2 pt `\bibitemsep` would be legible without eating more than 3 extra lines.
@@ -74,13 +77,13 @@ The palette is coherent. The one jar: all four method boxes on page 4 use identi
 
 **PASS / FAIL criteria:** Can a skimming judge find the single most important number or claim within 30 seconds?
 
-| Page | Result | Reason |
-|------|--------|--------|
-| P1 Cover | **PASS** | `1.250×` and `6/6 PASS` are bold in the KPI table — they pop immediately |
-| P2 Forensics | **PASS** | The B-S-G diagram signals "data pipeline" at a glance; "10,179 rows rejected" is visible in the reject box |
-| P3 POI | **BORDERLINE FAIL** | "42,386 POIs" and "80.9 %" are in table cells — scannable, but there is no chart to make the coverage number viscerally obvious; a judge reads the whole table before extracting the headline |
-| P4 Methodology | **FAIL** | The four method boxes are a uniform blue wall; no callout number, no bold headline figure is immediately visible. A judge must read to find `cs ≥ 0.40 → 1.25× uplift floor` — it's bolded inside a method box, but buried mid-paragraph |
-| P5 Validation | **PASS (barely)** | The green `OK` column in Table 4 is the visual hit — judges find the "all green" pattern fast. The sensitivity result (`[1.000, 1.022]`) is hidden in prose |
+| Page           | Result              | Reason                                                                                                                                                                                                                                   |
+| -------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P1 Cover       | **PASS**            | `1.250×` and `6/6 PASS` are bold in the KPI table — they pop immediately                                                                                                                                                                 |
+| P2 Forensics   | **PASS**            | The B-S-G diagram signals "data pipeline" at a glance; "10,179 rows rejected" is visible in the reject box                                                                                                                               |
+| P3 POI         | **BORDERLINE FAIL** | "42,386 POIs" and "80.9 %" are in table cells — scannable, but there is no chart to make the coverage number viscerally obvious; a judge reads the whole table before extracting the headline                                            |
+| P4 Methodology | **FAIL**            | The four method boxes are a uniform blue wall; no callout number, no bold headline figure is immediately visible. A judge must read to find `cs ≥ 0.40 → 1.25× uplift floor` — it's bolded inside a method box, but buried mid-paragraph |
+| P5 Validation  | **PASS (barely)**   | The green `OK` column in Table 4 is the visual hit — judges find the "all green" pattern fast. The sensitivity result (`[1.000, 1.022]`) is hidden in prose                                                                              |
 
 ---
 
@@ -116,6 +119,7 @@ The palette is coherent. The one jar: all four method boxes on page 4 use identi
 **Problem:** `font=\scriptsize` in node styles and `font=\tiny` on the right-censored edge make the Figure 2 DAG unreadable at print size.
 
 **Fix in `final_report_v3.tex`:**
+
 ```latex
 % In tikzpicture styles on page 4, change:
 attr/.style={..., font=\small},          % was \scriptsize
@@ -155,7 +159,7 @@ This turns a forgettable paragraph into the most memorable visual on p5 and dire
   \fill[primary] (current page.north west) rectangle
     ([yshift=-3cm]current page.north east);
   \node[anchor=north, text=white, font=\Large\bfseries, yshift=-1.2cm]
-    at (current page.north) {Smil Labs · Data Storm 7.0};
+    at (current page.north) {smile Labs · Data Storm 7.0};
 \end{tikzpicture}
 \vspace*{0.8cm}  % adjust to push title below band
 ```
