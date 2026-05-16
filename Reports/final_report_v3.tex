@@ -229,6 +229,22 @@ Holiday duplicate (date + name + type) rows                          & 93    & d
 \caption{Every quarantined row carries a documented \texttt{failure\_reason}.}
 \end{table}
 
+\subsection{Capacity feature engineered from a measured saturation knee}
+
+Volume \emph{stops growing} after 3 coolers per outlet (notebook 23): median
+monthly volume at 3, 4, and 5+ coolers is statistically indistinguishable. We
+therefore use \texttt{Cooler\_Count} as the deterministic sign anchor for the
+PCA capacity component (\texttt{src/modeling/constraint\_score.py}).
+
+\vspace{-0.4em}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.52\textwidth]{figures/eda_cooler_saturation.png}
+\vspace{-0.3em}
+\caption{\footnotesize Median monthly volume vs.\ \texttt{Cooler\_Count}: knee at 3 anchors the capacity feature.}
+\label{fig:cooler}
+\end{figure}
+
 \newpage
 % --- PAGE 3: POI ACQUISITION (40% rubric component) --------------------------
 \section{POI Data Acquisition}
@@ -446,7 +462,7 @@ SFA + POI design   & LLM-assisted recall of JLMS closed form; OSM tag survey; Ge
 Report drafting    & LaTeX template assembly + content port from markdown source & every claim traced to an artifact in \texttt{Results/} or \texttt{data/gold/} \\
 \bottomrule
 \end{tabularx}
-\caption{Per-phase GenAI transparency. Full log in \texttt{Docs/ai\_transparency\_log\_v2.md}.}
+\caption{Per-phase GenAI transparency. Full log in \texttt{Docs/ai\_transparency\_log.md} (R1-R7 audit trail).}
 \end{table}
 
 \subsection{Deliverables}

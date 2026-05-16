@@ -1,13 +1,24 @@
 # Legacy submission files — DO NOT UPLOAD
 
-These v1 files are kept here for audit/diff only. They have the **wrong column name** (`row_id` instead of `Outlet_ID` per the official Data Storm 7.0 PDF) and the v1 platform file has only 914 rows.
+Audit / diff only. The **canonical submission** is `Results/smil_labs_predictions.csv` (one file, 20,000 rows, columns `[Outlet_ID, Maximum_Monthly_Liters]`, validation 6/6 PASS).
 
 | File | Why kept | Why NOT to upload |
 |---|---|---|
-| `smil_labs_predictions_v1.csv` | original 914-row platform file | column is `row_id` (PDF says `Outlet_ID`); 914-row constraint unverified |
-| `smil_labs_predictions_full_20000_v1.csv` | original 20k business output | column is `row_id` (PDF says `Outlet_ID`); uses v1 broken methodology |
+| `smil_labs_predictions_v1.csv` | original 914-row v1 platform file | column is `row_id` (PDF says `Outlet_ID`); 914-row constraint unverified |
+| `smil_labs_predictions_full_20000_v1.csv` | original 20k v1 business output | column is `row_id`; uses v1 broken methodology |
+| `smil_labs_predictions_pre_v2_*.csv` | pre-v2 snapshot of canonical file (auto-moved by notebook 22's release gate) | superseded by current v2 output |
+| `smil_labs_predictions_full_20000_pre_v2_*.csv` | pre-v2 business output snapshot | same as above |
+| `smil_labs_predictions_full_20000.csv` | duplicate v2 business output written by `run_pipeline.py` | duplicate of canonical; moved in R7 cleanup per council R6 N6.3 |
+| `smil_labs_predictions_full_20000_v2.csv` | duplicate v2 business output from notebook 22 | duplicate of canonical; moved in R7 cleanup |
+| `smil_labs_predictions_v2.csv` | duplicate v2 platform output from notebook 22 | duplicate of canonical; moved in R7 cleanup |
 
-The **current submission** is `Results/smil_labs_predictions_v2.csv` produced by running:
+The current submission is produced by running either:
+
+```
+python run_pipeline.py                          # one-shot CLI
+```
+
+or:
 
 ```
 Notebooks/20_v2_data_pipeline.ipynb
@@ -15,10 +26,4 @@ Notebooks/21_v2_modeling.ipynb
 Notebooks/22_v2_validation_and_submission.ipynb
 ```
 
-If the team chooses to ship v1 (despite the council reviews), copy the file back:
-
-```powershell
-copy Results\_legacy\smil_labs_predictions_v1.csv Results\smil_labs_predictions.csv
-```
-
-But you should fix the `row_id` -> `Outlet_ID` column header first.
+Both write `Results/smil_labs_predictions.csv` as the canonical file.
