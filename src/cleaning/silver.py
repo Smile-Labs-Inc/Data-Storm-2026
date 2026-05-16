@@ -102,8 +102,8 @@ def clean_transactions(
 
     invalid_volume = (out["Volume_Liters"] <= 0) | out["Volume_Liters"].isna()
     invalid_bill = (out["Total_Bill_Value"] <= 0) | out["Total_Bill_Value"].isna()
-    invalid_year = ~out["Year"].between(2023, 2026)
-    invalid_month = ~out["Month"].between(1, 12)
+    invalid_year = (~out["Year"].between(2023, 2026)).fillna(True)
+    invalid_month = (~out["Month"].between(1, 12)).fillna(True)
 
     rejected_mask = invalid_volume | invalid_bill | invalid_year | invalid_month
 
@@ -121,6 +121,9 @@ def clean_transactions(
     rejected["failure_reason"] = "non-positive volume/bill or invalid year/month/foreign-key"
     valid = out.loc[~rejected_mask].copy()
 
+    valid = valid.dropna(subset=["Year", "Month"])
+    valid["Year"] = valid["Year"].astype("int64")
+    valid["Month"] = valid["Month"].astype("int64")
     valid["YearMonth"] = pd.to_datetime(
         dict(year=valid["Year"], month=valid["Month"], day=1)
     )

@@ -27,6 +27,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import minimize
 from scipy.stats import norm
+from sklearn.preprocessing import StandardScaler
 
 
 @dataclass
@@ -37,6 +38,7 @@ class SFAResult:
     feature_names: list[str]
     log_likelihood: float
     converged: bool
+    scaler: StandardScaler
 
     @property
     def sigma(self) -> float:
@@ -69,11 +71,16 @@ def fit_sfa(
     X: pd.DataFrame,
     y: pd.Series,
     log_target: bool = True,
-    max_iter: int = 200,
+    max_iter: int = 1000,
+    n_restarts: int = 3,
 ) -> SFAResult:
     """Fit y = X beta + v - u. Pass `log_target=True` if y is volume on the natural scale."""
     feature_names = ["__const__"] + list(X.columns)
-    X_arr = np.column_stack([np.ones(len(X)), X.fillna(X.median(numeric_only=True)).values])
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X.fillna(X.median(numeric_only=True)).values)
+    X_arr = np.column_stack([np.ones(len(X)), X_scaled])
+
     y_arr = np.log1p(y.values) if log_target else y.values
 
     k = X_arr.shape[1]
@@ -83,14 +90,25 @@ def fit_sfa(
 
     p0 = np.concatenate([ols_beta, [np.log(max(sigma_init * 0.7, 1e-3)), np.log(max(sigma_init * 0.7, 1e-3))]])
 
-    res = minimize(
-        _neg_log_lik,
-        p0,
-        args=(X_arr, y_arr),
-        method="L-BFGS-B",
-        options={"maxiter": max_iter, "disp": False},
-    )
+    # Bounds: betas unbounded; log_sigma_v, log_sigma_u ∈ [-5, 3] → sigma ∈ [0.007, 20]
+    bounds = [(-np.inf, np.inf)] * k + [(-5.0, 3.0), (-5.0, 3.0)]
 
+    best_res = None
+    rng = np.random.default_rng(42)
+    for trial in range(n_restarts):
+        p = p0 if trial == 0 else p0 + rng.normal(0, 0.2, size=p0.shape)
+        res = minimize(
+            _neg_log_lik,
+            p,
+            args=(X_arr, y_arr),
+            method="L-BFGS-B",
+            bounds=bounds,
+            options={"maxiter": max_iter, "disp": False, "ftol": 1e-9, "gtol": 1e-3},
+        )
+        if best_res is None or res.fun < best_res.fun:
+            best_res = res
+
+    res = best_res
     beta = res.x[:k]
     sigma_v = float(np.exp(res.x[k]))
     sigma_u = float(np.exp(res.x[k + 1]))
@@ -101,6 +119,7 @@ def fit_sfa(
         feature_names=feature_names,
         log_likelihood=-float(res.fun),
         converged=bool(res.success),
+        scaler=scaler,
     )
 
 
@@ -111,7 +130,8 @@ def technical_efficiency(
     log_target: bool = True,
 ) -> pd.Series:
     """Per-row TE in (0, 1]. 1 = on the frontier; <1 = below frontier."""
-    X_arr = np.column_stack([np.ones(len(X)), X.fillna(X.median(numeric_only=True)).values])
+    X_scaled = fit.scaler.transform(X.fillna(X.median(numeric_only=True)).values)
+    X_arr = np.column_stack([np.ones(len(X)), X_scaled])
     y_arr = np.log1p(y.values) if log_target else y.values
     eps = y_arr - X_arr @ fit.beta
     sigma = fit.sigma
@@ -132,7 +152,8 @@ def predict_frontier(
     X: pd.DataFrame,
     log_target: bool = True,
 ) -> pd.Series:
-    X_arr = np.column_stack([np.ones(len(X)), X.fillna(X.median(numeric_only=True)).values])
+    X_scaled = fit.scaler.transform(X.fillna(X.median(numeric_only=True)).values)
+    X_arr = np.column_stack([np.ones(len(X)), X_scaled])
     yhat = X_arr @ fit.beta
     if log_target:
         yhat = np.expm1(yhat)

@@ -101,10 +101,17 @@ def _historical_aggregates(transactions: pd.DataFrame) -> pd.DataFrame:
     ).reset_index()
     agg = agg.merge(jan_agg, on="Outlet_ID", how="left")
 
-    monthly_sorted = monthly.sort_values(["Outlet_ID", "Year", "Month"])
+    # Pure numpy mask — avoids pandas cumcount/tail broadcast bug in 2.3.x + Python 3.14
+    monthly_sorted = monthly.sort_values(["Outlet_ID", "Year", "Month"]).reset_index(drop=True)
+    _codes, _ = pd.factorize(monthly_sorted["Outlet_ID"].values, sort=False)
+    _sizes   = np.bincount(_codes)
+    _ends    = np.cumsum(_sizes)
+    _starts  = _ends - np.minimum(_sizes, 3)
+    _keep    = np.zeros(len(monthly_sorted), dtype=bool)
+    for _i in range(len(_sizes)):
+        _keep[_starts[_i]:_ends[_i]] = True
     last3 = (
-        monthly_sorted.groupby("Outlet_ID")
-        .tail(3)
+        monthly_sorted.iloc[_keep]
         .groupby("Outlet_ID")
         .agg(
             recent_3_month_max_liters=("monthly_volume", "max"),
