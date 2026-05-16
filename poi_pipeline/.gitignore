@@ -1,0 +1,5 @@
+data/raw/
+data/pois/
+output/
+__pycache__/
+.pytest_cache/
