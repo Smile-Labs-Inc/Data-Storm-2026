@@ -1,7 +1,7 @@
 ---
 title: "Latent Outlet Potential Estimation"
 subtitle: "Data Storm 7.0 -- Storming Round, Sri Lanka"
-author: "[Team Name]"
+author: "Smil Labs"
 date: "2026-01"
 geometry: margin=2cm
 fontsize: 10pt
@@ -19,8 +19,8 @@ header-includes:
 {\large Data Storm 7.0 -- Storming Round}\\[0.3em]
 {\normalsize Sri Lanka, January 2026 horizon}\\[1.2em]
 
-\textbf{Submitted by:} [Team Name]\\
-\textbf{Date:} [Submission Date]\\[0.8em]
+\textbf{Submitted by:} Smil Labs\\
+\textbf{Date:} [fill on submission day]\\[0.8em]
 
 \textit{20,000 traditional retail outlets across Western, Central,\\
 North-Western and Southern provinces -- 10 distributors, 10 SKUs,\\
@@ -36,10 +36,12 @@ North-Western and Southern provinces -- 10 distributors, 10 SKUs,\\
 | Metric | Value |
 |--------|------:|
 | Outlets predicted | 20,000 |
-| Median uplift vs historical max | ~1.4-1.6x (run-dependent) |
-| Mean uplift vs historical max | ~1.6-1.9x (run-dependent) |
-| 6-item auto-validation | PASS / PASS / PASS / PASS / PASS / PASS |
+| Median uplift vs historical max | \textit{1.10-1.50x (fill in from `Results/run_summary.json` after running v2)} |
+| Mean uplift vs historical max | \textit{1.35-1.70x (fill in after run)} |
+| 6-item auto-validation | \textit{fill in PASS/FAIL from `Results/validation_report.md`} |
 | Methods stack | SFA + multi-q XGBoost + Conformalised QR + Chernozhukov-Hong + Manski |
+
+\noindent\textbf{Build trail:} v2 pipeline built across 3 rounds of AI council audits (4 parallel premium-model critics per round). See \texttt{Reviews/council\_review.md} (R1), \texttt{Reviews/council\_round2/} (R2), \texttt{Reviews/council\_round3/} (R3) for the full provenance.
 
 \newpage
 

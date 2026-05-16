@@ -114,10 +114,28 @@ def chernozhukov_hong_correction(
     """Returns (X_uncensored, y_uncensored, correction_summary).
 
     The caller then refits their q90 model on the returned subset.
+
+    FIX (council R3 follow-up): if delta_proxy has only one class (all 0 or
+    all 1), the propensity model can't fit. Fall through to "keep all" with
+    a clear summary instead of raising.
     """
+    n_total = int(len(X))
+    if delta_proxy.nunique() < 2:
+        only_class = int(delta_proxy.iloc[0]) if len(delta_proxy) else -1
+        summary = pd.DataFrame({
+            "min": [0.0], "p25": [0.0], "median": [0.0], "p75": [0.0], "max": [0.0],
+            "n_total": [n_total], "n_kept": [n_total], "kept_pct": [100.0],
+            "note": [f"censoring proxy has single class ({only_class}); CH-3 no-op, kept all rows"],
+        })
+        return X.copy(), y.copy(), CensoringCorrection(
+            propensity_threshold=propensity_threshold,
+            n_total=n_total,
+            n_uncensored_kept=n_total,
+            propensity_summary=summary,
+        )
+
     _, p_censored, _ = fit_propensity(X, delta_proxy)
     keep_mask = select_uncensored(p_censored, propensity_threshold)
-    n_total = int(len(X))
     n_kept = int(keep_mask.sum())
 
     summary = pd.DataFrame({

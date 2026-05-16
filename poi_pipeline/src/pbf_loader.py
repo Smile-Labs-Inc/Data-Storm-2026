@@ -1,62 +1,68 @@
-"""pyrosm wrapper: read the PBF once per category and return a flat DataFrame
-with Latitude, Longitude, name, plus the matched OSM tags for traceability.
+"""osmium-based PBF reader: replaces pyrosm (broken on Python 3.13).
 
-All POIs are returned with WGS84 (EPSG:4326) coordinates. For polygons (e.g.
-hospital buildings, university campuses), we use the polygon centroid.
+Reads the PBF once per category and returns a flat DataFrame with
+Latitude, Longitude, name columns. Polygon/closed-way centroids are
+computed as the mean of member node coordinates.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
+import osmium
 import pandas as pd
 
 
-def _flatten_geometry(gdf) -> pd.DataFrame:
-    """Convert a GeoDataFrame to a flat DataFrame with Lat/Lon centroid columns."""
-    if gdf is None or len(gdf) == 0:
-        return pd.DataFrame(columns=["Latitude", "Longitude", "name"])
-
-    gdf = gdf.copy()
-    if gdf.geometry.crs is None:
-        gdf = gdf.set_crs(epsg=4326, allow_override=True)
-    elif gdf.geometry.crs.to_epsg() != 4326:
-        gdf = gdf.to_crs(epsg=4326)
-
-    centroid = gdf.geometry.centroid
-    out = pd.DataFrame({
-        "Latitude": centroid.y.values,
-        "Longitude": centroid.x.values,
-    })
-    out["name"] = gdf.get("name", pd.Series([None] * len(gdf))).astype(object).values
-    return out.dropna(subset=["Latitude", "Longitude"]).reset_index(drop=True)
-
-
 def iter_category_pois(pbf_path: Path, tag_filter: dict[str, object]) -> pd.DataFrame:
-    """Returns a flat DataFrame for one category. May call pyrosm multiple times if
-    the filter combines multiple OSM keys.
+    """Return a flat DataFrame of POIs matching tag_filter from pbf_path.
+
+    tag_filter: dict mapping OSM key -> True (any value) or list[str] of accepted values.
     """
-    from pyrosm import OSM
 
-    osm = OSM(str(pbf_path))
-    parts: list[pd.DataFrame] = []
+    class _Handler(osmium.SimpleHandler):
+        def __init__(self, filter_dict: dict[str, object]) -> None:
+            super().__init__()
+            self._filter = filter_dict
+            self.rows: list[dict] = []
 
-    for key, value in tag_filter.items():
-        custom_filter: dict[str, object]
-        if value is True:
-            custom_filter = {key: True}
-        else:
-            custom_filter = {key: list(value)}
+        def _matches(self, tags) -> bool:
+            for k, v in self._filter.items():
+                if k in tags:
+                    if v is True or tags[k] in v:
+                        return True
+            return False
 
-        try:
-            gdf = osm.get_pois(custom_filter=custom_filter)
-        except Exception:
-            gdf = None
+        def node(self, n) -> None:
+            if self._matches(n.tags) and n.location.valid():
+                self.rows.append({
+                    "Latitude": n.location.lat,
+                    "Longitude": n.location.lon,
+                    "name": n.tags.get("name"),
+                })
 
-        flat = _flatten_geometry(gdf)
-        if not flat.empty:
-            parts.append(flat)
+        def way(self, w) -> None:
+            if not self._matches(w.tags):
+                return
+            lats, lons = [], []
+            for nd in w.nodes:
+                if nd.location.valid():
+                    lats.append(nd.location.lat)
+                    lons.append(nd.location.lon)
+            if lats:
+                self.rows.append({
+                    "Latitude": sum(lats) / len(lats),
+                    "Longitude": sum(lons) / len(lons),
+                    "name": w.tags.get("name"),
+                })
 
-    if not parts:
+    h = _Handler(tag_filter)
+    h.apply_file(str(pbf_path), locations=True)
+
+    if not h.rows:
         return pd.DataFrame(columns=["Latitude", "Longitude", "name"])
-    return pd.concat(parts, ignore_index=True).drop_duplicates().reset_index(drop=True)
+    return (
+        pd.DataFrame(h.rows)
+        .dropna(subset=["Latitude", "Longitude"])
+        .drop_duplicates(subset=["Latitude", "Longitude"])
+        .reset_index(drop=True)
+    )
