@@ -82,7 +82,10 @@ key_input = st.sidebar.text_input(
          "offline template. The key is held only for this session, never stored.",
 )
 # precedence: pasted key > Streamlit secret > env var
-secret_key = st.secrets.get("ANTHROPIC_API_KEY", None) if hasattr(st, "secrets") else None
+try:
+    secret_key = st.secrets.get("ANTHROPIC_API_KEY", None)
+except Exception:
+    secret_key = None
 active_key = key_input.strip() or secret_key or os.environ.get("ANTHROPIC_API_KEY")
 st.session_state["active_api_key"] = active_key
 api_status = "🟢 live (Anthropic)" if active_key else "⚪ offline template"
