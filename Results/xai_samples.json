@@ -1,0 +1,302 @@
+[
+  {
+    "outlet_id": "OUT_00019",
+    "payload": {
+      "outlet_id": "OUT_00019",
+      "outlet_type": "Grocery",
+      "outlet_size": "Extra Large",
+      "province": "Western",
+      "distributor": "DIST_W_01",
+      "predicted_potential_liters": 2168.5,
+      "normal_baseline_liters": 663.5,
+      "best_month_liters": 1734.8,
+      "uplift_vs_best_month": 1.25,
+      "uplift_vs_normal": 3.268,
+      "drivers": [
+        {
+          "name": "Latent demand headroom",
+          "direction": "increases",
+          "weight": 1.0,
+          "detail": "Untapped headroom of 1,505 L/month over the normal 663 L baseline (top-decile across the panel) \u2014 the model judges the outlet is selling below what its location can support."
+        },
+        {
+          "name": "Best-month anchor",
+          "direction": "increases",
+          "weight": 0.9999694523984328,
+          "detail": "Potential is floored at the best observed month (1,735 L) and lifted 25% above it, reflecting demand seen only in peak periods."
+        },
+        {
+          "name": "Sales-history depth",
+          "direction": "increases",
+          "weight": 0.4,
+          "detail": "26 active months of history give the estimate solid support."
+        }
+      ],
+      "local_signals": [
+        {
+          "name": "Competitive catchment density",
+          "direction": "increases",
+          "weight": 0.125,
+          "detail": "Only 1 competitors within 500 m \u2014 a relatively untapped catchment, so headroom is easier to convert."
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Cooler capacity",
+          "direction": "neutral",
+          "weight": 0.2,
+          "detail": "4 cooler(s), at or above the Extra Large-outlet norm \u2014 cold space is not the binding constraint here."
+        }
+      ],
+      "allocation": {
+        "trade_spend_lkr": 11409.83,
+        "expected_incremental_liters": 260.5,
+        "expected_incremental_revenue_lkr": 65198.49,
+        "liters_per_1000_lkr": 22.83
+      }
+    },
+    "narrative": "This extra large grocery in Western province is predicted to be able to move about 2,168 litres in a strong month \u2014 roughly 3.3 times its normal 664 litres. The model sees around 1,505 litres of untapped headroom: the outlet has demonstrated higher demand in its best month (1,735 L) than it captures in a typical one, which signals room to grow.\n\nThe score is lifted mainly by latent demand headroom; best-month anchor. It is held back by no major limits. Recommended action: invest about LKR 11,410 here next month, which is expected to unlock roughly 260 extra litres.",
+    "source": "offline_template",
+    "model": null
+  },
+  {
+    "outlet_id": "OUT_05936",
+    "payload": {
+      "outlet_id": "OUT_05936",
+      "outlet_type": "Smmt",
+      "outlet_size": "Extra Large",
+      "province": "Western",
+      "distributor": "DIST_W_03",
+      "predicted_potential_liters": 2663.1,
+      "normal_baseline_liters": 1323.5,
+      "best_month_liters": 2130.4,
+      "uplift_vs_best_month": 1.25,
+      "uplift_vs_normal": 2.012,
+      "drivers": [
+        {
+          "name": "Latent demand headroom",
+          "direction": "increases",
+          "weight": 1.0,
+          "detail": "Untapped headroom of 1,340 L/month over the normal 1,323 L baseline (top-decile across the panel) \u2014 the model judges the outlet is selling below what its location can support."
+        },
+        {
+          "name": "Best-month anchor",
+          "direction": "increases",
+          "weight": 0.9999694523984328,
+          "detail": "Potential is floored at the best observed month (2,130 L) and lifted 25% above it, reflecting demand seen only in peak periods."
+        },
+        {
+          "name": "Sales-history depth",
+          "direction": "increases",
+          "weight": 0.4,
+          "detail": "36 active months of history give the estimate solid support."
+        }
+      ],
+      "local_signals": [
+        {
+          "name": "Competitive catchment density",
+          "direction": "increases",
+          "weight": 0.0,
+          "detail": "Only 0 competitors within 500 m \u2014 a relatively untapped catchment, so headroom is easier to convert."
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Cooler capacity",
+          "direction": "decreases",
+          "weight": 0.3333333333333333,
+          "detail": "2 cooler(s) vs a typical 3 for Extra Large outlets \u2014 limited chilled space throttles replenishment and realisable volume."
+        }
+      ],
+      "allocation": {
+        "trade_spend_lkr": 11376.88,
+        "expected_incremental_liters": 263.7,
+        "expected_incremental_revenue_lkr": 68107.14,
+        "liters_per_1000_lkr": 23.18
+      }
+    },
+    "narrative": "This extra large smmt in Western province is predicted to be able to move about 2,663 litres in a strong month \u2014 roughly 2.0 times its normal 1,324 litres. The model sees around 1,340 litres of untapped headroom: the outlet has demonstrated higher demand in its best month (2,130 L) than it captures in a typical one, which signals room to grow.\n\nThe score is lifted mainly by latent demand headroom; best-month anchor. It is held back by cooler capacity. Limited chilled space throttles replenishment and realisable volume. Recommended action: invest about LKR 11,377 here next month, which is expected to unlock roughly 264 extra litres.",
+    "source": "offline_template",
+    "model": null
+  },
+  {
+    "outlet_id": "OUT_00030",
+    "payload": {
+      "outlet_id": "OUT_00030",
+      "outlet_type": "Grocery",
+      "outlet_size": "Extra Large",
+      "province": "Western",
+      "distributor": "DIST_W_01",
+      "predicted_potential_liters": 2199.2,
+      "normal_baseline_liters": 530.8,
+      "best_month_liters": 1759.4,
+      "uplift_vs_best_month": 1.25,
+      "uplift_vs_normal": 4.144,
+      "drivers": [
+        {
+          "name": "Latent demand headroom",
+          "direction": "increases",
+          "weight": 1.0,
+          "detail": "Untapped headroom of 1,668 L/month over the normal 531 L baseline (top-decile across the panel) \u2014 the model judges the outlet is selling below what its location can support."
+        },
+        {
+          "name": "Best-month anchor",
+          "direction": "increases",
+          "weight": 0.9999694523984328,
+          "detail": "Potential is floored at the best observed month (1,759 L) and lifted 25% above it, reflecting demand seen only in peak periods."
+        },
+        {
+          "name": "Sales-history depth",
+          "direction": "increases",
+          "weight": 0.4,
+          "detail": "29 active months of history give the estimate solid support."
+        }
+      ],
+      "local_signals": [
+        {
+          "name": "Competitive catchment density",
+          "direction": "increases",
+          "weight": 0.0,
+          "detail": "Only 0 competitors within 500 m \u2014 a relatively untapped catchment, so headroom is easier to convert."
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Cooler capacity",
+          "direction": "neutral",
+          "weight": 0.2,
+          "detail": "4 cooler(s), at or above the Extra Large-outlet norm \u2014 cold space is not the binding constraint here."
+        }
+      ],
+      "allocation": {
+        "trade_spend_lkr": 10797.41,
+        "expected_incremental_liters": 242.4,
+        "expected_incremental_revenue_lkr": 66617.25,
+        "liters_per_1000_lkr": 22.45
+      }
+    },
+    "narrative": "This extra large grocery in Western province is predicted to be able to move about 2,199 litres in a strong month \u2014 roughly 4.1 times its normal 531 litres. The model sees around 1,668 litres of untapped headroom: the outlet has demonstrated higher demand in its best month (1,759 L) than it captures in a typical one, which signals room to grow.\n\nThe score is lifted mainly by latent demand headroom; best-month anchor. It is held back by no major limits. Recommended action: invest about LKR 10,797 here next month, which is expected to unlock roughly 242 extra litres.",
+    "source": "offline_template",
+    "model": null
+  },
+  {
+    "outlet_id": "OUT_05355",
+    "payload": {
+      "outlet_id": "OUT_05355",
+      "outlet_type": "Grocery",
+      "outlet_size": "Extra Large",
+      "province": "Western",
+      "distributor": "DIST_W_03",
+      "predicted_potential_liters": 3640.7,
+      "normal_baseline_liters": 1367.6,
+      "best_month_liters": 2912.6,
+      "uplift_vs_best_month": 1.25,
+      "uplift_vs_normal": 2.662,
+      "drivers": [
+        {
+          "name": "Latent demand headroom",
+          "direction": "increases",
+          "weight": 1.0,
+          "detail": "Untapped headroom of 2,273 L/month over the normal 1,368 L baseline (top-decile across the panel) \u2014 the model judges the outlet is selling below what its location can support."
+        },
+        {
+          "name": "Best-month anchor",
+          "direction": "increases",
+          "weight": 0.9999694523984328,
+          "detail": "Potential is floored at the best observed month (2,913 L) and lifted 25% above it, reflecting demand seen only in peak periods."
+        },
+        {
+          "name": "Sales-history depth",
+          "direction": "increases",
+          "weight": 0.4,
+          "detail": "34 active months of history give the estimate solid support."
+        }
+      ],
+      "local_signals": [
+        {
+          "name": "Competitive catchment density",
+          "direction": "neutral",
+          "weight": 0.25,
+          "detail": "2 competitors within 500 m \u2014 a moderately contested catchment."
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Cooler capacity",
+          "direction": "neutral",
+          "weight": 0.2,
+          "detail": "5 cooler(s), at or above the Extra Large-outlet norm \u2014 cold space is not the binding constraint here."
+        }
+      ],
+      "allocation": {
+        "trade_spend_lkr": 10694.76,
+        "expected_incremental_liters": 234.2,
+        "expected_incremental_revenue_lkr": 60051.75,
+        "liters_per_1000_lkr": 21.9
+      }
+    },
+    "narrative": "This extra large grocery in Western province is predicted to be able to move about 3,641 litres in a strong month \u2014 roughly 2.7 times its normal 1,368 litres. The model sees around 2,273 litres of untapped headroom: the outlet has demonstrated higher demand in its best month (2,913 L) than it captures in a typical one, which signals room to grow.\n\nThe score is lifted mainly by latent demand headroom; best-month anchor. It is held back by no major limits. Recommended action: invest about LKR 10,695 here next month, which is expected to unlock roughly 234 extra litres.",
+    "source": "offline_template",
+    "model": null
+  },
+  {
+    "outlet_id": "OUT_01152",
+    "payload": {
+      "outlet_id": "OUT_01152",
+      "outlet_type": "Eatery",
+      "outlet_size": "Extra Large",
+      "province": "Western",
+      "distributor": "DIST_W_02",
+      "predicted_potential_liters": 2650.7,
+      "normal_baseline_liters": 1347.8,
+      "best_month_liters": 2120.6,
+      "uplift_vs_best_month": 1.25,
+      "uplift_vs_normal": 1.967,
+      "drivers": [
+        {
+          "name": "Latent demand headroom",
+          "direction": "increases",
+          "weight": 1.0,
+          "detail": "Untapped headroom of 1,303 L/month over the normal 1,348 L baseline (top-decile across the panel) \u2014 the model judges the outlet is selling below what its location can support."
+        },
+        {
+          "name": "Best-month anchor",
+          "direction": "increases",
+          "weight": 0.9999694523984328,
+          "detail": "Potential is floored at the best observed month (2,121 L) and lifted 25% above it, reflecting demand seen only in peak periods."
+        },
+        {
+          "name": "Sales-history depth",
+          "direction": "increases",
+          "weight": 0.4,
+          "detail": "34 active months of history give the estimate solid support."
+        }
+      ],
+      "local_signals": [
+        {
+          "name": "Competitive catchment density",
+          "direction": "increases",
+          "weight": 0.0,
+          "detail": "Only 0 competitors within 500 m \u2014 a relatively untapped catchment, so headroom is easier to convert."
+        }
+      ],
+      "constraints": [
+        {
+          "name": "Cooler capacity",
+          "direction": "decreases",
+          "weight": 0.3333333333333333,
+          "detail": "2 cooler(s) vs a typical 3 for Extra Large outlets \u2014 limited chilled space throttles replenishment and realisable volume."
+        }
+      ],
+      "allocation": {
+        "trade_spend_lkr": 10585.83,
+        "expected_incremental_liters": 243.9,
+        "expected_incremental_revenue_lkr": 63740.06,
+        "liters_per_1000_lkr": 23.04
+      }
+    },
+    "narrative": "This extra large eatery in Western province is predicted to be able to move about 2,651 litres in a strong month \u2014 roughly 2.0 times its normal 1,348 litres. The model sees around 1,303 litres of untapped headroom: the outlet has demonstrated higher demand in its best month (2,121 L) than it captures in a typical one, which signals room to grow.\n\nThe score is lifted mainly by latent demand headroom; best-month anchor. It is held back by cooler capacity. Limited chilled space throttles replenishment and realisable volume. Recommended action: invest about LKR 10,586 here next month, which is expected to unlock roughly 244 extra litres.",
+    "source": "offline_template",
+    "model": null
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "province": "Western",
+  "budget_lkr": 5000000.0,
+  "outlets_in_province": 9000,
+  "outlets_funded": 3681,
+  "total_allocated_lkr": 4895103.850000001,
+  "budget_utilization": 0.9790207700000001,
+  "expected_incremental_liters": 109479.29999999999,
+  "expected_incremental_revenue_lkr": 27212736.589999996,
+  "blended_liters_per_1000_lkr": 21.89586,
+  "roi_revenue_to_spend": 5.559174518840901,
+  "model": {
+    "response": "g(s)=H*(1-exp(-s/k))",
+    "alpha": 0.15,
+    "beta": 0.5,
+    "cap_frac": 0.35,
+    "min_spend_lkr": 250.0,
+    "solver": "Lagrangian water-filling (KKT bisection)"
+  }
+}

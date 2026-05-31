@@ -55,8 +55,14 @@ Data-Storm-2026/
 │   ├── features/                <- Gold feature engineering (+ POI merge)
 │   ├── modeling/                <- lower_bound, frontier, sfa, censored_qr,
 │   │                              conformal, constraint_score, caps, predict
-│   └── reporting/               <- manski, dag, sensitivity,
-│                                   validation (6-item), validation_v6 (extended)
+│   ├── reporting/               <- manski, dag, sensitivity,
+│   │                              validation (6-item), validation_v6 (extended)
+│   ├── intelligence/            <- [Final Round] decision-ready outlet table
+│   ├── optimization/            <- [Final Round] LKR 5M spend optimizer (KKT)
+│   └── xai/                     <- [Final Round] driver payload + LLM narrative
+│
+├── app/                         <- [Final Round] Streamlit Outlet Intelligence app
+├── run_final_round.py           <- [Final Round] decision-layer orchestrator
 │
 ├── poi_pipeline/                <- standalone Geofabrik PBF -> 9-category POI
 │                                   features (idempotent; 25-45 min end-to-end)
@@ -149,6 +155,63 @@ What it writes:
 - `Results/run_summary.json` — wall-clock, uplift stats, SFA fit summary
 
 The 5-page judging PDF is **pre-built** at `Reports/final_report_v3.pdf` — submit that file directly.
+
+---
+
+## Final Round: decision engine (optimization · XAI · web app)
+
+The Final Round turns the latent-potential predictions into an enterprise decision
+engine: a marketing-spend optimizer, a functional Explainable-AI layer, and an
+interactive web app. These run **on top of** the predictions CSV — run the
+modeling pipeline first, then:
+
+```powershell
+python run_final_round.py            # build all decision-layer outputs (offline XAI)
+python run_final_round.py --xai-live # same, but use the Anthropic API for narratives
+```
+
+This writes:
+
+- `Results/outlet_intelligence.csv` — decision-ready table per outlet (province, normal/best/potential volume, headroom, bill-per-litre, competitor density)
+- `Results/smile_labs_budget_allocations.csv` — **the spend submission** (`Outlet_ID`, `Trade_Spend_Allocation_LKR`) for Western Province
+- `Results/smile_labs_budget_allocations_detailed.csv` — full allocation with expected incremental litres/revenue and efficiency
+- `Results/budget_allocation_summary.json` — budget utilisation, funded outlets, expected uplift, ROI
+- `Results/xai_samples.json` — sample per-outlet driver payloads + narratives
+
+### Spend optimization (Section 2.3) — `src/optimization/`
+
+LKR 5M across Western outlets to **maximise additional volume** over the normal
+baseline. Each outlet has a saturating (concave) marketing response
+`g(s) = H·(1 − e^(−s/k))`, where `H` is latent headroom and `k` scales with the
+opportunity's revenue value and local competitive intensity. Because the
+objective is separable-concave, the optimal allocation is found exactly by
+**Lagrangian water-filling** (KKT bisection on the shadow price) — no heuristic
+ranking. A per-outlet revenue-anchored cap prevents a few large outlets from
+absorbing the budget.
+
+### Functional XAI (Section 4.1) — `src/xai/`
+
+Two stages: `drivers.py` converts a prediction into a **signed, ranked driver
+payload** (model drivers, local environment signals, operational constraints);
+`narrative.py` has an LLM translate that payload into plain business language.
+Uses the **Anthropic API when `ANTHROPIC_API_KEY` is set**, with a deterministic
+offline template fallback so the app always produces an explanation for judges
+running without a key or network.
+
+```powershell
+$env:ANTHROPIC_API_KEY = "sk-ant-..."   # optional — enables live narratives
+```
+
+### Outlet Intelligence web app (Deliverable #4) — `app/`
+
+```powershell
+streamlit run app/streamlit_app.py
+```
+
+Three tabs: **Browse** (filter by province / distributor / type, map, CSV export),
+**Drill-down** (per-outlet metrics, signed drivers, on-demand XAI narrative), and
+**Western spend plan** (the LKR 5M allocation with expected uplift). Runs locally,
+no external services required.
 
 ---
 
