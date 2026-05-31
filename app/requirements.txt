@@ -1,0 +1,10 @@
+# Minimal dependencies for the Outlet Intelligence Streamlit app ONLY.
+# Streamlit Community Cloud uses the requirements.txt in the entrypoint's
+# directory in preference to the repo-root one, so this keeps the heavy
+# modeling stack (pyrosm/geopandas/xgboost/...) out of the cloud build.
+# For the full local pipeline use the repo-root requirements.txt instead.
+streamlit>=1.40.0
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
+anthropic>=0.40.0
