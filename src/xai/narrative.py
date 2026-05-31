@@ -109,9 +109,14 @@ def explain_outlet(
     model: str = DEFAULT_MODEL,
     max_tokens: int = 400,
     force_offline: bool = False,
+    api_key: str | None = None,
 ) -> dict:
-    """Return {'narrative', 'source', 'model'}; falls back to template offline."""
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    """Return {'narrative', 'source', 'model'}; falls back to template offline.
+
+    api_key, if given, takes precedence over the ANTHROPIC_API_KEY env var so a
+    user can paste a key into the web app at runtime.
+    """
+    api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
     if force_offline or not api_key:
         return {"narrative": render_offline_narrative(payload), "source": "offline_template", "model": None}
 
