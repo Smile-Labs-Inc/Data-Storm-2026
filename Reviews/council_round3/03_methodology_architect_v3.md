@@ -28,21 +28,21 @@ That is one story. It is much stronger than Round 1.
 
 The package is not one story yet because the old v1 PDF and the old default CSV still point to the earlier method. That is a viva risk. A judge can ask which method produced the uploaded file, and the current materials give two answers.
 
-| Team v1 PDF claim | v2 support or contradiction | Verdict |
-|---|---|---|
-| Final output is Results/smil_labs_predictions.csv. | Notebook 22 writes Results/smil_labs_predictions_v2.csv and does not overwrite v1. Current visible Results/smil_labs_predictions.csv starts with row_id. | Contradicted operationally. |
-| Platform output has 914 rows. | Notebook 22 targets 20,000 rows. | Contradicted. Use 20,000 unless portal gives an official 914-row template. |
-| Submission column is row_id. | Notebook 22 asserts Outlet_ID. | Contradicted. v2 is right. |
-| Historical sales are censored demand. | Notebook 21 implements censoring correction and Manski bands. | Supported and strengthened. |
-| Bronze/Silver/Gold exists. | Notebook 20 implements it. | Supported in code, but generated artifacts are absent until run. |
-| Rejected records exist. | Notebook 20 writes them, but the inspected folder only had .gitkeep. | Supported by code, not by disk evidence. |
-| 20,000 outlets and 2,376,389 transactions. | Notebook 20 reads outlet master and transactions. | Supported if raw data is present and Notebook 20 runs. |
-| Dirty-data counts are 196 missing sizes, 600 lowercase small, 390 Grocry, 395 Bakry, 240 invalid coordinates, 9,606 bad transactions. | Notebook 20 should reproduce these. | Keep only if rerun output confirms them. |
-| POI came from Overpass; 9,581 POIs; 902 target rows. | v2 report says Geofabrik PBF; Notebook 20 only merges poi_features.parquet if present. | Contradicted. Delete the Overpass story. |
-| Lower bound is max of historical max, January max, recent 3-month max. | Notebook 21 uses robust lower bound and floors final prediction at observed max. | Contradicted. Remove v1 formula. |
-| Constraint score includes coordinate availability and rank-sum components. | Notebook 21 uses frontier residual plus plateau plus PCA. | Contradicted. Remove old score. |
-| v1 validation metrics: mean 445.34 L, median 259.77 L, median uplift 1.18x. | Notebook 21 prints new v2 metrics, but no v2 results were present in the inspected tree. | Legacy only. Do not use in v2 report. |
-| AI usage was for research, modeling, POI workflow, debugging, validation, and drafting. | v2 council and notebooks support this. | Supported, but the log must mention the v2 cutover. |
+| Team v1 PDF claim                                                                                                                     | v2 support or contradiction                                                                                                                                | Verdict                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Final output is Results/smile_labs_predictions.csv.                                                                                   | Notebook 22 writes Results/smile_labs_predictions_v2.csv and does not overwrite v1. Current visible Results/smile_labs_predictions.csv starts with row_id. | Contradicted operationally.                                                |
+| Platform output has 914 rows.                                                                                                         | Notebook 22 targets 20,000 rows.                                                                                                                           | Contradicted. Use 20,000 unless portal gives an official 914-row template. |
+| Submission column is row_id.                                                                                                          | Notebook 22 asserts Outlet_ID.                                                                                                                             | Contradicted. v2 is right.                                                 |
+| Historical sales are censored demand.                                                                                                 | Notebook 21 implements censoring correction and Manski bands.                                                                                              | Supported and strengthened.                                                |
+| Bronze/Silver/Gold exists.                                                                                                            | Notebook 20 implements it.                                                                                                                                 | Supported in code, but generated artifacts are absent until run.           |
+| Rejected records exist.                                                                                                               | Notebook 20 writes them, but the inspected folder only had .gitkeep.                                                                                       | Supported by code, not by disk evidence.                                   |
+| 20,000 outlets and 2,376,389 transactions.                                                                                            | Notebook 20 reads outlet master and transactions.                                                                                                          | Supported if raw data is present and Notebook 20 runs.                     |
+| Dirty-data counts are 196 missing sizes, 600 lowercase small, 390 Grocry, 395 Bakry, 240 invalid coordinates, 9,606 bad transactions. | Notebook 20 should reproduce these.                                                                                                                        | Keep only if rerun output confirms them.                                   |
+| POI came from Overpass; 9,581 POIs; 902 target rows.                                                                                  | v2 report says Geofabrik PBF; Notebook 20 only merges poi_features.parquet if present.                                                                     | Contradicted. Delete the Overpass story.                                   |
+| Lower bound is max of historical max, January max, recent 3-month max.                                                                | Notebook 21 uses robust lower bound and floors final prediction at observed max.                                                                           | Contradicted. Remove v1 formula.                                           |
+| Constraint score includes coordinate availability and rank-sum components.                                                            | Notebook 21 uses frontier residual plus plateau plus PCA.                                                                                                  | Contradicted. Remove old score.                                            |
+| v1 validation metrics: mean 445.34 L, median 259.77 L, median uplift 1.18x.                                                           | Notebook 21 prints new v2 metrics, but no v2 results were present in the inspected tree.                                                                   | Legacy only. Do not use in v2 report.                                      |
+| AI usage was for research, modeling, POI workflow, debugging, validation, and drafting.                                               | v2 council and notebooks support this.                                                                                                                     | Supported, but the log must mention the v2 cutover.                        |
 
 Bottom line: methodology is no longer the main blocker. Source-of-truth control is.
 
@@ -50,30 +50,30 @@ Bottom line: methodology is no longer the main blocker. Source-of-truth control 
 
 This walks the 5-page Reports/final_report.md.
 
-| Report section or claim | v2 notebook artifact | Alignment | Fix before final PDF |
-|---|---|---|---|
-| Cover: 20,000 outlets, Jan 2026 horizon, latent potential. | Notebook 20 loads outlet master; Notebook 22 writes 20,000-row v2 submission. | Good if run. | Remove any 914-row language. |
-| One-line method: sales are right-censored. | Notebook 21 builds censoring proxy, frontier, and Manski bands. | Strong. | Keep as the spine. |
-| Headline uplift numbers. | Notebook 21 prints uplift summary. | Weak until run output exists. | Paste actual final-run values only. |
-| Six validation checks pass. | Notebook 22 calls run_validation_suite. | Weak until validation artifact exists. | Do not claim PASS before running 22. |
-| Bronze to Silver to Gold. | Notebook 20 creates Bronze audit, Silver Parquet, and Gold features. | Strong in code. | Run it and include artifacts. |
-| Reusable DQ checks. | Notebook 20 imports and applies duplicate, null, range, domain, referential, and geospatial checks. | Strong. | Say checks are applied where relevant. |
-| Rejected-record store. | Notebook 20 writes rejected files. | Strong in code, absent on disk now. | Include generated rejected CSVs or summary. |
-| Geofabrik POI pipeline. | Notebook 20 consumes poi_features.parquet; POI scripts produce it. | Partial. | State whether POI was present in the final run. |
-| 9 POI categories and about 63 POI columns. | POI pipeline output then Notebook 20 merge. | Conditional. | Do not claim counts without output. |
-| Manski non-identification. | Notebook 21 writes Manski bands. | Strong. | Keep. |
-| DAG figure. | Notebook 22 calls build_dag. | Good if run. | Use one simple DAG figure. |
-| Robust lower bound. | Notebook 21 calls robust_lower_bound. | Strong. | Remove v1 max-of-max formula. |
-| Multi-quantile XGBoost. | Notebook 21 calls fit_multi_quantile. | Strong. | Make q90 the main frontier. |
-| SFA blend. | Notebook 21 calls fit_sfa and blends if it works. | Real but too much. | Demote or cut from main report. |
-| CH censoring correction. | Notebook 21 calls chernozhukov_hong_correction. | Strong. | Describe as a frontier training filter. |
-| Constraint score. | Notebook 21 calls build_constraint_score. | Strong. | Keep; call it an index. |
-| Bootstrap caps. | Notebook 21 writes cap_table_v2; Notebook 22 validates cap binding. | Strong. | Keep. |
-| CQR interval. | Notebook 21 writes conformal intervals. | Overcomplete. | Cut unless final coverage is strong. |
-| Sensitivity sweep. | Notebook 22 writes sensitivity table. | Good if run. | Cite actual output only. |
-| Top-100 audits. | Notebook 22 writes top potential and uplift audits. | Good if run. | Use one sanity chart if useful. |
-| Submission file. | Notebook 22 writes v2 CSV. | Correct schema, risky naming. | Create a final upload copy. |
-| AI transparency. | v2 report has a stronger AI table. | Mostly aligned. | Update log to mention v2 cutover. |
+| Report section or claim                                    | v2 notebook artifact                                                                                | Alignment                              | Fix before final PDF                            |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------- |
+| Cover: 20,000 outlets, Jan 2026 horizon, latent potential. | Notebook 20 loads outlet master; Notebook 22 writes 20,000-row v2 submission.                       | Good if run.                           | Remove any 914-row language.                    |
+| One-line method: sales are right-censored.                 | Notebook 21 builds censoring proxy, frontier, and Manski bands.                                     | Strong.                                | Keep as the spine.                              |
+| Headline uplift numbers.                                   | Notebook 21 prints uplift summary.                                                                  | Weak until run output exists.          | Paste actual final-run values only.             |
+| Six validation checks pass.                                | Notebook 22 calls run_validation_suite.                                                             | Weak until validation artifact exists. | Do not claim PASS before running 22.            |
+| Bronze to Silver to Gold.                                  | Notebook 20 creates Bronze audit, Silver Parquet, and Gold features.                                | Strong in code.                        | Run it and include artifacts.                   |
+| Reusable DQ checks.                                        | Notebook 20 imports and applies duplicate, null, range, domain, referential, and geospatial checks. | Strong.                                | Say checks are applied where relevant.          |
+| Rejected-record store.                                     | Notebook 20 writes rejected files.                                                                  | Strong in code, absent on disk now.    | Include generated rejected CSVs or summary.     |
+| Geofabrik POI pipeline.                                    | Notebook 20 consumes poi_features.parquet; POI scripts produce it.                                  | Partial.                               | State whether POI was present in the final run. |
+| 9 POI categories and about 63 POI columns.                 | POI pipeline output then Notebook 20 merge.                                                         | Conditional.                           | Do not claim counts without output.             |
+| Manski non-identification.                                 | Notebook 21 writes Manski bands.                                                                    | Strong.                                | Keep.                                           |
+| DAG figure.                                                | Notebook 22 calls build_dag.                                                                        | Good if run.                           | Use one simple DAG figure.                      |
+| Robust lower bound.                                        | Notebook 21 calls robust_lower_bound.                                                               | Strong.                                | Remove v1 max-of-max formula.                   |
+| Multi-quantile XGBoost.                                    | Notebook 21 calls fit_multi_quantile.                                                               | Strong.                                | Make q90 the main frontier.                     |
+| SFA blend.                                                 | Notebook 21 calls fit_sfa and blends if it works.                                                   | Real but too much.                     | Demote or cut from main report.                 |
+| CH censoring correction.                                   | Notebook 21 calls chernozhukov_hong_correction.                                                     | Strong.                                | Describe as a frontier training filter.         |
+| Constraint score.                                          | Notebook 21 calls build_constraint_score.                                                           | Strong.                                | Keep; call it an index.                         |
+| Bootstrap caps.                                            | Notebook 21 writes cap_table_v2; Notebook 22 validates cap binding.                                 | Strong.                                | Keep.                                           |
+| CQR interval.                                              | Notebook 21 writes conformal intervals.                                                             | Overcomplete.                          | Cut unless final coverage is strong.            |
+| Sensitivity sweep.                                         | Notebook 22 writes sensitivity table.                                                               | Good if run.                           | Cite actual output only.                        |
+| Top-100 audits.                                            | Notebook 22 writes top potential and uplift audits.                                                 | Good if run.                           | Use one sanity chart if useful.                 |
+| Submission file.                                           | Notebook 22 writes v2 CSV.                                                                          | Correct schema, risky naming.          | Create a final upload copy.                     |
+| AI transparency.                                           | v2 report has a stronger AI table.                                                                  | Mostly aligned.                        | Update log to mention v2 cutover.               |
 
 # Minimal Stack Check
 
@@ -130,7 +130,7 @@ Do not pitch SFA math. Do not pitch CQR math. Do not spend slide time on every t
 
 # Submission Policy Review
 
-Notebook 22 writes Results/smil_labs_predictions_v2.csv and Results/smil_labs_predictions_full_20000_v2.csv. It does not overwrite Results/smil_labs_predictions.csv.
+Notebook 22 writes Results/smile_labs_predictions_v2.csv and Results/smile_labs_predictions_full_20000_v2.csv. It does not overwrite Results/smile_labs_predictions.csv.
 
 Verdict: safe during development, risky for submission.
 
@@ -138,11 +138,11 @@ This was the right comparison policy while v2 was being tested. It is not the ri
 
 Final policy:
 
-1. Keep smil_labs_predictions_v2.csv as the audit copy.
+1. Keep smile_labs_predictions_v2.csv as the audit copy.
 2. Create Results/FINAL_UPLOAD.
-3. Copy v2 into that folder as smil_labs_predictions.csv.
+3. Copy v2 into that folder as smile_labs_predictions.csv.
 4. Put only the final upload CSV in that folder.
-5. Add a README saying upload only Results/FINAL_UPLOAD/smil_labs_predictions.csv, with schema Outlet_ID,Maximum_Monthly_Liters and 20,000 rows.
+5. Add a README saying upload only Results/FINAL_UPLOAD/smile_labs_predictions.csv, with schema Outlet_ID,Maximum_Monthly_Liters and 20,000 rows.
 
 If the portal proves 914 rows are required, filter v2 to the official template IDs. Do not resurrect the old row_id file.
 

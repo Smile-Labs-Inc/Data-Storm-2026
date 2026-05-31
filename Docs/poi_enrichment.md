@@ -10,23 +10,23 @@ The POI enrichment notebook adds OpenStreetMap signals from the Overpass API.
 
 ## Target POI Categories
 
-| Category | OSM Tags |
-| --- | --- |
-| `education` | schools, colleges, universities, kindergartens |
-| `transport` | bus stops, bus stations, railway stations, railway halts |
-| `market_retail` | supermarkets, convenience shops, malls, marketplaces |
-| `healthcare` | hospitals, clinics, pharmacies |
-| `food_service` | restaurants, cafes, fast food, bakeries |
-| `office_finance` | banks, ATMs, company offices, government offices |
-| `religious` | places of worship |
-| `tourism_hotel` | hotels, guest houses, attractions, museums |
+| Category         | OSM Tags                                                 |
+| ---------------- | -------------------------------------------------------- |
+| `education`      | schools, colleges, universities, kindergartens           |
+| `transport`      | bus stops, bus stations, railway stations, railway halts |
+| `market_retail`  | supermarkets, convenience shops, malls, marketplaces     |
+| `healthcare`     | hospitals, clinics, pharmacies                           |
+| `food_service`   | restaurants, cafes, fast food, bakeries                  |
+| `office_finance` | banks, ATMs, company offices, government offices         |
+| `religious`      | places of worship                                        |
+| `tourism_hotel`  | hotels, guest houses, attractions, museums               |
 
 ## How It Works
 
 The notebook:
 
 1. Selects target outlets from the official submission/template file if available.
-2. Falls back to the current `Results/smil_labs_predictions.csv` row IDs.
+2. Falls back to the current `Results/smile_labs_predictions.csv` row IDs.
 3. Builds one bounding-box Overpass query for the target outlet area.
 4. Caches the raw Overpass response in `data/bronze/poi_overpass_raw.json`.
 5. Parses POIs into `data/gold/poi_cleaned.csv`.
@@ -69,7 +69,7 @@ If the file does not exist, the model fills those features with zero so the pipe
 1. Add the official 914-row submission/template file to `Datasets/` if available.
 2. Run `Notebooks/03_poi_enrichment.ipynb`.
 3. Run `Notebooks/01_latent_potential_pipeline.ipynb`.
-4. Upload `Results/smil_labs_predictions.csv`.
+4. Upload `Results/smile_labs_predictions.csv`.
 
 ## Notes
 
@@ -88,9 +88,9 @@ Run results:
 
 POI feature distribution:
 
-| Metric | `poi_total_count_1km` | `poi_total_count_2km` | `poi_demand_score` |
-| --- | ---: | ---: | ---: |
-| Mean | 15.24 | 59.82 | 0.50 |
-| Median | 3.00 | 22.00 | 0.51 |
-| 90th percentile | 37.00 | 138.00 | 0.88 |
-| Max | 336.00 | 1,064.00 | 1.00 |
+| Metric          | `poi_total_count_1km` | `poi_total_count_2km` | `poi_demand_score` |
+| --------------- | --------------------: | --------------------: | -----------------: |
+| Mean            |                 15.24 |                 59.82 |               0.50 |
+| Median          |                  3.00 |                 22.00 |               0.51 |
+| 90th percentile |                 37.00 |                138.00 |               0.88 |
+| Max             |                336.00 |              1,064.00 |               1.00 |

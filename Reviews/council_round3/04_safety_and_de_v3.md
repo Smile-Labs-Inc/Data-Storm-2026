@@ -1,10 +1,11 @@
 ﻿# Safety + DE Review v3 - Reproducibility + Rubric Readiness
 
 ## TL;DR
+
 1. **No, the v2 notebooks are not fresh-clone runnable today.**
 2. `D:/projects/Data-Storm-2026/Notebooks/20_v2_data_pipeline.ipynb` cell **2** falls back to a private local `ALT_RAW_DIR`; `D:/projects/Data-Storm-2026/Datasets/` does not exist here.
 3. `D:/projects/Data-Storm-2026/requirements.txt` is still v1-thin; it misses Parquet, SFA, XGBoost/LightGBM, notebook, and POI deps.
-4. Notebook 22 writes `Results/smil_labs_predictions_v2.csv`, but the visible old upload file remains `Results/smil_labs_predictions.csv`.
+4. Notebook 22 writes `Results/smile_labs_predictions_v2.csv`, but the visible old upload file remains `Results/smile_labs_predictions.csv`.
 5. The current upload-looking CSV head is `row_id,Maximum_Monthly_Liters`, so the team can upload the wrong file by habit.
 6. Notebook 20 is close to DQ-rubric-ready in code, but no generated evidence exists yet: no Bronze output, no Gold output, no rejected CSVs, no POI output.
 7. **Final grade today: B- design, C+ reproducibility.** After one clean fresh-clone run, fixed deps, and a one-file submission package, this can be B+/A-.
@@ -29,7 +30,7 @@ if not src.exists():
 
 Other path and run risks:
 
-- `D:/projects/Data-Storm-2026/README.md` still documents the v1 flow: `Notebooks/01_latent_potential_pipeline.ipynb`, `Results/smil_labs_predictions.csv`, `row_id`, and a 914-row fallback. It does not tell the team to run notebooks **20 -> 21 -> 22**.
+- `D:/projects/Data-Storm-2026/README.md` still documents the v1 flow: `Notebooks/01_latent_potential_pipeline.ipynb`, `Results/smile_labs_predictions.csv`, `row_id`, and a 914-row fallback. It does not tell the team to run notebooks **20 -> 21 -> 22**.
 - `D:/projects/Data-Storm-2026/.gitignore` ignores `Datasets/`, Bronze/Silver/Gold outputs, and rejected CSVs. Good for repo size, bad for fresh-clone evidence.
 - Notebook 21 cell **1** reads `data/gold/outlet_features.parquet` and `data/silver/transactions_history.parquet`; those only exist after notebook 20.
 - Notebook 22 cell **1** reads `predictions_v2.parquet`, `quantile_predictions_v2.parquet`, `cap_table_v2.csv`, Gold features, and Silver parquet files; those only exist after notebooks 20 and 21.
@@ -60,17 +61,17 @@ reportlab==4.5.1
 
 This cannot run v2 end to end.
 
-| Missing dependency | Needed by | Risk |
-|---|---|---|
-| `pyarrow` or `fastparquet` | Notebook 20 writes Parquet; notebooks 21/22 read Parquet; `src/cleaning/silver.py` writes Parquet | **Blocker** |
-| `scipy` | `src/modeling/sfa.py` imports `scipy.optimize.minimize` and `scipy.stats.norm`; notebook 21 cell **11** fits SFA | **Blocker** |
-| `xgboost>=2.0.3` | `src/modeling/frontier.py`; notebook 21 cell **9** claims XGBoost 2.0 multi-quantile | **Blocker** |
-| `lightgbm` | `src/modeling/frontier.py` fallback if XGBoost 2.0 is absent | Required if fallback remains |
-| `graphviz` Python package | `src/reporting/dag.py`; notebook 22 DAG output | Optional because Mermaid fallback exists |
-| `jupyter` / `ipykernel` | Running notebooks in a clean venv | Usability blocker |
-| `pyrosm` | `poi_pipeline/src/pbf_loader.py` imports `pyrosm.OSM` | Required if POI is claimed; high Windows install risk |
-| `geopandas`, `shapely`, `pyproj`, `pyogrio` or `fiona` | Practical GeoPandas/pyrosm stack | Required in practice for POI |
-| `matplotlib`, `seaborn`, `statsmodels`, `h3`, `tqdm` | Present in `requirements_v2.txt` / likely report or POI support | Add if the v2 env is standardized from `requirements_v2.txt` |
+| Missing dependency                                     | Needed by                                                                                                        | Risk                                                         |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `pyarrow` or `fastparquet`                             | Notebook 20 writes Parquet; notebooks 21/22 read Parquet; `src/cleaning/silver.py` writes Parquet                | **Blocker**                                                  |
+| `scipy`                                                | `src/modeling/sfa.py` imports `scipy.optimize.minimize` and `scipy.stats.norm`; notebook 21 cell **11** fits SFA | **Blocker**                                                  |
+| `xgboost>=2.0.3`                                       | `src/modeling/frontier.py`; notebook 21 cell **9** claims XGBoost 2.0 multi-quantile                             | **Blocker**                                                  |
+| `lightgbm`                                             | `src/modeling/frontier.py` fallback if XGBoost 2.0 is absent                                                     | Required if fallback remains                                 |
+| `graphviz` Python package                              | `src/reporting/dag.py`; notebook 22 DAG output                                                                   | Optional because Mermaid fallback exists                     |
+| `jupyter` / `ipykernel`                                | Running notebooks in a clean venv                                                                                | Usability blocker                                            |
+| `pyrosm`                                               | `poi_pipeline/src/pbf_loader.py` imports `pyrosm.OSM`                                                            | Required if POI is claimed; high Windows install risk        |
+| `geopandas`, `shapely`, `pyproj`, `pyogrio` or `fiona` | Practical GeoPandas/pyrosm stack                                                                                 | Required in practice for POI                                 |
+| `matplotlib`, `seaborn`, `statsmodels`, `h3`, `tqdm`   | Present in `requirements_v2.txt` / likely report or POI support                                                  | Add if the v2 env is standardized from `requirements_v2.txt` |
 
 `mapie` is mentioned in the v2 dependency story and appears in `requirements_v2.txt`, but the inspected v2 notebooks do **not** import it. Notebook 21 cell **21** uses custom `src.modeling.conformal.conformalised_qr`, not MAPIE. Add `mapie` only if the report/README still claims a MAPIE implementation.
 
@@ -80,8 +81,8 @@ Also verify `requests==2.34.2`; if that exact pin is unavailable on the team's i
 
 Current risk is high because both names can exist:
 
-- Existing v1-looking file: `D:/projects/Data-Storm-2026/Results/smil_labs_predictions.csv`
-- New v2 file from notebook 22 cell **3**: `D:/projects/Data-Storm-2026/Results/smil_labs_predictions_v2.csv`
+- Existing v1-looking file: `D:/projects/Data-Storm-2026/Results/smile_labs_predictions.csv`
+- New v2 file from notebook 22 cell **3**: `D:/projects/Data-Storm-2026/Results/smile_labs_predictions_v2.csv`
 
 Head of the existing file:
 
@@ -96,17 +97,17 @@ OUT_00005,1815.721
 
 That file still looks upload-ready, but it uses `row_id`, not `Outlet_ID`. Notebook 22 fixes this only in the `_v2.csv` path:
 
-- Cell **0** says the policy is non-destructive and does not overwrite `smil_labs_predictions.csv`.
-- Cell **3** writes `Results/smil_labs_predictions_v2.csv` and `Results/smil_labs_predictions_full_20000_v2.csv`.
+- Cell **0** says the policy is non-destructive and does not overwrite `smile_labs_predictions.csv`.
+- Cell **3** writes `Results/smile_labs_predictions_v2.csv` and `Results/smile_labs_predictions_full_20000_v2.csv`.
 - Cell **16** says to copy v2 over the normal name, but that is a markdown footnote, not an enforced step.
 
 Mitigation without touching v1:
 
-1. Leave `Results/smil_labs_predictions.csv` unchanged.
+1. Leave `Results/smile_labs_predictions.csv` unchanged.
 2. Create `D:/projects/Data-Storm-2026/submission_package/`.
-3. Put exactly one CSV in it: `submission_package/smil_labs_predictions.csv`, copied from `Results/smil_labs_predictions_v2.csv`.
+3. Put exactly one CSV in it: `submission_package/smile_labs_predictions.csv`, copied from `Results/smile_labs_predictions_v2.csv`.
 4. Add `submission_package/README_UPLOAD.txt` with source path, timestamp, expected schema, and expected row count.
-5. Add `submission_package/smil_labs_predictions.sha256`.
+5. Add `submission_package/smile_labs_predictions.sha256`.
 6. Run a final check that the first line is exactly `Outlet_ID,Maximum_Monthly_Liters`.
 7. Use two-person signoff: one reads the filename, one verifies header + row count before upload.
 
@@ -169,7 +170,7 @@ Expected after a real run: `outlet_coordinates_rejected.csv`, `transactions_hist
 16. After notebook 21 cell **21**, confirm `Results/conformal_intervals_v2.csv` exists.
 17. After notebook 21 cell **23**, confirm `Results/manski_bands_v2.csv` exists.
 18. After notebook 21 cell **24**, confirm `data/gold/predictions_v2.parquet` and `data/gold/quantile_predictions_v2.parquet` exist.
-19. After notebook 22 cell **3**, confirm `Results/smil_labs_predictions_v2.csv` exists.
+19. After notebook 22 cell **3**, confirm `Results/smile_labs_predictions_v2.csv` exists.
 20. Confirm final upload columns are exactly `Outlet_ID,Maximum_Monthly_Liters`.
 21. Confirm row count matches the official portal requirement.
 22. Confirm no duplicate `Outlet_ID`, no missing predictions, and no negative predictions.
@@ -185,7 +186,7 @@ Expected after a real run: `outlet_coordinates_rejected.csv`, `transactions_hist
 
 3. **Modeling imports break.** Cause: `requirements.txt` lacks `scipy`, `xgboost>=2.0`, and `lightgbm`. Mitigation: add the deps, or remove fallback paths and fail loudly with a clear install message.
 
-4. **Wrong CSV gets uploaded.** Cause: old `Results/smil_labs_predictions.csv` remains beside new `Results/smil_labs_predictions_v2.csv`. Mitigation: create `submission_package/` with one CSV only; use two-person filename/schema signoff.
+4. **Wrong CSV gets uploaded.** Cause: old `Results/smile_labs_predictions.csv` remains beside new `Results/smile_labs_predictions_v2.csv`. Mitigation: create `submission_package/` with one CSV only; use two-person filename/schema signoff.
 
 5. **POI claim fails under audit.** Cause: `poi_pipeline/output/*` is empty, but the report may claim external POI enrichment. Mitigation: run the POI pipeline and show `poi_features.parquet`, or clearly state that the submitted v2 run excludes external POI.
 

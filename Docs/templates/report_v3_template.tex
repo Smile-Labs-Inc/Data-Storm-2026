@@ -1,0 +1,84 @@
+% =============================================================================
+% Source: https://github.com/ndpvt-web/latex-document-skill
+% File:   assets/templates/report.tex
+% Kept here as REFERENCE for the skill's vanilla report shape.
+% The smile Labs adaptation lives at Reports/final_report_v3.tex.
+% =============================================================================
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+\usepackage{multirow}
+\usepackage{float}
+
+\geometry{a4paper, margin=1in}
+
+\definecolor{primary}{RGB}{0, 102, 204}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{Report Title}}
+\fancyhead[R]{\small\textcolor{gray}{\today}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\Large\bfseries\color{primary}}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{}{0em}{}
+
+\hypersetup{colorlinks=true, linkcolor=primary, urlcolor=primary}
+
+\title{\textbf{Report Title} \\ \large Subtitle or Description}
+\author{Author Name \\ Organization}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\newpage
+
+\section{Executive Summary}
+Brief overview of the report's key findings and recommendations.
+
+\section{Findings}
+
+\subsection{Key Metrics}
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{0.9\textwidth}{lXrr}
+\toprule
+\textbf{Metric} & \textbf{Description} & \textbf{Value} & \textbf{Change} \\
+\midrule
+Metric 1 & Description of metric & 1,234 & +12\% \\
+Metric 2 & Description of metric & 5,678 & -3\% \\
+\bottomrule
+\end{tabularx}
+\caption{Summary of key metrics}
+\end{table}
+
+\section{Recommendations}
+\begin{enumerate}[itemsep=0.5em]
+\item First recommendation
+\item Second recommendation
+\end{enumerate}
+
+\section{Conclusion}
+Summary of findings.
+
+\end{document}

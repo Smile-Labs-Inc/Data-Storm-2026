@@ -86,8 +86,8 @@ The written brief asks for 20,000 rows, but the platform validator expects 914 r
 
 Current workaround:
 
-- `Results/smil_labs_predictions.csv` contains 914 rows for platform upload.
-- `Results/smil_labs_predictions_full_20000.csv` preserves the full outlet deliverable.
+- `Results/smile_labs_predictions.csv` contains 914 rows for platform upload.
+- `Results/smile_labs_predictions_full_20000.csv` preserves the full outlet deliverable.
 
 Best next action:
 

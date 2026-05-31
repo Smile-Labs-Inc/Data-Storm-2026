@@ -10,22 +10,22 @@ The solution must therefore estimate an uncapped latent ceiling, not simply fore
 
 ## Available Data
 
-| Dataset | Expected Role |
-| --- | --- |
-| `Datasets/outlet_master.csv` | Outlet attributes such as size, cooler count, and outlet type. |
-| `Datasets/outlet_coordinates.csv` | Outlet latitude and longitude for geospatial enrichment. |
-| `Datasets/transactions_history_final.csv` | Historical outlet, distributor, SKU, month, volume, and bill value data. |
-| `Datasets/distributor_seasonality_details.csv` | Distributor-level monthly seasonality signals. |
-| `Datasets/holiday_list.csv` | Holiday calendar for month-level demand signals. |
-| `Datasets/1. dataset_description.xlsx` | Data dictionary and field interpretation reference. |
+| Dataset                                        | Expected Role                                                            |
+| ---------------------------------------------- | ------------------------------------------------------------------------ |
+| `Datasets/outlet_master.csv`                   | Outlet attributes such as size, cooler count, and outlet type.           |
+| `Datasets/outlet_coordinates.csv`              | Outlet latitude and longitude for geospatial enrichment.                 |
+| `Datasets/transactions_history_final.csv`      | Historical outlet, distributor, SKU, month, volume, and bill value data. |
+| `Datasets/distributor_seasonality_details.csv` | Distributor-level monthly seasonality signals.                           |
+| `Datasets/holiday_list.csv`                    | Holiday calendar for month-level demand signals.                         |
+| `Datasets/1. dataset_description.xlsx`         | Data dictionary and field interpretation reference.                      |
 
 ## Target Output
 
-Create a CSV file named `smil_labs_predictions.csv` with:
+Create a CSV file named `smile_labs_predictions.csv` with:
 
-| Column | Description |
-| --- | --- |
-| `row_id` | Outlet identifier required by the submission validator. |
+| Column                   | Description                                             |
+| ------------------------ | ------------------------------------------------------- |
+| `row_id`                 | Outlet identifier required by the submission validator. |
 | `Maximum_Monthly_Liters` | Estimated uncapped purchase potential for January 2026. |
 
 ## Repository Structure
@@ -57,7 +57,7 @@ Data-Storm-2026/
     solution_plan.md
     ai_transparency_log.md
   Results/
-    smil_labs_predictions.csv
+    smile_labs_predictions.csv
 ```
 
 ## Phase 1: Bronze Layer
@@ -82,15 +82,15 @@ Create reusable, parameterized checks that can run against any dataset.
 
 Core checks:
 
-| Check | Purpose |
-| --- | --- |
-| Duplicate check | Identify duplicate records using configurable primary keys. |
-| Null check | Flag missing mandatory values. |
-| Referential integrity check | Ensure foreign keys exist in reference tables. |
-| Range check | Validate numeric values such as volume, bill value, latitude, longitude, and cooler count. |
-| Type and format check | Validate dates, IDs, numeric columns, and categorical values. |
-| Categorical domain check | Detect misspellings and unexpected outlet types, seasonality values, or distributor IDs. |
-| Geospatial bounds check | Ensure coordinates fall within plausible Sri Lankan latitude and longitude ranges. |
+| Check                       | Purpose                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------ |
+| Duplicate check             | Identify duplicate records using configurable primary keys.                                |
+| Null check                  | Flag missing mandatory values.                                                             |
+| Referential integrity check | Ensure foreign keys exist in reference tables.                                             |
+| Range check                 | Validate numeric values such as volume, bill value, latitude, longitude, and cooler count. |
+| Type and format check       | Validate dates, IDs, numeric columns, and categorical values.                              |
+| Categorical domain check    | Detect misspellings and unexpected outlet types, seasonality values, or distributor IDs.   |
+| Geospatial bounds check     | Ensure coordinates fall within plausible Sri Lankan latitude and longitude ranges.         |
 
 Rejected record handling:
 
@@ -148,17 +148,17 @@ Recommended source options:
 
 Target POI categories:
 
-| Category | Demand Logic |
-| --- | --- |
-| Schools and universities | Student and commuter traffic. |
+| Category                                        | Demand Logic                                  |
+| ----------------------------------------------- | --------------------------------------------- |
+| Schools and universities                        | Student and commuter traffic.                 |
 | Bus stops, railway stations, and transport hubs | High footfall and impulse purchase potential. |
-| Markets and shopping areas | Retail density and consumer movement. |
-| Offices and banks | Daytime working population. |
-| Hospitals and clinics | Visitor and worker traffic. |
-| Restaurants, cafes, bakeries, and eateries | Beverage consumption zones. |
-| Supermarkets and groceries | Competitive and retail intensity. |
-| Religious places | Event and gathering density. |
-| Tourist sites and hotels | Visitor-driven consumption. |
+| Markets and shopping areas                      | Retail density and consumer movement.         |
+| Offices and banks                               | Daytime working population.                   |
+| Hospitals and clinics                           | Visitor and worker traffic.                   |
+| Restaurants, cafes, bakeries, and eateries      | Beverage consumption zones.                   |
+| Supermarkets and groceries                      | Competitive and retail intensity.             |
+| Religious places                                | Event and gathering density.                  |
+| Tourist sites and hotels                        | Visitor-driven consumption.                   |
 
 Mapping approach:
 
@@ -320,15 +320,15 @@ Useful diagnostic outputs:
 
 Create the following deliverables:
 
-| Deliverable | Location |
-| --- | --- |
-| Platform prediction CSV | `Results/smil_labs_predictions.csv` |
-| Full all-outlet prediction CSV | `Results/smil_labs_predictions_full_20000.csv` |
-| Reproducible pipeline code | `src/` and `Notebooks/` |
-| Data quality report | `Docs/data_quality_report.md` |
-| AI transparency log | `Docs/ai_transparency_log.md` |
-| Final 5-page report | `Docs/final_report.pdf` |
-| Run instructions | `README.md` |
+| Deliverable                    | Location                                        |
+| ------------------------------ | ----------------------------------------------- |
+| Platform prediction CSV        | `Results/smile_labs_predictions.csv`            |
+| Full all-outlet prediction CSV | `Results/smile_labs_predictions_full_20000.csv` |
+| Reproducible pipeline code     | `src/` and `Notebooks/`                         |
+| Data quality report            | `Docs/data_quality_report.md`                   |
+| AI transparency log            | `Docs/ai_transparency_log.md`                   |
+| Final 5-page report            | `Docs/final_report.pdf`                         |
+| Run instructions               | `README.md`                                     |
 
 ## Phase 9: GenAI Transparency Log
 

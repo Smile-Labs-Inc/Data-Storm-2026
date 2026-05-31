@@ -70,12 +70,19 @@ from src.quality.checks import write_summary_md  # noqa: E402
 from src.reporting import (  # noqa: E402
     build_dag,
     compute_manski_bands,
+    run_extended_diagnostics,
     run_validation_suite,
     sensitivity_sweep,
 )
 
 # ============================ CONFIG ============================
-RAW_DIR = ROOT.parent / "datastorm-7-0-rotaract"
+# FIX R6 (council round 6, Data Engineer): RAW_DIR used to be hardcoded to
+# ROOT.parent / "datastorm-7-0-rotaract" -- a path that only existed on the
+# original author's machine. We now prefer the in-repo Datasets/ folder and
+# fall back to the legacy external path only if it actually exists.
+_LEGACY_RAW_DIR = ROOT.parent / "datastorm-7-0-rotaract"
+_IN_REPO_RAW_DIR = ROOT / "Datasets"
+RAW_DIR = _LEGACY_RAW_DIR if _LEGACY_RAW_DIR.exists() else _IN_REPO_RAW_DIR
 BRONZE_DIR = ROOT / "data" / "bronze"
 SILVER_DIR = ROOT / "data" / "silver"
 SILVER_REJECTED_DIR = ROOT / "data" / "silver_rejected"
@@ -87,7 +94,10 @@ POI_FEATURES_PARQUET = ROOT / "poi_pipeline" / "output" / "poi_features.parquet"
 
 USE_CENSORING_CORRECTION = True
 USE_SFA = True
-TEAM_NAME = "teamname"
+# FIX R5 (council round 5, Gap Analyzer N5.2): was "teamname" -> produced
+# wrong submission filename (teamname_predictions.csv instead of
+# smile_labs_predictions.csv).
+TEAM_NAME = "smile_labs"
 # ================================================================
 
 
@@ -328,9 +338,23 @@ def model_and_predict(gold: pd.DataFrame, silver: dict[str, pd.DataFrame]) -> pd
                 "technical_efficiency": te.values,
             })
             sfa_out.to_parquet(GOLD_DIR / "sfa_predictions.parquet", index=False)
+            # FIX R6 (council round 6 + R7 execution): persist SFA convergence
+            # so main() can include it in run_summary.json.
+            sfa_meta = {
+                "sfa_converged": bool(sfa_fit.converged),
+                "sigma_v": round(float(sfa_fit.sigma_v), 4),
+                "sigma_u": round(float(sfa_fit.sigma_u), 4),
+                "lambda": round(float(sfa_fit.lambda_), 4),
+                "median_technical_efficiency": round(float(te.median()), 4),
+            }
+            (GOLD_DIR / "sfa_meta.json").write_text(json.dumps(sfa_meta, indent=2), encoding="utf-8")
         except Exception as e:
             print(f"     SFA failed: {type(e).__name__}: {e} -- continuing without SFA")
             sfa_out = None
+            (GOLD_DIR / "sfa_meta.json").write_text(
+                json.dumps({"sfa_converged": False, "error": f"{type(e).__name__}: {e}"}, indent=2),
+                encoding="utf-8",
+            )
     else:
         sfa_out = None
 
@@ -417,6 +441,23 @@ def reports_and_validation(
         mark = "OK" if c.passed else "FAIL"
         print(f"    [{mark}] {c.name} -- {c.detail}")
 
+    # FIX R6 (council round 6 + R7 execution): non-blocking extended diagnostics
+    # V4b (mean uplift), V6 (pct at floor), V7 (constraint score std).
+    print("  -> extended diagnostics (R6 -- non-blocking)")
+    try:
+        cs_for_diag = preds.set_index("Outlet_ID")["constraint_score"] if "constraint_score" in preds.columns else None
+        ext = run_extended_diagnostics(
+            submission=sub,
+            historical_max=historical_max,
+            constraint_score=cs_for_diag,
+            out_dir=RESULTS_DIR,
+        )
+        for c in ext.checks:
+            mark = "OK" if c.passed else "WARN"
+            print(f"    [{mark}] {c.name} -- {c.detail}")
+    except Exception as e:
+        print(f"     extended diagnostics skipped: {type(e).__name__}: {e}")
+
 
 def main() -> None:
     t0 = time.time()
@@ -440,6 +481,15 @@ def main() -> None:
         "mean_uplift": round(float(preds["uplift_ratio"].mean()), 3),
         "max_uplift": round(float(preds["uplift_ratio"].max()), 3),
     }
+    # FIX R6 (council round 6 + R7 execution): include SFA convergence in summary.
+    sfa_meta_path = GOLD_DIR / "sfa_meta.json"
+    if sfa_meta_path.exists():
+        try:
+            summary["sfa"] = json.loads(sfa_meta_path.read_text(encoding="utf-8"))
+        except Exception:
+            summary["sfa"] = {"sfa_converged": None, "error": "could not read sfa_meta.json"}
+    else:
+        summary["sfa"] = {"sfa_converged": None, "note": "SFA disabled (USE_SFA=False)"}
     (RESULTS_DIR / "run_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
 
