@@ -62,6 +62,10 @@ _TYPE_CANONICAL = {
 
 EARTH_RADIUS_M = 6_371_000.0
 
+# Sri Lanka geographic bounds (used to validate / repair outlet coordinates).
+LAT_RANGE = (5.5, 10.0)
+LON_RANGE = (79.0, 82.5)
+
 
 def province_of_distributor(distributor_id: str) -> str:
     """'DIST_NW_02' -> 'North-Western'. Unknown prefixes return 'Unknown'."""
@@ -79,6 +83,31 @@ def _canonical_type(raw: object) -> str:
         return "Unknown"
     key = raw.strip().lower()
     return _TYPE_CANONICAL.get(key, raw.strip().title())
+
+
+def _sanitize_coords(lat: pd.Series, lon: pd.Series) -> tuple[pd.Series, pd.Series]:
+    """Repair / null outlet coordinates to Sri Lanka bounds.
+
+    The raw coordinate file carries system artifacts: (0, 0) null-island rows and
+    rows where Latitude/Longitude are swapped (latitude ~80, a longitude value).
+    We recover obvious swaps, then null anything still outside the country box so
+    the map only plots real in-country points. Row count is preserved.
+    """
+    lat = pd.to_numeric(lat, errors="coerce")
+    lon = pd.to_numeric(lon, errors="coerce")
+
+    in_lat = lat.between(*LAT_RANGE)
+    in_lon = lon.between(*LON_RANGE)
+    # swapped: latitude falls in the longitude band and vice-versa
+    swap = (~in_lat) & (~in_lon) & lat.between(*LON_RANGE) & lon.between(*LAT_RANGE)
+    lat2 = lat.copy()
+    lon2 = lon.copy()
+    lat2[swap], lon2[swap] = lon[swap], lat[swap]
+
+    valid = lat2.between(*LAT_RANGE) & lon2.between(*LON_RANGE)
+    lat2 = lat2.where(valid, np.nan)
+    lon2 = lon2.where(valid, np.nan)
+    return lat2, lon2
 
 
 def _competitor_counts(lat: np.ndarray, lon: np.ndarray, radius_m: float = 500.0) -> np.ndarray:
@@ -165,6 +194,7 @@ def build_intelligence_table(
         .merge(preds, on="Outlet_ID", how="left")
     )
 
+    df["Latitude"], df["Longitude"] = _sanitize_coords(df["Latitude"], df["Longitude"])
     df["province"] = df["dominant_distributor"].map(province_of_distributor)
 
     for c in [
