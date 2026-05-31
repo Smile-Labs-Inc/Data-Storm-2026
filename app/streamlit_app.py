@@ -74,9 +74,19 @@ search = st.sidebar.text_input("Search Outlet_ID").strip().upper()
 if search:
     scoped = scoped[scoped["Outlet_ID"].str.contains(search, na=False)]
 
-api_status = "🟢 live (Anthropic)" if os.environ.get("ANTHROPIC_API_KEY") else "⚪ offline template"
 st.sidebar.markdown("---")
-st.sidebar.caption(f"XAI narrative: **{api_status}**")
+st.sidebar.markdown("**XAI narrative**")
+key_input = st.sidebar.text_input(
+    "Anthropic API key (optional)", type="password",
+    help="Paste sk-ant-… to generate live narratives. Leave blank to use the "
+         "offline template. The key is held only for this session, never stored.",
+)
+# precedence: pasted key > Streamlit secret > env var
+secret_key = st.secrets.get("ANTHROPIC_API_KEY", None) if hasattr(st, "secrets") else None
+active_key = key_input.strip() or secret_key or os.environ.get("ANTHROPIC_API_KEY")
+st.session_state["active_api_key"] = active_key
+api_status = "🟢 live (Anthropic)" if active_key else "⚪ offline template"
+st.sidebar.caption(f"Mode: **{api_status}**")
 st.sidebar.caption(f"{len(scoped):,} / {len(intel):,} outlets in view")
 
 
@@ -168,7 +178,11 @@ with tab_outlet:
                                       help="Skip the Anthropic API even if a key is set.")
             if st.button("✨ Generate explanation", type="primary"):
                 with st.spinner("Generating business narrative…"):
-                    res = explain_outlet(payload, force_offline=force_offline)
+                    res = explain_outlet(
+                        payload,
+                        force_offline=force_offline,
+                        api_key=st.session_state.get("active_api_key"),
+                    )
                 st.session_state[f"xai_{oid}"] = res
             res = st.session_state.get(f"xai_{oid}")
             if res:
