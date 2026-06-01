@@ -30,6 +30,10 @@ data/gold/*.parquet
 # Challenge-provided local datasets
 Datasets/
 
+# Large re-downloadable OSM extract (>100MB, exceeds GitHub limit; re-fetch from Geofabrik)
+*.osm.pbf
+data/sri-lanka-latest.osm.pbf
+
 # OS/editor files
 Thumbs.db
 .DS_Store
