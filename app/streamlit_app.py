@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -82,7 +83,10 @@ key_input = st.sidebar.text_input(
          "offline template. The key is held only for this session, never stored.",
 )
 # precedence: pasted key > Streamlit secret > env var
-secret_key = st.secrets.get("ANTHROPIC_API_KEY", None) if hasattr(st, "secrets") else None
+try:
+    secret_key = st.secrets.get("ANTHROPIC_API_KEY", None)
+except Exception:
+    secret_key = None
 active_key = key_input.strip() or secret_key or os.environ.get("ANTHROPIC_API_KEY")
 st.session_state["active_api_key"] = active_key
 api_status = "🟢 live (Anthropic)" if active_key else "⚪ offline template"
@@ -100,9 +104,139 @@ c2.metric("Total predicted potential", f"{scoped['predicted_potential_liters'].s
 c3.metric("Median uplift vs best month", f"{scoped['uplift_ratio'].median():.2f}×")
 c4.metric("Total headroom", f"{scoped['headroom_liters'].sum():,.0f} L")
 
-tab_browse, tab_outlet, tab_budget = st.tabs(
-    ["📋 Browse outlets", "🔍 Outlet drill-down", "💰 Western spend plan"]
+tab_exec, tab_browse, tab_outlet, tab_budget = st.tabs(
+    ["🏠 Executive Dashboard", "📋 Browse outlets", "🔍 Outlet drill-down", "💰 Western spend plan"]
 )
+
+# --------------------------------------------------------------------------
+# Tab 0 — Executive Dashboard
+# --------------------------------------------------------------------------
+with tab_exec:
+    st.subheader("Portfolio at a glance")
+    st.caption("Province-level view across the full 20,000-outlet panel.")
+
+    prov_kpi = (
+        intel.groupby("province")
+        .agg(
+            outlets=("Outlet_ID", "count"),
+            total_potential=("predicted_potential_liters", "sum"),
+            total_headroom=("headroom_liters", "sum"),
+            median_uplift=("uplift_ratio", "median"),
+        )
+        .sort_values("total_headroom", ascending=False)
+    )
+    kpi_cols = st.columns(len(prov_kpi))
+    for col, (prov, prow) in zip(kpi_cols, prov_kpi.iterrows()):
+        col.metric(
+            prov,
+            f"{prow['total_potential']:,.0f} L",
+            f"{int(prow['outlets']):,} outlets · {prow['total_headroom']:,.0f} L headroom",
+            delta_color="off",
+        )
+
+    st.markdown("---")
+    left, right = st.columns(2)
+    with left:
+        type_hr = (
+            intel.groupby("Outlet_Type")["headroom_liters"].sum().nlargest(8).reset_index()
+        )
+        fig = px.bar(
+            type_hr, x="headroom_liters", y="Outlet_Type", orientation="h",
+            color="headroom_liters", color_continuous_scale="Blues",
+            title="Top outlet types by untapped headroom",
+        )
+        fig.update_layout(
+            yaxis={"categoryorder": "total ascending"}, height=420,
+            coloraxis_showscale=False, margin=dict(l=10, r=10, t=50, b=10),
+        )
+        fig.update_xaxes(title_text="Total headroom (L)")
+        fig.update_yaxes(title_text="")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with right:
+        geo = intel.dropna(subset=["Latitude", "Longitude"]).copy()
+        if not geo.empty:
+            geo["uplift_q"] = pd.qcut(
+                geo["uplift_ratio"], q=4,
+                labels=["Q1 — Low", "Q2", "Q3", "Q4 — High"], duplicates="drop",
+            )
+            fig_map = px.scatter_mapbox(
+                geo, lat="Latitude", lon="Longitude", color="uplift_q",
+                category_orders={"uplift_q": ["Q1 — Low", "Q2", "Q3", "Q4 — High"]},
+                color_discrete_sequence=px.colors.sequential.Blues[3:],
+                zoom=6.5, height=420, mapbox_style="open-street-map",
+                title="Outlets by uplift quartile",
+                hover_data={"Outlet_ID": True, "Latitude": False, "Longitude": False},
+            )
+            fig_map.update_layout(
+                margin=dict(l=0, r=0, t=50, b=0),
+                legend_title_text="Uplift quartile",
+            )
+            st.plotly_chart(fig_map, use_container_width=True)
+        else:
+            st.info("No geolocated outlets available to map.")
+
+    st.markdown("---")
+    st.markdown("### 🧠 AI Digest")
+    _top_prov = prov_kpi.index[0]
+    _top_hr = prov_kpi.iloc[0]["total_headroom"]
+    _med_uplift = intel["uplift_ratio"].median()
+    _funded = int((alloc["Trade_Spend_Allocation_LKR"] > 0).sum()) if not alloc.empty else 0
+    _eff = (
+        alloc["expected_incremental_liters"].sum()
+        / (alloc["Trade_Spend_Allocation_LKR"].sum() / 1000)
+        if not alloc.empty and alloc["Trade_Spend_Allocation_LKR"].sum() > 0 else 0
+    )
+    default_digest = [
+        f"**{_top_prov}** leads on opportunity with **{_top_hr:,.0f} L** of untapped "
+        f"headroom — the clearest growth engine in the portfolio.",
+        f"Median uplift across all outlets is **{_med_uplift:.2f}×**, meaning a typical "
+        f"outlet sells well below its own proven best month.",
+        f"The current LKR 4.9M plan funds **{_funded:,} outlets** at **{_eff:.1f} L per "
+        f"1,000 LKR** — tilting spend toward top-quartile headroom can lift this further.",
+    ]
+
+    digest = st.session_state.get("exec_digest", default_digest)
+    for bullet in digest:
+        st.markdown(f"- {bullet}")
+
+    if active_key:
+        if st.button("Refresh with AI ✨", key="exec_digest_btn"):
+            with st.spinner("Generating executive digest…"):
+                try:
+                    import anthropic
+
+                    ctx = prov_kpi.reset_index().to_markdown(index=False)
+                    prompt = (
+                        "You are an executive analyst for smile Labs, a Sri Lankan beverage "
+                        "distributor. Using ONLY the province summary below, write exactly 3 "
+                        "punchy executive bullet points (one sentence each, no preamble, start "
+                        "each line with '- '). Ground every number in the table.\n\n"
+                        f"Province summary (potential/headroom in litres):\n{ctx}\n\n"
+                        f"Portfolio median uplift: {_med_uplift:.2f}x. "
+                        f"Current LKR 4.9M plan funds {_funded:,} outlets at {_eff:.1f} L per 1,000 LKR."
+                    )
+                    client = anthropic.Anthropic(api_key=active_key)
+                    msg = client.messages.create(
+                        model="claude-opus-4-8", max_tokens=400,
+                        messages=[{"role": "user", "content": prompt}],
+                    )
+                    text = "".join(
+                        b.text for b in msg.content if getattr(b, "type", None) == "text"
+                    )
+                    bullets = [
+                        ln.lstrip("-• ").strip()
+                        for ln in text.splitlines() if ln.strip().startswith(("-", "•"))
+                    ]
+                    if bullets:
+                        st.session_state["exec_digest"] = bullets
+                        st.rerun()
+                    else:
+                        st.warning("Model returned no bullets — keeping the current digest.")
+                except Exception as exc:
+                    st.error(f"Could not refresh digest: {type(exc).__name__}")
+    else:
+        st.caption("Add an Anthropic API key in the sidebar to refresh this digest live.")
 
 # --------------------------------------------------------------------------
 # Tab 1 — browse
