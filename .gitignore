@@ -10,6 +10,9 @@ __pycache__/
 # Notebooks
 .ipynb_checkpoints/
 
+# Local screen recordings / demo capture (not for repo)
+recordings/
+
 # Generated data outputs
 data/bronze/*.csv
 data/bronze/*.xlsx
